@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CommentApplication;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CommentService.Controllers
 {
@@ -8,11 +9,14 @@ namespace CommentService.Controllers
     [ApiController]
     public class CommentController : ControllerBase
     {
+        private readonly ICommentCrud _commentCrud;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommentController"/> class.
         /// </summary>
-        public CommentController()
+        public CommentController(ICommentCrud commentCrud)
         {
+            _commentCrud = commentCrud;
         }
 
         /// <summary>
@@ -26,7 +30,7 @@ namespace CommentService.Controllers
         [Route("GetComments")]
         public IActionResult GetComments(int pageSize, int pageNumber, int PostID)
         {
-            return Ok("GetComments");
+            return Ok(_commentCrud.GetComments(pageSize, pageNumber, PostID));
         }
 
         /// <summary>
@@ -39,7 +43,8 @@ namespace CommentService.Controllers
         [Route("AddComment")]
         public IActionResult AddComment(int PostID, string Comment)
         {
-            return Ok("AddComment");
+            _commentCrud.AddComment(PostID, Comment);
+            return Ok();
         }
 
 
@@ -53,7 +58,8 @@ namespace CommentService.Controllers
         [Route("UpdateComment")]
         public IActionResult UpdateComment(int CommentID, string Comment)
         {
-            return Ok("UpdateComment");
+            _commentCrud.UpdateComment(CommentID, Comment);
+            return Ok();
         }
 
         /// <summary>
@@ -65,7 +71,8 @@ namespace CommentService.Controllers
         [Route("DeleteComment")]
         public IActionResult DeleteComment(int CommentID)
         {
-            return Ok("DeleteComment");
+            _commentCrud.DeleteComment(CommentID);
+            return Ok();
         }
     }
 }
