@@ -2,10 +2,15 @@
 
 namespace CommentService.Controllers
 {
+    /// <summary>
+    /// This Service is responsible for managing comments on posts.
+    /// </summary>
     [ApiController]
-    [Route("[controller]")]
     public class CommentController : ControllerBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentController"/> class.
+        /// </summary>
         public CommentController()
         {
         }
