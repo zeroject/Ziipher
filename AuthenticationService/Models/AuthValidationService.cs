@@ -48,10 +48,10 @@ namespace AuthenticationService.Models
             if (isValid)
             {
                 var token = GenerateJSONWebToken(loginDto);
-                LoginBe login = _authRepo.GetUsersByUsername(loginDto.Username);
-                _authRepo.AddTokenToLogin(new TokenBe 
+                Login login = _authRepo.GetUsersByUsername(loginDto.Username);
+                _authRepo.AddTokenToLogin(new Token 
                 { 
-                    Token = token,
+                    JwtToken = token,
                     UserId = login.Id
                 });
                 return token;
@@ -95,7 +95,7 @@ namespace AuthenticationService.Models
 
         private bool Validate(string username, string password)
         {
-            LoginBe login = _authRepo.GetUsersByUsername(username);
+            Login login = _authRepo.GetUsersByUsername(username);
             return login.Password == password; 
         }
 
@@ -107,7 +107,7 @@ namespace AuthenticationService.Models
         public LoginDto RegisterNewLogin(LoginDto loginDto)
         {
             //map dto to Be though automapper
-            LoginBe login = _mapper.Map<LoginBe>(loginDto);
+            Login login = _mapper.Map<Login>(loginDto);
             //save to db
             return _mapper.Map<LoginDto>(_authRepo.AddLogin(login));
         }

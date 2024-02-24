@@ -3,7 +3,7 @@
     /// <summary>
     /// for validating. login. and EF purposes
     /// </summary>
-    public class LoginBe
+    public class Login
     {
         /// <summary>
         /// primary key for the user table
@@ -23,6 +23,6 @@
         /// <summary>
         /// 
         /// </summary>
-        public virtual ICollection<TokenBe>? Tokens { get; set; }
+        public virtual ICollection<Token>? Tokens { get; set; }
     }
 }

@@ -26,17 +26,17 @@ namespace AuthenticationService.Models
         /// <summary>
         /// 
         /// </summary>
-        public virtual DbSet<LoginBe> logins { get; set; }
+        public virtual DbSet<Login> logins { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public virtual DbSet<TokenBe> tokens { get; set; }
+        public virtual DbSet<Token> tokens { get; set; }
 
 /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LoginBe>(entity =>
+            modelBuilder.Entity<Login>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
@@ -44,11 +44,11 @@ namespace AuthenticationService.Models
                 entity.Property(e => e.Password).IsRequired();
             });
 
-            modelBuilder.Entity<TokenBe>(entity =>
+            modelBuilder.Entity<Token>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
-                entity.Property(e => e.Token).IsRequired();
+                entity.Property(e => e.JwtToken).IsRequired();
                 entity.Property(e => e.CreatedAt).IsRequired();
                 entity.Property(e => e.UserId).IsRequired();
 

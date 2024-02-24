@@ -19,7 +19,7 @@ namespace AuthenticationService.Repos
         /// </summary>
         /// <param name="token"></param>
         /// <exception cref="Exception"></exception>
-        public void AddTokenToLogin(TokenBe token)
+        public void AddTokenToLogin(Token token)
         {
             try
             {
@@ -36,13 +36,13 @@ namespace AuthenticationService.Repos
         /// <param name="token"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public LoginBe GetUserByToken(string token)
+        public Login GetUserByToken(string token)
         {
             try
             {
                 return _context.logins
                     .Include(e => e.Tokens)
-                    .FirstOrDefault(e => e.Tokens.Any(t => t.Token == token)) ?? throw new Exception("User not found");
+                    .FirstOrDefault(e => e.Tokens.Any(t => t.JwtToken == token)) ?? throw new Exception("User not found");
             } catch (Exception e)
             {
                 throw new Exception("Error getting user by token: " + e.Message);
@@ -56,7 +56,7 @@ namespace AuthenticationService.Repos
         /// <param name="username"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public LoginBe GetUsersByUsername(string username)
+        public Login GetUsersByUsername(string username)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace AuthenticationService.Repos
         /// <param name="login"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public LoginBe AddLogin(LoginBe login)
+        public Login AddLogin(Login login)
         {
             try
             {

@@ -13,10 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 var mapperConfig = new MapperConfiguration(conf =>
 {
     //from BE to DTO
-    conf.CreateMap<LoginBe, LoginDto>();
+    conf.CreateMap<Login, LoginDto>();
 
     //from DTO to BE
-    conf.CreateMap<LoginDto, LoginBe>();
+    conf.CreateMap<LoginDto, Login>();
 });
 
 var mapper = mapperConfig.CreateMapper();
