@@ -21,14 +21,14 @@ namespace AuthenticationService.Interfaces
         /// <summary>
         /// sets a token for a user in the database and returns the token
         /// </summary>
-        public string loginUser(LoginDto loginDto);
+        public string LoginUser(LoginDto loginDto);
 
         /// <summary>
         /// registers a new user in the database
         /// </summary>
         /// <param name="loginDto"></param>
         /// <returns></returns>
-        public LoginDto registerNewLogin(LoginDto loginDto);
+        public LoginDto RegisterNewLogin(LoginDto loginDto);
 
         /// <summary>
         /// rebuilds the database

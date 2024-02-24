@@ -36,14 +36,20 @@ namespace AuthenticationService.Models
         }
         
         //TODO refactor for cleaner code
-        public string loginUser(LoginDto loginDto)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loginDto"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public string LoginUser(LoginDto loginDto)
         {
-            bool isValid = validate(loginDto.Username, loginDto.Password);
+            bool isValid = Validate(loginDto.Username, loginDto.Password);
             if (isValid)
             {
                 var token = GenerateJSONWebToken(loginDto);
-                LoginBe login = _authRepo.getUsersByUsername(loginDto.Username);
-                _authRepo.addTokenToLogin(new TokenBe 
+                LoginBe login = _authRepo.GetUsersByUsername(loginDto.Username);
+                _authRepo.AddTokenToLogin(new TokenBe 
                 { 
                     Token = token,
                     UserId = login.Id
@@ -53,14 +59,25 @@ namespace AuthenticationService.Models
             throw new Exception("Invalid credentials");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public bool ValidateUserByCredentials(string username, string password)
         {
-            return validate(username, password);
+            return Validate(username, password);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public bool ValidateUserByToken(string token)
         {
-            return _authRepo.getUserByToken(token) != null;
+            return _authRepo.GetUserByToken(token) != null;
         }
 
         private string GenerateJSONWebToken(LoginDto userInfo)
@@ -76,9 +93,9 @@ namespace AuthenticationService.Models
             return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
         }
 
-        private bool validate(string username, string password)
+        private bool Validate(string username, string password)
         {
-            LoginBe login = _authRepo.getUsersByUsername(username);
+            LoginBe login = _authRepo.GetUsersByUsername(username);
             return login.Password == password; 
         }
 
@@ -87,14 +104,18 @@ namespace AuthenticationService.Models
         /// </summary>
         /// <param name="loginDto"></param>
         /// <returns></returns>
-        public LoginDto registerNewLogin(LoginDto loginDto)
+        public LoginDto RegisterNewLogin(LoginDto loginDto)
         {
             //map dto to Be though automapper
             LoginBe login = _mapper.Map<LoginBe>(loginDto);
             //save to db
-            return _mapper.Map<LoginDto>(_authRepo.addLogin(login));
+            return _mapper.Map<LoginDto>(_authRepo.AddLogin(login));
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
         public void Rebuild()
         {
             _authRepo.Rebuild();

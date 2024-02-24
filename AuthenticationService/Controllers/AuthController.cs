@@ -31,7 +31,7 @@ namespace AuthenticationService.Controllers
         {
             try
             {
-                return Ok(_auth.loginUser(loginDto));
+                return Ok(_auth.LoginUser(loginDto));
             } catch
             {
                 return BadRequest("Invalid credentials");
@@ -44,7 +44,7 @@ namespace AuthenticationService.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("validateUser")]
-        public IActionResult validateUser(string token)
+        public IActionResult ValidateUser(string token)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace AuthenticationService.Controllers
         /// </summary>
         [HttpPost]
         [Route("validateUserByCredentials")]
-        public IActionResult validateUserByCredentials(string username, string password)
+        public IActionResult ValidateUserByCredentials(string username, string password)
         {
             try
             {
@@ -74,9 +74,9 @@ namespace AuthenticationService.Controllers
 
         [HttpPost]
         [Route("registerNewLogin")]
-        public IActionResult registerNewLogin(LoginDto loginDto)
+        public IActionResult RegisterNewLogin(LoginDto loginDto)
         {
-            return Ok(_auth.registerNewLogin(loginDto));
+            return Ok(_auth.RegisterNewLogin(loginDto));
         }
 
         /// <summary>

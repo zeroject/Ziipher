@@ -13,7 +13,13 @@ namespace AuthenticationService.Repos
         {
             _context = context;
         }
-        public void addTokenToLogin(TokenBe token)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="token"></param>
+        /// <exception cref="Exception"></exception>
+        public void AddTokenToLogin(TokenBe token)
         {
             try
             {
@@ -30,7 +36,7 @@ namespace AuthenticationService.Repos
         /// <param name="token"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public LoginBe getUserByToken(string token)
+        public LoginBe GetUserByToken(string token)
         {
             try
             {
@@ -43,7 +49,14 @@ namespace AuthenticationService.Repos
             }
         }
 
-        public LoginBe getUsersByUsername(string username)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public LoginBe GetUsersByUsername(string username)
         {
             try
             {
@@ -54,7 +67,13 @@ namespace AuthenticationService.Repos
             }
         }
 
-        public LoginBe addLogin(LoginBe login)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public LoginBe AddLogin(LoginBe login)
         {
             try
             {
