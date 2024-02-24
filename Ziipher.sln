@@ -19,9 +19,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService", "UserService\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Comments", "Comments", "{B436C064-A1B9-4368-99C5-43869A8077C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommentApplication", "CommentApplication\CommentApplication.csproj", "{4279DA35-85B9-4102-BF1C-7955B21D1AAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommentApplication", "CommentApplication\CommentApplication.csproj", "{4279DA35-85B9-4102-BF1C-7955B21D1AAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommentInfrastructure", "CommentInfrastructure\CommentInfrastructure.csproj", "{32467EE2-289B-484F-B76E-43DED8F4137D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommentInfrastructure", "CommentInfrastructure\CommentInfrastructure.csproj", "{32467EE2-289B-484F-B76E-43DED8F4137D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C0A837CE-A4B4-4A5A-9D5F-CF406E2FEC95}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

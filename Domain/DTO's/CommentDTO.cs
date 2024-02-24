@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain
+namespace Domain.DTO_s
 {
-    public class Comment
+    public class CommentDTO
     {
-        public int CommentID { get; set; }
         public int PostID { get; set; }
         public int UserID { get; set; }
         public required string CommentText { get; set; }
-        public DateTime CommentDate { get; set; }
     }
 }
