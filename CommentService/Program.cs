@@ -1,3 +1,5 @@
+using Serilog.Events;
+using Serilog;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,14 @@ builder.Services.AddSwaggerGen(c =>
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
 });
+
+builder.Services.AddLogging(logBuilder =>
+{
+    logBuilder.AddSeq("http://localhost:5341");
+});
+
+CommentApplication.DependencyResolver.DependencyResolverService.RegisterServices(builder.Services);
+CommentInfrastructure.DependencyResolver.DependencyResolverService.RegisterServices(builder.Services);
 
 var app = builder.Build();
 
