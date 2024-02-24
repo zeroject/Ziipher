@@ -1,4 +1,5 @@
 ﻿using AuthenticationService.Dto;
+using AuthenticationService.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthenticationService.Controllers
@@ -6,17 +7,18 @@ namespace AuthenticationService.Controllers
     /// <summary>
     /// AuthController for authentication and authorization
     /// </summary>
-
     [ApiController]
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
+        private IAuthValidationService _auth;
+
         /// <summary>
         /// Constructor for AuthController
         /// </summary>
-        public AuthController()
+        public AuthController(IAuthValidationService auth)
         {
-
+            _auth = auth;
         }
 
         /// <summary>
@@ -27,18 +29,13 @@ namespace AuthenticationService.Controllers
         [Route("loginUser")]
         public IActionResult LoginUser(LoginDto loginDto)
         {
-            return Ok("User logged in successfully");
-        }
-
-        /// <summary>
-        /// removes the token from the active tokens pool
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        [Route("logoutUser")]
-        public IActionResult LogoutUser(string token)
-        {
-            return Ok("User logged out successfully");
+            try
+            {
+                return Ok(_auth.loginUser(loginDto));
+            } catch
+            {
+                return BadRequest("Invalid credentials");
+            }
         }
 
         /// <summary>
@@ -49,7 +46,30 @@ namespace AuthenticationService.Controllers
         [Route("validateUser")]
         public IActionResult validateUser(string token)
         {
-            return token != null ? Ok("User is valid") : Ok("User is not valid");
+            try
+            {
+                return Ok(_auth.ValidateUserByToken(token));
+            } catch
+            {
+                return BadRequest("Invalid token");
+            }
+        }
+
+
+        /// <summary>
+        /// when validation by token fails, call this method to validate by credentials
+        /// </summary>
+        [HttpPost]
+        [Route("validateUserByCredentials")]
+        public IActionResult validateUserByCredentials(string username, string password)
+        {
+            try
+            {
+                return Ok(_auth.ValidateUserByCredentials(username, password));
+            } catch
+            {
+                return BadRequest("Invalid credentials");
+            }
         }
 
     }

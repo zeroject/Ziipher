@@ -3,21 +3,43 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuthenticationService.Models
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AuthContext : DbContext
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="options"></param>
         public AuthContext(DbContextOptions<AuthContext> options) : base(options)
         {
         }
 
-        public DbSet<LoginBe> Users { get; set; }
+        /// <inheritdoc/>
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            //TODO move connection string to appsettings.json
+            optionsBuilder.UseSqlServer("Server=localhost;Database=auth;User Id=sa;Password=Hyy89xjw!;Trusted_Connection=True");
+        }
 
-        public DbSet<TokenBe> tokens { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual DbSet<LoginBe> logins { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual DbSet<TokenBe> tokens { get; set; }
+
+/// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<LoginBe>(entity =>
             {
                 entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.Property(e => e.Username).IsRequired();
                 entity.Property(e => e.Password).IsRequired();
             });
@@ -25,14 +47,14 @@ namespace AuthenticationService.Models
             modelBuilder.Entity<TokenBe>(entity =>
             {
                 entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.Property(e => e.Token).IsRequired();
                 entity.Property(e => e.CreatedAt).IsRequired();
+                entity.Property(e => e.UserId).IsRequired();
 
-                // Define the one-to-one relationship
-                entity.HasOne(e => e.User) // Navigation property
-                    .WithOne() // No navigation property on the other side (one-to-one)
-                    .HasForeignKey<TokenBe>(e => e.UserId) // Foreign key property
-                    .IsRequired(); // Make it required
+                entity.HasOne(e => e.User)
+                    .WithMany(e => e.Tokens)
+                    .HasForeignKey(e => e.UserId);
             });
         }
 

@@ -1,12 +1,38 @@
+using AuthenticationService.BE;
+using AuthenticationService.Dto;
+using AuthenticationService.helpers;
+using AuthenticationService.Interfaces;
+using AuthenticationService.Models;
+using AuthenticationService.Repos;
+using AutoMapper;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//add mapper objects
+var mapperConfig = new MapperConfiguration(conf =>
+{
+    //from BE to DTO
+    conf.CreateMap<LoginBe, LoginDto>();
+
+    //from DTO to BE
+    conf.CreateMap<LoginDto, LoginBe>();
+});
+
+var mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddDbContext<AuthContext>();
+builder.Services.AddScoped<IAuthRepo, AuthRepo>();
+builder.Services.AddScoped<IAuthValidationService, AuthValidationService>();
+
+//add appsettings to the project
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
 builder.Services.AddSwaggerGen(c =>
 {
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

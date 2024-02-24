@@ -36,6 +36,6 @@
         /// <summary>
         /// ef magic to link the token to the user
         /// </summary> 
-        public LoginBe User { get; set; }
+        public virtual LoginBe? User { get; set; }
     }
 }
