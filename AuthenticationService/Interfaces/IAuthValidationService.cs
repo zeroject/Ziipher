@@ -23,5 +23,18 @@ namespace AuthenticationService.Interfaces
         /// </summary>
         public string loginUser(LoginDto loginDto);
 
+        /// <summary>
+        /// registers a new user in the database
+        /// </summary>
+        /// <param name="loginDto"></param>
+        /// <returns></returns>
+        public LoginDto registerNewLogin(LoginDto loginDto);
+
+        /// <summary>
+        /// rebuilds the database
+        /// </summary>
+        public void Rebuild();
+
+
     }
 }

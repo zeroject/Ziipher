@@ -19,5 +19,10 @@
         /// 
         /// </summary>
         required public string Password { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual ICollection<TokenBe>? Tokens { get; set; }
     }
 }

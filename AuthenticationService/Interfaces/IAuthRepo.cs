@@ -24,6 +24,8 @@ namespace AuthenticationService.Interfaces
         /// <param name="token"></param>
         public void addTokenToLogin(TokenBe token);
 
-        public void addLogin(LoginBe login);
+        public LoginBe addLogin(LoginBe login);
+
+        public void Rebuild();
     }
 }

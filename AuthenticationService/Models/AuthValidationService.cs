@@ -2,6 +2,8 @@
 using AuthenticationService.Dto;
 using AuthenticationService.helpers;
 using AuthenticationService.Interfaces;
+using AutoMapper;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -9,22 +11,27 @@ using System.Text;
 
 namespace AuthenticationService.Models
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AuthValidationService : IAuthValidationService
     {
         private double expiriationTime;
         
         private readonly AppSettings _appSettings;
         private IAuthRepo _authRepo;
+        private IMapper _mapper;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="appSettings"></param>
         /// <param name="authRepo"></param>
-        public AuthValidationService(AppSettings appSettings, IAuthRepo authRepo)
+        public AuthValidationService(IOptions<AppSettings> appSettings, IAuthRepo authRepo, IMapper mapper)
         {
-            _appSettings = appSettings;
+            _appSettings = appSettings.Value;
             _authRepo = authRepo;
+            _mapper = mapper;
             expiriationTime = 6;
         }
         
@@ -73,6 +80,24 @@ namespace AuthenticationService.Models
         {
             LoginBe login = _authRepo.getUsersByUsername(username);
             return login.Password == password; 
+        }
+
+        /// <summary>
+        /// registers a new user in the database
+        /// </summary>
+        /// <param name="loginDto"></param>
+        /// <returns></returns>
+        public LoginDto registerNewLogin(LoginDto loginDto)
+        {
+            //map dto to Be though automapper
+            LoginBe login = _mapper.Map<LoginBe>(loginDto);
+            //save to db
+            return _mapper.Map<LoginDto>(_authRepo.addLogin(login));
+        }
+
+        public void Rebuild()
+        {
+            _authRepo.Rebuild();
         }
     }
 }

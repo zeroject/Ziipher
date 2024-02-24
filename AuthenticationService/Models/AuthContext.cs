@@ -20,7 +20,7 @@ namespace AuthenticationService.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //TODO move connection string to appsettings.json
-            optionsBuilder.UseSqlServer("Server=localhost;Database=auth;User Id=sa;Password=Hyy89xjw!;Trusted_Connection=True");
+            optionsBuilder.UseSqlServer("Server=localhost;Database=Auth;User Id=sa;Password=Hyy89xjw!;Trusted_Connection=False;TrustServerCertificate=True;");
         }
 
         /// <summary>

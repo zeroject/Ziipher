@@ -51,7 +51,7 @@ namespace AuthenticationService.Controllers
                 return Ok(_auth.ValidateUserByToken(token));
             } catch
             {
-                return BadRequest("Invalid token");
+                return StatusCode(401, "Unauthorized");
             }
         }
 
@@ -68,7 +68,32 @@ namespace AuthenticationService.Controllers
                 return Ok(_auth.ValidateUserByCredentials(username, password));
             } catch
             {
-                return BadRequest("Invalid credentials");
+                return StatusCode(401, "Unauthorized");
+            }
+        }
+
+        [HttpPost]
+        [Route("registerNewLogin")]
+        public IActionResult registerNewLogin(LoginDto loginDto)
+        {
+            return Ok(_auth.registerNewLogin(loginDto));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("rebuild")]
+        public IActionResult rebuild()
+        {
+            try
+            {
+                _auth.Rebuild();
+                return Ok();
+            } catch
+            {
+                return BadRequest("Error rebuilding database");
             }
         }
 

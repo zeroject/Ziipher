@@ -54,17 +54,19 @@ namespace AuthenticationService.Repos
             }
         }
 
-        public void addLogin(LoginBe login)
+        public LoginBe addLogin(LoginBe login)
         {
             try
             {
                 _context.logins.Add(login);
                 _context.SaveChanges();
+                return login;
             } catch (Exception e)
             {
                 throw new Exception("Error adding login: " + e.Message);
             }
         }
+
 
         /// <summary>
         /// to be called when the database needs to be rebuilt or initialized

@@ -30,7 +30,7 @@ builder.Services.AddDbContext<AuthContext>();
 builder.Services.AddScoped<IAuthRepo, AuthRepo>();
 builder.Services.AddScoped<IAuthValidationService, AuthValidationService>();
 
-//add appsettings to the project
+//add appsettings secret key to the helper AppSettings
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
 builder.Services.AddSwaggerGen(c =>
