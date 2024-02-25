@@ -31,6 +31,7 @@ namespace UserService.Controllers
             try
             {
                 _userCrud.AddUser(user);
+                //TODO: Add user to AuthWanabe
                 _logger.LogInformation("User added to the system");
                 return Ok();
             }
