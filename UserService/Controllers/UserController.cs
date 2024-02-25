@@ -1,5 +1,7 @@
-﻿using Domain;
+﻿using AuthenticationService.Dto;
+using Domain;
 using Domain.DTO_s;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using UserApplication;
@@ -24,10 +26,12 @@ namespace UserService.Controllers
         /// Adds a user to the system
         /// </summary>
         /// <param name="user"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
         /// <returns></returns>
         [HttpPost]
         [Route("AddUser")]
-        public async Task<IActionResult> AddUserAsync(UserDTO user)
+        public async Task<IActionResult> AddUserAsync(UserDTO user, string username, string password)
         {
             try
             {
@@ -35,8 +39,14 @@ namespace UserService.Controllers
                 //TODO: Add user to AuthWanabe
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("http://localhost:5000");
-                    var response = await client.PostAsJsonAsync("/AddUser", userID);
+                    client.BaseAddress = new Uri("https://localhost:32772/Auth");
+                    LoginDto login = new LoginDto
+                    {
+                        Id = userID.ToString(),
+                        Username = username,
+                        Password = password
+                    };
+                    var response = await client.PostAsJsonAsync("/registerNewLogin", login);
                     if (!response.IsSuccessStatusCode)
                     {
                         _logger.LogError("Error adding user to AuthWanabe");
