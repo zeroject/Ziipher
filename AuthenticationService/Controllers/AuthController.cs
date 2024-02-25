@@ -12,13 +12,15 @@ namespace AuthenticationService.Controllers
     public class AuthController : ControllerBase
     {
         private IAuthValidationService _auth;
+        private readonly ILogger<AuthController> _logger;
 
         /// <summary>
         /// Constructor for AuthController
         /// </summary>
-        public AuthController(IAuthValidationService auth)
+        public AuthController(IAuthValidationService auth, ILogger<AuthController> logger)
         {
             _auth = auth;
+            _logger = logger;
         }
 
         /// <summary>
@@ -76,6 +78,7 @@ namespace AuthenticationService.Controllers
         [Route("registerNewLogin")]
         public IActionResult RegisterNewLogin(LoginDto loginDto)
         {
+            _logger.LogInformation("Registering new login");
             return Ok(_auth.RegisterNewLogin(loginDto));
         }
 

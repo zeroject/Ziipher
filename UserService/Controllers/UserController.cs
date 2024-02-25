@@ -39,14 +39,14 @@ namespace UserService.Controllers
                 //TODO: Add user to AuthWanabe
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("https://localhost:32772/Auth");
+                    client.BaseAddress = new Uri("http://authservice:8080");
                     LoginDto login = new LoginDto
                     {
-                        Id = userID.ToString(),
+                        Id = userID,
                         Username = username,
                         Password = password
                     };
-                    var response = await client.PostAsJsonAsync("/registerNewLogin", login);
+                    var response = await client.PostAsJsonAsync("/auth/registerNewLogin", login);
                     if (!response.IsSuccessStatusCode)
                     {
                         _logger.LogError("Error adding user to AuthWanabe");

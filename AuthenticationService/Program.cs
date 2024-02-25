@@ -41,6 +41,11 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(xmlPath);
 });
 
+builder.Services.AddLogging(logBuilder =>
+{
+    logBuilder.AddSeq("http://seq:5341");
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
