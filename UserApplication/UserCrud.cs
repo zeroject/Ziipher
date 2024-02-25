@@ -16,9 +16,9 @@ namespace UserApplication
         {
             _userRepository = userRepository;
         }
-        public void AddUser(UserDTO user)
+        public int AddUser(UserDTO user)
         {
-            _userRepository.AddUser(
+            return _userRepository.AddUser(
                 new User {
                     Name = user.Name,
                     Age = user.Age,

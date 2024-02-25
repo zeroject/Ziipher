@@ -10,7 +10,7 @@ namespace UserApplication
 {
     public interface IUserCrud
     {
-        public void AddUser(UserDTO user);
+        public int AddUser(UserDTO user);
         public void DeleteUser(int userID);
         public User GetUser(int userID);
         public void UpdateUser(User user);

@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Domain.DTO_s;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using UserApplication;
 
 namespace UserService.Controllers
@@ -26,12 +27,22 @@ namespace UserService.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("AddUser")]
-        public IActionResult AddUser(UserDTO user)
+        public async Task<IActionResult> AddUserAsync(UserDTO user)
         {
             try
             {
-                _userCrud.AddUser(user);
+                int userID = _userCrud.AddUser(user);
                 //TODO: Add user to AuthWanabe
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("http://localhost:5000");
+                    var response = await client.PostAsJsonAsync("/AddUser", userID);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        _logger.LogError("Error adding user to AuthWanabe");
+                        return StatusCode(500, "An internal Error has occurred");
+                    }
+                }
                 _logger.LogInformation("User added to the system");
                 return Ok();
             }
