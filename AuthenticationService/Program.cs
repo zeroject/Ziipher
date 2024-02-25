@@ -15,8 +15,9 @@ var mapperConfig = new MapperConfiguration(conf =>
     //from BE to DTO
     conf.CreateMap<Login, LoginDto>();
 
-    //from DTO to BE
-    conf.CreateMap<LoginDto, Login>();
+    //from DTO to BE ignore the Id
+    conf.CreateMap<LoginDto, Login>()
+    .ForMember(dest => dest.Id, opt => opt.Ignore());
 });
 
 var mapper = mapperConfig.CreateMapper();
