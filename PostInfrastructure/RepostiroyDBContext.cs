@@ -36,8 +36,12 @@ namespace PostInfrastructure
                 .HasOne<Timeline>()
                 .WithMany(t => t.Posts) 
                 .HasForeignKey(p => p.TimelineID);
-
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseInMemoryDatabase("PostDB");
+        }
+
         public DbSet<Post> Posts { get; set; }
 
         public DbSet<Timeline> Timelines { get; set; }

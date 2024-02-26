@@ -6,7 +6,7 @@ using PostApplication;
 
 namespace PostsService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class PostController : ControllerBase
     {
@@ -20,7 +20,7 @@ namespace PostsService.Controllers
 
         [HttpGet]
         [Route("GetAllPosts")]
-        public IActionResult GetAllPosts(int timelineId)
+        public IActionResult GetAllPosts( int timelineId)
         {
             var posts = _postService.GetAllPosts(timelineId);
             return Ok(posts);
@@ -28,7 +28,7 @@ namespace PostsService.Controllers
 
         [HttpGet]
         [Route("GetPost/{timelineId}/{postID}")]
-        public IActionResult GetPost(int timelineId, int postId)
+        public IActionResult GetPost([FromRoute] int timelineId, [FromRoute] int postId)
         {
             var post = _postService.GetPost(timelineId, postId);
             if (post == null)
@@ -40,7 +40,7 @@ namespace PostsService.Controllers
 
         [HttpDelete]
         [Route("DeletePost/{timelineId}/{postId}")]
-        public IActionResult DeletePost(int timelineId, int postId)
+        public IActionResult DeletePost([FromRoute] int timelineId, [FromRoute] int postId)
         {
             _postService.DeletePost(timelineId, postId);
             return Ok();
@@ -49,7 +49,7 @@ namespace PostsService.Controllers
         [HttpPut]
 
         [Route("UpdatePost/{timelineId}/{postId}")]
-        public IActionResult UpdatePost(int timelineId, int postId, [FromBody] Post postUpdate)
+        public IActionResult UpdatePost([FromRoute] int timelineId, [FromRoute] int postId, [FromBody] Post postUpdate)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace PostsService.Controllers
         }
         [HttpGet]
         [Route("GetPostsByUser/{timelineId}/{userId}")]
-        public IActionResult GetPostsByUser(int timelineId, int userId)
+        public IActionResult GetPostsByUser([FromRoute] int timelineId, [FromRoute] int userId)
         {
             var posts = _postService.GetPostsByUser(timelineId, userId);
             if (posts == null || !posts.Any())
@@ -75,7 +75,7 @@ namespace PostsService.Controllers
 
         [HttpPost]
         [Route("CreatePost/{timelineId}")]
-        public IActionResult CreatePost(int timelineId, [FromBody] Post newPost)
+        public IActionResult CreatePost([FromRoute] int timelineId, [FromBody] Post newPost)
         {
             _postService.CreatePost(timelineId, newPost);
             return Ok();

@@ -1,4 +1,5 @@
 ﻿using Domain;
+using PostApplication.DTO_s;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace PostApplication
         /// Creates a new timeline
         /// </summary>
         /// <param name="newTimeline"></param>
-        public void CreateTimeline(Timeline newTimeline);
+        public void CreateTimeline(PostTimelineDTO newTimeline);
 
         /// <summary>
         /// Returns all timelines

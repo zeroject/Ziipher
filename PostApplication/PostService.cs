@@ -5,7 +5,7 @@ namespace PostApplication
 {
     public class PostService : IPostService
     {
-        IPostRepository _postRepository;
+        private IPostRepository _postRepository;
 
         public PostService(IPostRepository postRepository)
         {

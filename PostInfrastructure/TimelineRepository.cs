@@ -12,6 +12,11 @@ namespace PostInfrastructure
 
         private readonly RepositoryDBContext _context;
 
+        public TimelineRepository(RepositoryDBContext context)
+        {
+            _context = context;
+        }
+
         public void CreateTimeline(Timeline newTimeline)
         {
             _context.Timelines.Add(newTimeline);

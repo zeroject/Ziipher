@@ -1,4 +1,6 @@
-﻿using Domain;
+﻿using AutoMapper;
+using Domain;
+using PostApplication.DTO_s;
 using PostInfrastructure;
 using System;
 using System.Collections.Generic;
@@ -11,19 +13,21 @@ namespace PostApplication
     public class TimelineService : ITimelineService
     {
 
-        ITimelineRepository _timelineRepository;
+        private ITimelineRepository _timelineRepository;
+        private readonly IMapper _mapper;
 
-        public TimelineService(ITimelineRepository timelineRepository)
+
+        public TimelineService(ITimelineRepository timelineRepository, IMapper mapper)
         {
             _timelineRepository = timelineRepository;
+            _mapper = mapper;
         }
 
 
-        public void CreateTimeline(Timeline newTimeline)
+        public void CreateTimeline(PostTimelineDTO newTimeline)
         {
-            _timelineRepository.CreateTimeline(newTimeline);
+            _timelineRepository.CreateTimeline(_mapper.Map<Timeline>(newTimeline));
         }
-
         public void DeleteTimeline(int timelineId)
         {
             _timelineRepository.DeleteTimeline(timelineId);

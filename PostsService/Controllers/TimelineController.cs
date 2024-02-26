@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PostApplication;
+using PostApplication.DTO_s;
 
 namespace PostsService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class TimelineController : ControllerBase
     {
@@ -19,7 +20,7 @@ namespace PostsService.Controllers
 
         [HttpGet]
         [Route("GetTimeline/{userId}")]
-        public IActionResult GetTimeline(int userId)
+        public IActionResult GetTimeline([FromRoute] int userId)
         {
             var timeline = _timelineService.GetTimeline(userId);
             if (timeline == null)
@@ -31,7 +32,7 @@ namespace PostsService.Controllers
 
         [HttpPost]
         [Route("CreateTimeline")]
-        public IActionResult CreateTimeline([FromBody] Timeline timeline)
+        public IActionResult CreateTimeline([FromBody] PostTimelineDTO timeline)
         {
             _timelineService.CreateTimeline(timeline);
             return Ok();
@@ -39,7 +40,7 @@ namespace PostsService.Controllers
 
         [HttpDelete]
         [Route("DeleteTimeline/{userId}")]
-        public IActionResult DeleteTimeline(int userId)
+        public IActionResult DeleteTimeline([FromRoute] int userId)
         {
             _timelineService.DeleteTimeline(userId);
             return Ok();
@@ -47,7 +48,7 @@ namespace PostsService.Controllers
 
         [HttpPut]
         [Route("UpdateTimeline/{timelineId}/{newUserID}")]
-        public IActionResult UpdateTimeline(int timelineId, int newUserID)
+        public IActionResult UpdateTimeline([FromRoute] int timelineId, [FromRoute] int newUserID)
         {
             _timelineService.UpdateTimeline(timelineId, newUserID);
             return Ok();
@@ -63,7 +64,7 @@ namespace PostsService.Controllers
 
         [HttpGet]
         [Route("GetTimelineByUser/{userId}")]
-        public IActionResult GetTimelineByUser(int userId)
+        public IActionResult GetTimelineByUser([FromRoute] int userId)
         {
             var timeline = _timelineService.GetTimelineByUser(userId);
             if (timeline == null)
