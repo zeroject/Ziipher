@@ -86,7 +86,7 @@ namespace AuthenticationService.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
         [Route("rebuild")]
         public IActionResult rebuild()
         {

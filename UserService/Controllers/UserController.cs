@@ -4,6 +4,7 @@ using Domain.DTO_s;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net.Http.Json;
 using UserApplication;
 
 namespace UserService.Controllers
@@ -70,8 +71,14 @@ namespace UserService.Controllers
         /// <returns></returns>
         [HttpDelete]
         [Route("DeleteUser")]
-        public IActionResult DeleteUser(int userID)
+        [Authorize]
+        public async Task<IActionResult> DeleteUserAsync(int userID)
         {
+            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            bool v = await ValidateTokenAsync(accessToken);
+            if (v != true)
+                return Unauthorized();
+
             try
             {
                 _userCrud.DeleteUser(userID);
@@ -112,8 +119,14 @@ namespace UserService.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("UpdateUser")]
-        public IActionResult UpdateUser(User user)
+        [Authorize]
+        public async Task<IActionResult> UpdateUserAsync(User user)
         {
+            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            bool v = await ValidateTokenAsync(accessToken);
+            if (v != true)
+                return Unauthorized();
+
             try
             {
                 _userCrud.UpdateUser(user);
@@ -123,6 +136,32 @@ namespace UserService.Controllers
             {
                 _logger.LogError(e, "An internal error has occurred");
                 return StatusCode(500, "An internal Error has occurred");
+            }
+        }
+
+        private async Task<bool> ValidateTokenAsync(string accessToken)
+        {
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                _logger.LogError("Authorization token not found in request headers");
+                return false;
+            }
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://authservice:8080");
+                var response = await client.PostAsJsonAsync($"/auth/validateUser?token={accessToken}", "");
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogError("Error validating user to AuthWanabe");
+                    return false;
+                }
+                var data = await response.Content.ReadFromJsonAsync<bool>();
+                if (data != true)
+                {
+                    _logger.LogInformation("User failed to auth himself");
+                    return false;
+                }
+                return true;
             }
         }
     }

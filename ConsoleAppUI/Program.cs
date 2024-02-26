@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using AuthenticationService.Dto;
+using Domain;
 using Domain.DTO_s;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -10,6 +11,7 @@ public class Program
 {
     #region Static Variables
     public static bool run = true;
+    public static string token = "";
 
     static Dictionary<string, string> commands = new Dictionary<string, string>{
         {"/help", "Displays all commands"},
@@ -44,6 +46,14 @@ public class Program
                     Console.WriteLine("Enter your password");
                     password = ReadPassword();
                     // Call the login method from the service layer
+                    Task<HttpResponseMessage> loginResponse = CallPostEndpointAsync(endpoints["Auth"] + "/loginuser", new LoginDto { Password = password, Username = username});
+                    while (!loginResponse.IsCompleted)
+                    {
+                        Console.Write(".");
+                        Thread.Sleep(1000);
+                    }
+                    token = loginResponse.Result.ToString();
+                    Console.WriteLine(token);
                     username = "";
                     password = "";
                     break;
@@ -66,7 +76,7 @@ public class Program
                     Console.WriteLine("Enter your email");
                     string email = Console.ReadLine();
                     // Call the add user method from the service layer
-                    Task<HttpResponseMessage> response = CallPostEndpointAsync(endpoints["User"] + "/AddUser", new UserDTO { Id = 1, Name = name, Age = age, Email = email });
+                    Task<HttpResponseMessage> response = CallPostEndpointAsync(endpoints["User"] + $"/AddUser?username={username}&password={password}", new UserDTO { Id = 1, Name = name, Age = age, Email = email });
                     while (!response.IsCompleted)
                     {
                         Console.Write(".");
