@@ -24,6 +24,11 @@ var mapper = new MapperConfiguration(config =>
 builder.Services.AddSingleton(mapper);
 #endregion
 
+builder.Services.AddLogging(logBuilder =>
+{
+    logBuilder.AddSeq("http://seq:5341");
+});
+
 #region Depedency injection
 builder.Services.AddDbContext<RepositoryDBContext>();
 builder.Services.AddScoped<RepositoryDBContext>();

@@ -12,16 +12,18 @@ namespace PostsService.Controllers
     {
 
         private readonly ITimelineService _timelineService;
-
-        public TimelineController(ITimelineService timelineService)
+        private readonly ILogger<TimelineController> _logger;
+        public TimelineController(ITimelineService timelineService, ILogger<TimelineController> logger)
         {
             _timelineService = timelineService;
+            _logger = logger;
         }
 
         [HttpGet]
         [Route("GetTimeline/{userId}")]
         public IActionResult GetTimeline([FromRoute] int userId)
         {
+            _logger.LogInformation("Get the timeline from the user with id " + userId);
             var timeline = _timelineService.GetTimeline(userId);
             if (timeline == null)
             {
@@ -34,6 +36,7 @@ namespace PostsService.Controllers
         [Route("CreateTimeline")]
         public IActionResult CreateTimeline([FromBody] PostTimelineDTO timeline)
         {
+            _logger.LogInformation($"Created timeline: {timeline}");
             _timelineService.CreateTimeline(timeline);
             return Ok();
         }
@@ -42,6 +45,7 @@ namespace PostsService.Controllers
         [Route("DeleteTimeline/{userId}")]
         public IActionResult DeleteTimeline([FromRoute] int userId)
         {
+            _logger.LogInformation($"Delete the timeline from the user with the id: {userId}");
             _timelineService.DeleteTimeline(userId);
             return Ok();
         }
@@ -50,6 +54,7 @@ namespace PostsService.Controllers
         [Route("UpdateTimeline/{timelineId}/{newUserID}")]
         public IActionResult UpdateTimeline([FromRoute] int timelineId, [FromRoute] int newUserID)
         {
+            _logger.LogInformation("Update the timeline with id" + timelineId + " for user with id" + newUserID);
             _timelineService.UpdateTimeline(timelineId, newUserID);
             return Ok();
         }
@@ -66,6 +71,7 @@ namespace PostsService.Controllers
         [Route("GetTimelineByUser/{userId}")]
         public IActionResult GetTimelineByUser([FromRoute] int userId)
         {
+            _logger.LogInformation($"Get the timeline for the user: {userId}");
             var timeline = _timelineService.GetTimelineByUser(userId);
             if (timeline == null)
             {
@@ -73,7 +79,5 @@ namespace PostsService.Controllers
             }
             return Ok(timeline);
         }
-
-
     }
 }
