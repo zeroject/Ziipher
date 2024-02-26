@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.DTO_s;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,9 @@ namespace CommentApplication
     public interface ICommentCrud
     {
         public List<Comment> GetComments(int pageSize, int pageNumber, int PostID);
-        public void AddComment(int PostID, string Comment);
-        public void UpdateComment(int CommentID, string Comment);
+        public void AddComment(CommentDTO commentDTO);
+        public void UpdateComment(Comment comment);
         public void DeleteComment(int CommentID);
+        public void MassDeleteComments(int PostID, int UserID);
     }
 }

@@ -5,7 +5,7 @@ Welcome to Ziipher a twitter clone
 ## Services and Functionality
 
 1. **Auth:** Handles authorization and authentication. - Kasper
-2. **User:** Manages CRUD operations for user profiles.
+2. **User:** Manages CRUD operations for user profiles. - Casper
 3. **Post:** Manages CRUD operations for posts in the timeline. - Issa
 4. **Comment:** Manages CRUD operations for comments on posts. - Casper
 5. **DMs:** Provides basic messaging functions for direct messages. - Anders
