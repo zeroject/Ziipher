@@ -8,10 +8,12 @@ namespace AuthenticationService.Repos
     public class AuthRepo : IAuthRepo
     {
         private readonly AuthContext _context;
+        private readonly ILogger<AuthRepo> _logger;
 
-        public AuthRepo(AuthContext context)
+        public AuthRepo(AuthContext context, ILogger<AuthRepo> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         /// <summary>
@@ -77,6 +79,7 @@ namespace AuthenticationService.Repos
         {
             try
             {
+                _logger.LogInformation($"{login.Id} : {login.Username} : {login.Password}");
                 _context.logins.Add(login);
                 _context.SaveChanges();
                 return login;
