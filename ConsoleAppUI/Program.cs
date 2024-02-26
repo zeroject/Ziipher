@@ -1,4 +1,8 @@
 ﻿using AuthenticationService.Dto;
+using ConsoleAppUI;
+using ConsoleAppUI.Commands;
+using ConsoleAppUI.Commands.ImplementedCommands;
+using ConsoleAppUI.Helper;
 using Domain;
 using Domain.DTO_s;
 using Microsoft.Extensions.Configuration;
@@ -12,140 +16,43 @@ public class Program
     #region Static Variables
     public static bool run = true;
     public static string token = "";
-
-    static Dictionary<string, string> commands = new Dictionary<string, string>{
-        {"/help", "Displays all commands"},
-        {"/exit", "Exits the program"},
-        {"/login", "Adds a new item to the list"},
-        {"/logout", "Removes an item from the list"}
-    };
+    public static commandsEnums.Commands type = commandsEnums.Commands.mainMenu;
     #endregion
 
     static void Main(string[] args)
     {
         string jsonFilePath = "appsettings.json";
-        Dictionary<string, string> endpoints = ReadAppSettings(jsonFilePath);
+        AllCommands.populateCommands();
+        EndPoints.PopulateEndPoints(jsonFilePath);
 
         while (run)
         {
-            string username;
-            string password;
-            string input = Console.ReadLine();
-            switch (input)
+            //check if user is writing in the console
+            if (Console.KeyAvailable)
             {
-                case "/help":
-                    foreach (var command in commands)
+                //check if first character is a '/'
+                if (Console.ReadKey().KeyChar == '/')
+                {
+                    string command = Console.ReadLine().TrimStart('/');
+                    if (AllCommands.commands.ContainsKey(command))
                     {
-                        Console.WriteLine($"{command.Key} - {command.Value}");
+                        ICommands ToBeExecuted = AllCommands.commands[command];
+                        if (ToBeExecuted.type == type || ToBeExecuted.type == commandsEnums.Commands.global)
+                        {
+                            ToBeExecuted.Execute();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Command not available in this context");
+                        
+                        }
+                        }
                     }
-                    break;
-
-                case "/login":
-                    Console.WriteLine("Enter your username");
-                    username = Console.ReadLine();
-                    Console.WriteLine("Enter your password");
-                    password = ReadPassword();
-                    // Call the login method from the service layer
-                    Task<HttpResponseMessage> loginResponse = CallPostEndpointAsync(endpoints["Auth"] + "/loginuser", new LoginDto { Password = password, Username = username});
-                    while (!loginResponse.IsCompleted)
+                    else
                     {
-                        Console.Write(".");
-                        Thread.Sleep(1000);
+                        Console.WriteLine("Command not found");
                     }
-                    token = loginResponse.Result.ToString();
-                    Console.WriteLine(token);
-                    username = "";
-                    password = "";
-                    break;
-
-                case "/logout":
-                    Console.WriteLine("You have been logged out :) go outside, touch grass");
-                    Thread.Sleep(1500);
-                    run = false;
-                    break;
-
-                case "/adduser":
-                    Console.WriteLine("Enter your username");
-                    username = Console.ReadLine();
-                    Console.WriteLine("Enter your password");
-                    password = ReadPassword();
-                    Console.WriteLine("Enter your name");
-                    string name = Console.ReadLine();
-                    Console.WriteLine("Enter your age");
-                    int age = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("Enter your email");
-                    string email = Console.ReadLine();
-                    // Call the add user method from the service layer
-                    Task<HttpResponseMessage> response = CallPostEndpointAsync(endpoints["User"] + $"/AddUser?username={username}&password={password}", new UserDTO { Id = 1, Name = name, Age = age, Email = email });
-                    while (!response.IsCompleted)
-                    {
-                        Console.Write(".");
-                        Thread.Sleep(1000);
-                    }
-                    if (response.Result.IsSuccessStatusCode)
-                    {
-                        Console.WriteLine("\nUser added successfully");
-                    } else
-                    {
-                        Console.WriteLine("\nUser not added " + response.Result.ToString());
-                    }
-                    username = "";
-                    password = "";
-                    break;
-
-                case "/exit":
-                    run = false;
-                    break;
-
-                default:
-                    if (input.Contains("/"))
-                        Console.WriteLine("Invalid command");
-                    break;
+                }
             }
         }
-    }
-
-    static Dictionary<string, string> ReadAppSettings(string filePath)
-    {
-        Dictionary<string, string> endpoints = new Dictionary<string, string>();
-
-        try
-        {
-            string json = File.ReadAllText(filePath);
-            endpoints = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-            endpoints.Values.ToList().ForEach(x => Console.WriteLine(x));
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error reading appsettings.json: {ex.Message}");
-        }
-
-        return endpoints;
-    }
-    static string ReadPassword()
-    {
-        string password = "";
-        ConsoleKeyInfo keyInfo;
-
-        do
-        {
-            keyInfo = Console.ReadKey(intercept: true);
-
-            if (keyInfo.Key != ConsoleKey.Enter)
-            {
-                password += keyInfo.KeyChar;
-                Console.Write("*");
-            }
-        } while (keyInfo.Key != ConsoleKey.Enter);
-
-        Console.WriteLine();
-        return password;
-    }
-    static async Task<HttpResponseMessage> CallPostEndpointAsync(string endpoint, Object data)
-    {
-        HttpClient client = new HttpClient();
-        var response = await client.PostAsJsonAsync(endpoint, data);
-        Console.WriteLine(response);
-        return response; // Simulating a successful operation
-    }
-}
+    } 
