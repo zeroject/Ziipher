@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Microsoft.AspNetCore.Mvc;
 using PostApplication;
+using PostApplication.DTO_s;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -75,9 +76,11 @@ namespace PostsService.Controllers
 
         [HttpPost]
         [Route("CreatePost/{timelineId}")]
-        public IActionResult CreatePost([FromRoute] int timelineId, [FromBody] Post newPost)
+        public IActionResult CreatePost([FromBody] PostPostDTO newPost, [FromRoute] int timelineId)
         {
+            Console.WriteLine("here is the new post]" + newPost.PostDate);
             _postService.CreatePost(timelineId, newPost);
+
             return Ok();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Domain;
+using PostApplication.DTO_s;
 
 namespace PostApplication
 {
@@ -17,7 +18,7 @@ namespace PostApplication
         /// </summary>
         /// <param name="timelineID">The timeline where the post is being created</param>
         /// <param name="newPost">The new post object</param>
-        public void CreatePost(int timelineID, Post newPost);
+        public void CreatePost(int timelineID, PostPostDTO newPost);
 
         /// <summary>
         /// Gets a post from a timeline by its id

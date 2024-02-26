@@ -14,6 +14,7 @@ namespace PostInfrastructure
 
         public RepositoryDBContext(DbContextOptions<RepositoryDBContext> options) : base(options)
         {
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
