@@ -30,9 +30,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{8B61A358-217D-42B1-9554-3BF661D10135}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserApplication", "UserApplication\UserApplication.csproj", "{7B8114B0-8836-4DE5-B299-E0CFEF18D6B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserApplication", "UserApplication\UserApplication.csproj", "{7B8114B0-8836-4DE5-B299-E0CFEF18D6B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInfrastructure", "UserInfrastructure\UserInfrastructure.csproj", "{BC039208-102F-4BFF-A160-B84F9C5F0D47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInfrastructure", "UserInfrastructure\UserInfrastructure.csproj", "{BC039208-102F-4BFF-A160-B84F9C5F0D47}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Post", "Post", "{B8576E22-78E1-4272-8B46-78B567356628}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostApplication", "PostApplication\PostApplication.csproj", "{05087D4D-B3E0-4295-B33B-291405832FED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostInfrastructure", "PostInfrastructure\PostInfrastructure.csproj", "{F760FF4C-E940-425F-BD78-A160404940FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,6 +90,14 @@ Global
 		{BC039208-102F-4BFF-A160-B84F9C5F0D47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC039208-102F-4BFF-A160-B84F9C5F0D47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC039208-102F-4BFF-A160-B84F9C5F0D47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05087D4D-B3E0-4295-B33B-291405832FED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05087D4D-B3E0-4295-B33B-291405832FED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05087D4D-B3E0-4295-B33B-291405832FED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05087D4D-B3E0-4295-B33B-291405832FED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F760FF4C-E940-425F-BD78-A160404940FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F760FF4C-E940-425F-BD78-A160404940FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F760FF4C-E940-425F-BD78-A160404940FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F760FF4C-E940-425F-BD78-A160404940FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
