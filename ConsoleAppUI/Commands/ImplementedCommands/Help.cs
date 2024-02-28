@@ -13,7 +13,7 @@ namespace ConsoleAppUI.Commands.ImplementedCommands
     {
         public string CommandName { get; set; } = "help";
         public string CommandDescription { get; set; } = "Displays all available ICommands";
-        public commandsEnums.Commands type { get; set; } = commandsEnums.Commands.global;
+        public commandsEnums.Commands Type { get; set; } = commandsEnums.Commands.global;
 
         public void Execute()
         {

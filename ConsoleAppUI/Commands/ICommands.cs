@@ -19,9 +19,9 @@ namespace ConsoleAppUI.Commands
         public string CommandDescription { get; set; }
 
         /// <summary>
-        /// type of command to control when user can execute ICommands
+        /// Type of command to control when user can execute ICommands
         /// </summary>
-        public commandsEnums.Commands type { get; set; }
+        public commandsEnums.Commands Type { get; set; }
 
         /// <summary>
         /// Needs to be overridden by Implementing class

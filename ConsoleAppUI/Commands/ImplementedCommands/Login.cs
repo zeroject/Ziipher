@@ -12,7 +12,7 @@ namespace ConsoleAppUI.Commands.ImplementedCommands
     {
         public string CommandName { get; set; } = "login";
         public string CommandDescription { get; set; } = "Login to the system";
-        public commandsEnums.Commands type { get; set; } = commandsEnums.Commands.mainMenu;
+        public commandsEnums.Commands Type { get; set; } = commandsEnums.Commands.mainMenu;
 
         public void Execute()
         {

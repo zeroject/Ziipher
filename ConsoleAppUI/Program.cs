@@ -37,7 +37,7 @@ public class Program
                     if (AllCommands.commands.ContainsKey(command))
                     {
                         ICommands ToBeExecuted = AllCommands.commands[command];
-                        if (ToBeExecuted.type == type || ToBeExecuted.type == commandsEnums.Commands.global)
+                        if (ToBeExecuted.Type == type || ToBeExecuted.Type == commandsEnums.Commands.global)
                         {
                             ToBeExecuted.Execute();
                         }
