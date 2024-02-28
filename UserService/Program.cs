@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddLogging(logBuilder =>
 {
-    logBuilder.AddSeq("http://localhost:5341");
+    logBuilder.AddSeq("http://seq:5341");
 });
 
 UserApplication.DependencyResolver.DependencyResolverService.RegisterServices(builder.Services);

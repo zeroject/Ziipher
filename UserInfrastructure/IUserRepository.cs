@@ -9,7 +9,7 @@ namespace UserInfrastructure
 {
     public interface IUserRepository
     {
-        public void AddUser(User user);
+        public int AddUser(User user);
         public void DeleteUser(int userID);
         public void UpdateUser(User user);
         public User GetUser(int userID);

@@ -17,12 +17,13 @@ namespace UserInfrastructure
             _options = new DbContextOptionsBuilder<DbContext>().UseInMemoryDatabase("UserDB").Options;
         }
 
-        public void AddUser(User user)
+        public int AddUser(User user)
         {
             using (var context = new DbContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Transient))
             {
                 _ = context.Add(user);
                 context.SaveChanges();
+                return context.Users.Where(c => c.Name == user.Name).FirstOrDefault().Id;
             }
         }
 
