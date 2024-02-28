@@ -11,12 +11,12 @@ namespace ConsoleAppUI.Commands
         /// <summary>
         /// string to listen after in commandLine
         /// </summary>
-        public string commandName { get; set; }
+        public string CommandName { get; set; }
 
         /// <summary>
         /// string description of command for help
         /// </summary>
-        public string commandDescription { get; set; }
+        public string CommandDescription { get; set; }
 
         /// <summary>
         /// type of command to control when user can execute ICommands

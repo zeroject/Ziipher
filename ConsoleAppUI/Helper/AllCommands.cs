@@ -17,7 +17,7 @@ namespace ConsoleAppUI.Helper
             foreach (var type in commandTypes)
             {
                 var command = (ICommands)Activator.CreateInstance(type);
-                commands.Add(command.commandName, command);
+                commands.Add(command.CommandName, command);
             }
         }
     }

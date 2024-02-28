@@ -10,8 +10,8 @@ namespace ConsoleAppUI.Commands.ImplementedCommands
 {
     public class Login : ICommands
     {
-        public string commandName { get; set; } = "login";
-        public string commandDescription { get; set; } = "Login to the system";
+        public string CommandName { get; set; } = "login";
+        public string CommandDescription { get; set; } = "Login to the system";
         public commandsEnums.Commands type { get; set; } = commandsEnums.Commands.mainMenu;
 
         public void Execute()

@@ -10,8 +10,8 @@ namespace ConsoleAppUI.Commands.ImplementedCommands
 {
     public class AddUser : ICommands
     {
-        public string commandName { get; set; } = "adduser";
-        public string commandDescription { get; set; } = "Adds a user to the system";
+        public string CommandName { get; set; } = "adduser";
+        public string CommandDescription { get; set; } = "Adds a user to the system";
         public commandsEnums.Commands type { get; set; } = commandsEnums.Commands.mainMenu;
 
         public void Execute()
