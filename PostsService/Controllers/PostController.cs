@@ -43,11 +43,7 @@ namespace PostsService.Controllers
             try
             {
                 _logger.LogInformation("Get the post with ID " + postId + "from timeline with id " + timelineId);
-                var post = _postService.GetPost(timelineId, postId);
-                if (post == null)
-                {
-                    return NotFound();
-                }
+                var post = _postService.GetPost(timelineId, postId);             
                 return Ok(post);
             }
             catch(Exception ex)
