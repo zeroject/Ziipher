@@ -5,7 +5,7 @@ Welcome to Ziipher a twitter clone
 ## Services and Functionality
 
 1. **Auth:** Handles authorization and authentication. - Kasper
-2. **User:** Manages CRUD operations for user profiles.
+2. **User:** Manages CRUD operations for user profiles. - Casper
 3. **Post:** Manages CRUD operations for posts in the timeline. - Issa
 4. **Comment:** Manages CRUD operations for comments on posts. - Casper
 5. **DMs:** Provides basic messaging functions for direct messages. - Anders
@@ -15,15 +15,18 @@ Welcome to Ziipher a twitter clone
 - Responsible for authorization and authentication.
 
 ### User
+![image](https://github.com/zeroject/Ziipher/assets/47432671/e0f6fab9-758c-49c7-b3fb-bd00536bc165)
 - Handles CRUD operations for user profiles.
 
 ### Post
 - Handles CRUD operations for posts in the timeline.
 
 ### Comment
+![image](https://github.com/zeroject/Ziipher/assets/47432671/c378c2ea-1a62-47c2-8ce1-efe063cf362a)
 - Handles CRUD operations for comments on posts.
 
 ### DMs
+![DMServiceGraph](https://github.com/zeroject/Ziipher/assets/91528409/d6b326ff-4034-405c-a34d-cdebb54fd1fb)
 - Provides basic messaging functions for direct messages.
 
 ## Launching with Docker

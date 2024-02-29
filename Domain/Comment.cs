@@ -10,6 +10,7 @@ namespace Domain
     {
         public int CommentID { get; set; }
         public int PostID { get; set; }
+        public int UserID { get; set; }
         public required string CommentText { get; set; }
         public DateTime CommentDate { get; set; }
     }
