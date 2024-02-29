@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PostApplication;
 using PostApplication.DTO_s;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace PostsService.Controllers
 {
@@ -20,43 +22,93 @@ namespace PostsService.Controllers
         }
 
         [HttpGet]
-        [Route("GetTimeline/{userId}")]
-        public IActionResult GetTimeline([FromRoute] int userId)
+        [Route("GetTimeline")]
+        [Authorize]
+        public async Task<IActionResult> GetTimeline([FromBody] GetTimelineDTO getTimeline)
         {
-            _logger.LogInformation("Get the timeline from the user with id " + userId);
-            var timeline = _timelineService.GetTimeline(userId);
-            if (timeline == null)
+            _logger.LogInformation("Get the timeline from the user with id " + getTimeline.UserID);
+            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            bool v = await ValidateTokenAsync(accessToken);
+            if (v != true)
+                return Unauthorized();
+            try
             {
-                return NotFound();
+                var timeline = _timelineService.GetTimeline(getTimeline.UserID);
+                _logger.LogInformation("Timeline has been retrieved from the user");
+                return Ok(timeline);
             }
-            return Ok(timeline);
+            catch (Exception e)
+            {
+                _logger.LogError(e, "An internal error has occurred");
+                return StatusCode(500, "An internal Error has occurred");
+            }
         }
 
         [HttpPost]
         [Route("CreateTimeline")]
-        public IActionResult CreateTimeline([FromBody] PostTimelineDTO timeline)
+        [Authorize]
+        public async Task<IActionResult> CreateTimeline([FromBody] PostTimelineDTO timeline)
         {
             _logger.LogInformation($"Created timeline: {timeline}");
-            _timelineService.CreateTimeline(timeline);
-            return Ok();
+            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            bool v = await ValidateTokenAsync(accessToken);
+            if (v != true)
+                return Unauthorized();
+            try
+            {
+                _timelineService.CreateTimeline(timeline);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Timeline couldn't be created");
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpDelete]
-        [Route("DeleteTimeline/{userId}")]
-        public IActionResult DeleteTimeline([FromRoute] int userId)
+        [Route("DeleteTimeline")]
+        [Authorize]
+        public async Task<IActionResult> DeleteTimeline([FromBody] DeleteTimelineDTO deleteTimeline)
         {
-            _logger.LogInformation($"Delete the timeline from the user with the id: {userId}");
-            _timelineService.DeleteTimeline(userId);
-            return Ok();
+            _logger.LogInformation($"Delete the timeline from the user with the id: {deleteTimeline.UserId}");
+            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            bool v = await ValidateTokenAsync(accessToken);
+            if (v != true)
+                return Unauthorized();
+            try
+            {
+                _timelineService.DeleteTimeline(deleteTimeline.UserId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Timeline couldn't be delete");
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpPut]
         [Route("UpdateTimeline/{timelineId}/{newUserID}")]
-        public IActionResult UpdateTimeline([FromRoute] int timelineId, [FromRoute] int newUserID)
+        [Authorize]
+        public async Task<IActionResult> UpdateTimeline([FromBody] TimelineUpdateDTO timelineUpdate)
         {
-            _logger.LogInformation("Update the timeline with id" + timelineId + " for user with id" + newUserID);
-            _timelineService.UpdateTimeline(timelineId, newUserID);
-            return Ok();
+            _logger.LogInformation("Update the timeline with id" + timelineUpdate.TimelineID + " for user with id" + timelineUpdate.NewUserID);
+            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            bool v = await ValidateTokenAsync(accessToken);
+            if (v != true)
+                return Unauthorized();
+            try
+            {
+
+                _timelineService.UpdateTimeline(timelineUpdate.TimelineID, timelineUpdate.NewUserID);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Timeline couldn't be updated");
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpGet]
@@ -68,16 +120,52 @@ namespace PostsService.Controllers
         }
 
         [HttpGet]
-        [Route("GetTimelineByUser/{userId}")]
-        public IActionResult GetTimelineByUser([FromRoute] int userId)
+        [Route("GetTimelineByUser")]
+        [Authorize]
+        public async Task<IActionResult> GetTimelineByUser([FromBody] GetTimelineByUserDTO getTimelineByUser)
         {
-            _logger.LogInformation($"Get the timeline for the user: {userId}");
-            var timeline = _timelineService.GetTimelineByUser(userId);
-            if (timeline == null)
+            _logger.LogInformation($"Get the timeline for the user: {getTimelineByUser.UserID}");
+            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            bool v = await ValidateTokenAsync(accessToken);
+            if (v != true)
+                return Unauthorized();
+            try
             {
-                return NotFound();
+                var timeline = _timelineService.GetTimelineByUser(getTimelineByUser.UserID);
+
+                return Ok(timeline);
             }
-            return Ok(timeline);
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Timeline couldn't be retrieved from the user");
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        private async Task<bool> ValidateTokenAsync(string accessToken)
+        {
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                _logger.LogError("Authorization token not found in request headers");
+                return false;
+            }
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://authservice:8080");
+                var response = await client.PostAsJsonAsync($"/auth/validateUser?token={accessToken}", "");
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogError("Error validating user to AuthWanabe");
+                    return false;
+                }
+                var data = await response.Content.ReadFromJsonAsync<bool>();
+                if (data != true)
+                {
+                    _logger.LogInformation("User failed to auth himself");
+                    return false;
+                }
+                return true;
+            }
         }
     }
 }

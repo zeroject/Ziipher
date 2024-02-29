@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PostApplication;
 using PostApplication.DTO_s;
@@ -32,63 +33,138 @@ namespace PostsService.Controllers
         }
 
         [HttpGet]
-        [Route("GetPost/{timelineId}/{postID}")]
-        public IActionResult GetPost([FromRoute] int timelineId, [FromRoute] int postId)
+        [Route("GetPost")]
+        public async Task<IActionResult> GetPost([FromBody] GetPostDTO getPost)
         {
-            _logger.LogInformation("Get the post with ID " + postId + "from timeline with id " + timelineId);
-            var post = _postService.GetPost(timelineId, postId);
-            if (post == null)
+            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            bool v = await ValidateTokenAsync(accessToken);
+            if (v != true)
+                return Unauthorized();
+            try
             {
-                return NotFound();
+                _logger.LogInformation("Get the post with ID " + getPost.PostID + "from timeline with id " + getPost.TimelineID);
+                var post = _postService.GetPost(getPost.TimelineID, getPost.PostID);             
+                return Ok(post);
             }
-            return Ok(post);
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Post couldn't be retrieved");
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpDelete]
-        [Route("DeletePost/{timelineId}/{postId}")]
-        public IActionResult DeletePost([FromRoute] int timelineId, [FromRoute] int postId)
+        [Route("DeletePost")]
+        [Authorize]
+        public async Task<IActionResult> DeletePost([FromBody] DeletePostDTO deletePost)
         {
-            _logger.LogInformation("Delete post with id " + postId + "from timeline with id " + timelineId);
-            _postService.DeletePost(timelineId, postId);
-            return Ok();
-        }
-
-        [HttpPut]
-
-        [Route("UpdatePost/{timelineId}/{postId}")]
-        public IActionResult UpdatePost([FromRoute] int timelineId, [FromRoute] int postId, [FromBody] Post postUpdate)
-        {
+            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            bool v = await ValidateTokenAsync(accessToken);
+            if (v != true)
+                return Unauthorized();
             try
             {
-                _logger.LogInformation("Update post with id " + postId + "from timeline with id" + timelineId + "with the updated post " + postUpdate);
-                _postService.UpdatePost(timelineId, postId, postUpdate.Text, postUpdate.PostDate);
+                _logger.LogInformation("Delete post with id " + deletePost.PostID + "from timeline with id " + deletePost.TimelineID);
+                _postService.DeletePost(deletePost.TimelineID, deletePost.PostID);
                 return Ok();
             }
             catch (Exception ex)
             {
-                return NotFound();
+                _logger.LogError(ex, "Post couldn't be deleted");
+                return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpPut]
+        [Route("UpdatePost")]
+        [Authorize]
+        public async Task<IActionResult> UpdatePost(PostUpdateDTO postUpdate)
+        {
+            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            bool v = await ValidateTokenAsync(accessToken);
+            if (v != true)
+                return Unauthorized();
+            try
+            {
+                _logger.LogInformation("Update post with id " + postUpdate.PostID + "from timeline with id" + postUpdate.TimelineID + "with the updated post " + postUpdate);
+                _postService.UpdatePost(postUpdate.TimelineID, postUpdate.PostID, postUpdate.Text, postUpdate.PostDate);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Post couldn't be updated");
+                return StatusCode(500, e.Message);
+            }
+        }
+
         [HttpGet]
         [Route("GetPostsByUser/{timelineId}/{userId}")]
-        public IActionResult GetPostsByUser([FromRoute] int timelineId, [FromRoute] int userId)
+        [Authorize]
+        public async Task<IActionResult> GetPostsByUser([FromBody] GetPostByUserDTO getPostByUser)
         {
-            _logger.LogInformation("Get the posts from timeline with the id " + timelineId + "from the user with id" + userId);
-            var posts = _postService.GetPostsByUser(timelineId, userId);
-            if (posts == null || !posts.Any())
+            _logger.LogInformation("Get the posts from timeline with the id " + getPostByUser.TimelineID + "from the user with id" + getPostByUser.UserID);
+            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            bool v = await ValidateTokenAsync(accessToken);
+            if (v != true)
+                return Unauthorized();
+            try
             {
-                return NotFound();
+                var posts = _postService.GetPostsByUser(getPostByUser.TimelineID, getPostByUser.UserID);
+                return Ok(posts);
             }
-            return Ok(posts);
+            catch(Exception e)
+            {
+                _logger.LogError(e, "Post couldn't be retrieved by the user");
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpPost]
         [Route("CreatePost/{timelineId}")]
-        public IActionResult CreatePost([FromBody] PostPostDTO newPost, [FromRoute] int timelineId)
+        [Authorize]
+        public async Task<IActionResult> CreatePost([FromBody] PostPostDTO newPost, [FromRoute] int timelineId)
         {
             _logger.LogInformation("Create the post with the values " + newPost + "in the timeline with id" + timelineId);
-            _postService.CreatePost(timelineId, newPost);
-            return Ok();
+            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            bool v = await ValidateTokenAsync(accessToken);
+            if (v != true)
+                return Unauthorized();
+            try
+            {
+                _postService.CreatePost(timelineId, newPost);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Post couldn't be created");
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        private async Task<bool> ValidateTokenAsync(string accessToken)
+        {
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                _logger.LogError("Authorization token not found in request headers");
+                return false;
+            }
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://authservice:8080");
+                var response = await client.PostAsJsonAsync($"/auth/validateUser?token={accessToken}", "");
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogError("Error validating user to AuthWanabe");
+                    return false;
+                }
+                var data = await response.Content.ReadFromJsonAsync<bool>();
+                if (data != true)
+                {
+                    _logger.LogInformation("User failed to auth himself");
+                    return false;
+                }
+                return true;
+            }
         }
     }
 }
