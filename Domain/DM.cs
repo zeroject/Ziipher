@@ -2,9 +2,9 @@
 
 public class DM
 {
-    int DMID { get; set; }
-    int SenderID { get; set; }
-    int ReceiverID { get; set; }
-    string Message { get; set; }
-    DateTime DateStamp { get; set; }
+    public int DmId { get; set; }
+    public int SenderID { get; set; }
+    public int ReceiverID { get; set; }
+    public string Message { get; set; }
+    public DateTime DateStamp { get; set; }
 }

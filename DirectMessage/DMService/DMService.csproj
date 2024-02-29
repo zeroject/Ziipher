@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DirectMessageApplication\DirectMessageApplication.csproj" />
+    <ProjectReference Include="..\DirectMessageInfrastructure\DirectMessageInfrastructure.csproj" />
   </ItemGroup>
 
 </Project>

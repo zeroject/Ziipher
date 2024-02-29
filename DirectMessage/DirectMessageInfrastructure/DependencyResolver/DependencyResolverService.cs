@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using DirectMessageApplication;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DirectMessageInfrastructure;
 
