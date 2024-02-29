@@ -25,7 +25,7 @@ services:
   authservice:
     build:
       context: .
-      dockerfile: AuthenticationService\Dockerfile
+      dockerfile: AuthenticationService/Dockerfile
     ports:
       - "8081:8080"
       - "8082:8081"
@@ -52,6 +52,18 @@ services:
       - "8086:8081"
     depends_on:
       - seq 
+
+  gatewayservice:
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    ports: 
+      - "8087:8080"
+    depends_on:
+    - authservice
+    - userservice
+    - dmservice
+      
 
 volumes:
   mssql-data:
