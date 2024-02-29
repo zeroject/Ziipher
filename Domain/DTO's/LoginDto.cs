@@ -8,7 +8,7 @@
         /// <summary>
         /// for user identification though the system
         /// </summary>
-        public string? Id { get; set; }
+        public int? Id { get; set; }
         /// <summary>
         /// for validating. login. and other purposes
         /// </summary>

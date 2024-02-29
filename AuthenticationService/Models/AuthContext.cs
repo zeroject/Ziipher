@@ -20,7 +20,7 @@ namespace AuthenticationService.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //TODO move connection string to appsettings.json
-            optionsBuilder.UseSqlServer("Server=localhost;Database=Auth;User Id=sa;Password=Hyy89xjw!;Trusted_Connection=False;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Server=Auth-db;Database=Auth;User Id=sa;Password=SuperSecret7!;Trusted_Connection=False;TrustServerCertificate=True;");
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace AuthenticationService.Models
             modelBuilder.Entity<Login>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.Property(e => e.Id).ValueGeneratedNever();
                 entity.Property(e => e.Username).IsRequired();
                 entity.Property(e => e.Password).IsRequired();
             });
