@@ -1,3 +1,5 @@
+using Serilog.Events;
+using Serilog;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,14 +16,19 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(xmlPath);
 });
 
+builder.Services.AddLogging(logBuilder =>
+{
+    logBuilder.AddSeq("http://localhost:5341");
+});
+
+CommentApplication.DependencyResolver.DependencyResolverService.RegisterServices(builder.Services);
+CommentInfrastructure.DependencyResolver.DependencyResolverService.RegisterServices(builder.Services);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

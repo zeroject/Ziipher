@@ -1,4 +1,5 @@
 ﻿using AuthenticationService.Dto;
+using AuthenticationService.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthenticationService.Controllers
@@ -6,17 +7,20 @@ namespace AuthenticationService.Controllers
     /// <summary>
     /// AuthController for authentication and authorization
     /// </summary>
-
     [ApiController]
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
+        private IAuthValidationService _auth;
+        private readonly ILogger<AuthController> _logger;
+
         /// <summary>
         /// Constructor for AuthController
         /// </summary>
-        public AuthController()
+        public AuthController(IAuthValidationService auth, ILogger<AuthController> logger)
         {
-
+            _auth = auth;
+            _logger = logger;
         }
 
         /// <summary>
@@ -27,18 +31,13 @@ namespace AuthenticationService.Controllers
         [Route("loginUser")]
         public IActionResult LoginUser(LoginDto loginDto)
         {
-            return Ok("User logged in successfully");
-        }
-
-        /// <summary>
-        /// removes the token from the active tokens pool
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        [Route("logoutUser")]
-        public IActionResult LogoutUser(string token)
-        {
-            return Ok("User logged out successfully");
+            try
+            {
+                return Ok(_auth.LoginUser(loginDto));
+            } catch
+            {
+                return BadRequest("Invalid credentials");
+            }
         }
 
         /// <summary>
@@ -47,9 +46,58 @@ namespace AuthenticationService.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("validateUser")]
-        public IActionResult validateUser(string token)
+        public IActionResult ValidateUser(string token)
         {
-            return token != null ? Ok("User is valid") : Ok("User is not valid");
+            try
+            {
+                return Ok(_auth.ValidateUserByToken(token));
+            } catch
+            {
+                return StatusCode(401, "Unauthorized");
+            }
+        }
+
+
+        /// <summary>
+        /// when validation by token fails, call this method to validate by credentials
+        /// </summary>
+        [HttpPost]
+        [Route("validateUserByCredentials")]
+        public IActionResult ValidateUserByCredentials(string username, string password)
+        {
+            try
+            {
+                return Ok(_auth.ValidateUserByCredentials(username, password));
+            } catch
+            {
+                return StatusCode(401, "Unauthorized");
+            }
+        }
+
+        [HttpPost]
+        [Route("registerNewLogin")]
+        public IActionResult RegisterNewLogin(LoginDto loginDto)
+        {
+            _logger.LogInformation("Registering new login");
+            return Ok(_auth.RegisterNewLogin(loginDto));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("rebuild")]
+        public IActionResult rebuild()
+        {
+            try
+            {
+                _auth.Rebuild();
+                return Ok();
+            } catch
+            {
+                return BadRequest("Error rebuilding database");
+            }
         }
 
     }
