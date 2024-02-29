@@ -15,12 +15,14 @@ Welcome to Ziipher a twitter clone
 - Responsible for authorization and authentication.
 
 ### User
+![image](https://github.com/zeroject/Ziipher/assets/47432671/e0f6fab9-758c-49c7-b3fb-bd00536bc165)
 - Handles CRUD operations for user profiles.
 
 ### Post
 - Handles CRUD operations for posts in the timeline.
 
 ### Comment
+![image](https://github.com/zeroject/Ziipher/assets/47432671/c378c2ea-1a62-47c2-8ce1-efe063cf362a)
 - Handles CRUD operations for comments on posts.
 
 ### DMs
