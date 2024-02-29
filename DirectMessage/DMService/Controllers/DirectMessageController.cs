@@ -1,4 +1,6 @@
 ﻿using DirectMessageApplication;
+using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DMService;
@@ -19,12 +21,23 @@ public class DirectMessageController : ControllerBase
 
     [HttpGet]
     [Route("GetDMs")]
+    [Authorize]
+    [ProducesResponseType(typeof(List<DM>), 200)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(500)]
     public IActionResult GetDMs(int senderID, int receiverID)
     {
+        string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+        if (string.IsNullOrEmpty(accessToken))
+        {
+            logger.LogError("Unauthorized access");
+            return Unauthorized();
+        }
+
         try
         {
             logger.LogInformation("Getting DMs between sender with ID: " + senderID + " and receiver with ID: " + receiverID);
-            return Ok(dmService.GetDMs(senderID, receiverID));
+            return Ok(dmService.GetDMs(senderID, receiverID, accessToken));
         } catch (Exception e)
         {
             logger.LogError(e, "An internal error has occurred");
@@ -34,12 +47,23 @@ public class DirectMessageController : ControllerBase
 
     [HttpPost]
     [Route("AddDM")]
+    [Authorize]
+    [ProducesResponseType(typeof(DM), 200)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(500)]
     public IActionResult AddUser(int senderID, int receiverID, string message)
     {
+        string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+        if (string.IsNullOrEmpty(accessToken))
+        {
+            logger.LogError("Unauthorized access");
+            return Unauthorized();
+        }
+
         try
         {
             logger.LogInformation("Adding DM between sender with ID: " + senderID + " and receiver with ID: " + receiverID);
-            return Ok(dmService.AddDM(senderID, receiverID, message));
+            return Ok(dmService.AddDM(senderID, receiverID, message, accessToken));
         }
         catch (Exception e)
         {
@@ -50,12 +74,23 @@ public class DirectMessageController : ControllerBase
 
     [HttpPut]
     [Route("UpdateDM")]
+    [Authorize]
+    [ProducesResponseType(typeof(DM), 200)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(500)]
     public IActionResult UpdateUser(int dmID, int senderID, int receiverID, string message)
     {
+        string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+        if (string.IsNullOrEmpty(accessToken))
+        {
+            logger.LogError("Unauthorized access");
+            return Unauthorized();
+        }
+
         try
         {
             logger.LogInformation("Updating DM with ID: " + dmID);
-            return Ok(dmService.UpdateDM(dmID, senderID, receiverID, message));
+            return Ok(dmService.UpdateDM(dmID, senderID, receiverID, message, accessToken));
         }
         catch (Exception e)
         {
@@ -66,12 +101,24 @@ public class DirectMessageController : ControllerBase
 
     [HttpDelete]
     [Route("DeleteDM")]
-    public IActionResult DeleteDM(int dmID)
+    [Authorize]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(500)]
+    public IActionResult DeleteDM(int dmId)
     {
+        string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+        if (string.IsNullOrEmpty(accessToken))
+        {
+            logger.LogError("Unauthorized access");
+            return Unauthorized();
+        }
+
         try
         {
-            logger.LogInformation("Deleting DM with ID: " + dmID);
-            return Ok(dmService.DeleteDM(dmID));
+            logger.LogInformation("Deleting DM with ID: " + dmId);
+            dmService.DeleteDM(dmId, accessToken);
+            return Ok();
         }
         catch (Exception e)
         {
