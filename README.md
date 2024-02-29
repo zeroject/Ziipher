@@ -24,6 +24,7 @@ Welcome to Ziipher a twitter clone
 - Handles CRUD operations for comments on posts.
 
 ### DMs
+![DMServiceGraph](https://github.com/zeroject/Ziipher/assets/91528409/2fbd2160-617c-45ab-af30-bf287f0e7901)
 - Provides basic messaging functions for direct messages.
 
 ## Launching with Docker
