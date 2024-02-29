@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace PostApplication.DTO_s
 {
-    public class DeleteTimelineDTO
+    public class DeletePostDTO
     {
-        public int UserId { get; set; }
+        public int PostID { get; set; }
+        public int TimelineID { get; set; }
+
     }
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace PostApplication.DTO_s
 {
-    public class DeleteTimelineDTO
+    public class GetTimelineByUserDTO
     {
-        public int UserId { get; set; }
+        public int UserID { get; set; }
     }
 }

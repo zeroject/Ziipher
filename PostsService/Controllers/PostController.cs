@@ -33,8 +33,8 @@ namespace PostsService.Controllers
         }
 
         [HttpGet]
-        [Route("GetPost/{timelineId}/{postID}")]
-        public async Task<IActionResult> GetPost([FromRoute] int timelineId, [FromRoute] int postId)
+        [Route("GetPost")]
+        public async Task<IActionResult> GetPost([FromBody] GetPostDTO getPost)
         {
             string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             bool v = await ValidateTokenAsync(accessToken);
@@ -42,8 +42,8 @@ namespace PostsService.Controllers
                 return Unauthorized();
             try
             {
-                _logger.LogInformation("Get the post with ID " + postId + "from timeline with id " + timelineId);
-                var post = _postService.GetPost(timelineId, postId);             
+                _logger.LogInformation("Get the post with ID " + getPost.PostID + "from timeline with id " + getPost.TimelineID);
+                var post = _postService.GetPost(getPost.TimelineID, getPost.PostID);             
                 return Ok(post);
             }
             catch(Exception ex)
@@ -54,9 +54,9 @@ namespace PostsService.Controllers
         }
 
         [HttpDelete]
-        [Route("DeletePost/{timelineId}/{postId}")]
+        [Route("DeletePost")]
         [Authorize]
-        public async Task<IActionResult> DeletePost([FromRoute] int timelineId, [FromRoute] int postId)
+        public async Task<IActionResult> DeletePost([FromBody] DeletePostDTO deletePost)
         {
             string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             bool v = await ValidateTokenAsync(accessToken);
@@ -64,8 +64,8 @@ namespace PostsService.Controllers
                 return Unauthorized();
             try
             {
-                _logger.LogInformation("Delete post with id " + postId + "from timeline with id " + timelineId);
-                _postService.DeletePost(timelineId, postId);
+                _logger.LogInformation("Delete post with id " + deletePost.PostID + "from timeline with id " + deletePost.TimelineID);
+                _postService.DeletePost(deletePost.TimelineID, deletePost.PostID);
                 return Ok();
             }
             catch (Exception ex)
@@ -76,9 +76,9 @@ namespace PostsService.Controllers
         }
 
         [HttpPut]
-        [Route("UpdatePost/{timelineId}/{postId}")]
+        [Route("UpdatePost")]
         [Authorize]
-        public async Task<IActionResult> UpdatePost([FromRoute] int timelineId, [FromRoute] int postId, [FromBody] Post postUpdate)
+        public async Task<IActionResult> UpdatePost(PostUpdateDTO postUpdate)
         {
             string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             bool v = await ValidateTokenAsync(accessToken);
@@ -86,8 +86,8 @@ namespace PostsService.Controllers
                 return Unauthorized();
             try
             {
-                _logger.LogInformation("Update post with id " + postId + "from timeline with id" + timelineId + "with the updated post " + postUpdate);
-                _postService.UpdatePost(timelineId, postId, postUpdate.Text, postUpdate.PostDate);
+                _logger.LogInformation("Update post with id " + postUpdate.PostID + "from timeline with id" + postUpdate.TimelineID + "with the updated post " + postUpdate);
+                _postService.UpdatePost(postUpdate.TimelineID, postUpdate.PostID, postUpdate.Text, postUpdate.PostDate);
                 return Ok();
             }
             catch (Exception e)
@@ -100,16 +100,16 @@ namespace PostsService.Controllers
         [HttpGet]
         [Route("GetPostsByUser/{timelineId}/{userId}")]
         [Authorize]
-        public async Task<IActionResult> GetPostsByUser([FromRoute] int timelineId, [FromRoute] int userId)
+        public async Task<IActionResult> GetPostsByUser([FromBody] GetPostByUserDTO getPostByUser)
         {
-            _logger.LogInformation("Get the posts from timeline with the id " + timelineId + "from the user with id" + userId);
+            _logger.LogInformation("Get the posts from timeline with the id " + getPostByUser.TimelineID + "from the user with id" + getPostByUser.UserID);
             string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             bool v = await ValidateTokenAsync(accessToken);
             if (v != true)
                 return Unauthorized();
             try
             {
-                var posts = _postService.GetPostsByUser(timelineId, userId);
+                var posts = _postService.GetPostsByUser(getPostByUser.TimelineID, getPostByUser.UserID);
                 return Ok(posts);
             }
             catch(Exception e)

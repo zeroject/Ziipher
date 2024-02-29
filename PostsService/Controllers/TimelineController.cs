@@ -22,18 +22,18 @@ namespace PostsService.Controllers
         }
 
         [HttpGet]
-        [Route("GetTimeline/{userId}")]
+        [Route("GetTimeline")]
         [Authorize]
-        public async Task<IActionResult> GetTimeline([FromRoute] int userId)
+        public async Task<IActionResult> GetTimeline([FromBody] GetTimelineDTO getTimeline)
         {
-            _logger.LogInformation("Get the timeline from the user with id " + userId);
+            _logger.LogInformation("Get the timeline from the user with id " + getTimeline.UserID);
             string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             bool v = await ValidateTokenAsync(accessToken);
             if (v != true)
                 return Unauthorized();
             try
             {
-                var timeline = _timelineService.GetTimeline(userId);
+                var timeline = _timelineService.GetTimeline(getTimeline.UserID);
                 _logger.LogInformation("Timeline has been retrieved from the user");
                 return Ok(timeline);
             }
@@ -67,18 +67,18 @@ namespace PostsService.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteTimeline/{userId}")]
+        [Route("DeleteTimeline")]
         [Authorize]
-        public async Task<IActionResult> DeleteTimeline([FromRoute] int userId)
+        public async Task<IActionResult> DeleteTimeline([FromBody] DeleteTimelineDTO deleteTimeline)
         {
-            _logger.LogInformation($"Delete the timeline from the user with the id: {userId}");
+            _logger.LogInformation($"Delete the timeline from the user with the id: {deleteTimeline.UserId}");
             string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             bool v = await ValidateTokenAsync(accessToken);
             if (v != true)
                 return Unauthorized();
             try
             {
-                _timelineService.DeleteTimeline(userId);
+                _timelineService.DeleteTimeline(deleteTimeline.UserId);
                 return Ok();
             }
             catch (Exception e)
@@ -91,9 +91,9 @@ namespace PostsService.Controllers
         [HttpPut]
         [Route("UpdateTimeline/{timelineId}/{newUserID}")]
         [Authorize]
-        public async Task<IActionResult> UpdateTimeline([FromRoute] int timelineId, [FromRoute] int newUserID)
+        public async Task<IActionResult> UpdateTimeline([FromBody] TimelineUpdateDTO timelineUpdate)
         {
-            _logger.LogInformation("Update the timeline with id" + timelineId + " for user with id" + newUserID);
+            _logger.LogInformation("Update the timeline with id" + timelineUpdate.TimelineID + " for user with id" + timelineUpdate.NewUserID);
             string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             bool v = await ValidateTokenAsync(accessToken);
             if (v != true)
@@ -101,7 +101,7 @@ namespace PostsService.Controllers
             try
             {
 
-                _timelineService.UpdateTimeline(timelineId, newUserID);
+                _timelineService.UpdateTimeline(timelineUpdate.TimelineID, timelineUpdate.NewUserID);
                 return Ok();
             }
             catch (Exception e)
@@ -120,18 +120,18 @@ namespace PostsService.Controllers
         }
 
         [HttpGet]
-        [Route("GetTimelineByUser/{userId}")]
+        [Route("GetTimelineByUser")]
         [Authorize]
-        public async Task<IActionResult> GetTimelineByUser([FromRoute] int userId)
+        public async Task<IActionResult> GetTimelineByUser([FromBody] GetTimelineByUserDTO getTimelineByUser)
         {
-            _logger.LogInformation($"Get the timeline for the user: {userId}");
+            _logger.LogInformation($"Get the timeline for the user: {getTimelineByUser.UserID}");
             string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             bool v = await ValidateTokenAsync(accessToken);
             if (v != true)
                 return Unauthorized();
             try
             {
-                var timeline = _timelineService.GetTimelineByUser(userId);
+                var timeline = _timelineService.GetTimelineByUser(getTimelineByUser.UserID);
 
                 return Ok(timeline);
             }
