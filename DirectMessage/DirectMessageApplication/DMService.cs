@@ -44,13 +44,13 @@ public class DMService : IDMService
         }
     }
 
-    public DM UpdateDM(int dmID, int senderID, int receiverID, string message, string token)
+    public DM UpdateDM(int dmID, string message, string token)
     {
         logger.LogInformation("UpdateDM method called");
         
         if (dmRepository.GetValidationAsync(token).Result)
         {
-            return dmRepository.UpdateDM(dmID, senderID, receiverID, message);
+            return dmRepository.UpdateDM(dmID, message);
         }
         else
         {

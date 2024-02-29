@@ -21,7 +21,6 @@ public class DirectMessageController : ControllerBase
 
     [HttpGet]
     [Route("GetDMs")]
-    [Authorize]
     [ProducesResponseType(typeof(List<DM>), 200)]
     [ProducesResponseType(401)]
     [ProducesResponseType(500)]
@@ -47,11 +46,10 @@ public class DirectMessageController : ControllerBase
 
     [HttpPost]
     [Route("AddDM")]
-    [Authorize]
     [ProducesResponseType(typeof(DM), 200)]
     [ProducesResponseType(401)]
     [ProducesResponseType(500)]
-    public IActionResult AddUser(int senderID, int receiverID, string message)
+    public IActionResult AddDM(int senderID, int receiverID, string message)
     {
         string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
         if (string.IsNullOrEmpty(accessToken))
@@ -74,11 +72,10 @@ public class DirectMessageController : ControllerBase
 
     [HttpPut]
     [Route("UpdateDM")]
-    [Authorize]
     [ProducesResponseType(typeof(DM), 200)]
     [ProducesResponseType(401)]
     [ProducesResponseType(500)]
-    public IActionResult UpdateUser(int dmID, int senderID, int receiverID, string message)
+    public IActionResult UpdateDM(int dmID, string message)
     {
         string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
         if (string.IsNullOrEmpty(accessToken))
@@ -90,7 +87,7 @@ public class DirectMessageController : ControllerBase
         try
         {
             logger.LogInformation("Updating DM with ID: " + dmID);
-            return Ok(dmService.UpdateDM(dmID, senderID, receiverID, message, accessToken));
+            return Ok(dmService.UpdateDM(dmID, message, accessToken));
         }
         catch (Exception e)
         {
@@ -101,7 +98,6 @@ public class DirectMessageController : ControllerBase
 
     [HttpDelete]
     [Route("DeleteDM")]
-    [Authorize]
     [ProducesResponseType(200)]
     [ProducesResponseType(401)]
     [ProducesResponseType(500)]

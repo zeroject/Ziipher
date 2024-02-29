@@ -25,14 +25,13 @@ public interface IDMRepository
     DM AddDM(int senderID, int receiverID, string message);
 
     /// <summary>
-    /// Updates an existing Direct Message with the specified ID.
+    /// Updates a direct message.
     /// </summary>
-    /// <param name="dmID">The ID of the Direct Message to update.</param>
-    /// <param name="senderID">The ID of the sender.</param>
-    /// <param name="receiverID">The ID of the receiver.</param>
-    /// <param name="message">The updated message content.</param>
-    /// <returns>The updated Direct Message.</returns>
-    DM UpdateDM(int dmID, int senderID, int receiverID, string message);
+    /// <param name="dmID">The ID of the direct message.</param>
+    /// <param name="message">The new message content.</param>
+    /// <param name="token">The authentication token.</param>
+    /// <returns>The updated direct message.</returns>
+    DM UpdateDM(int dmID, string message);
 
     /// <summary>
     /// Deletes the Direct Message with the specified ID.

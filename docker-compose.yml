@@ -43,5 +43,15 @@ services:
     depends_on:
       - seq
 
+  dmservice:
+    build:
+      context: .
+      dockerfile: DirectMessage/DMService/Dockerfile
+    ports:
+      - "8085:8080"
+      - "8086:8081"
+    depends_on:
+      - seq 
+
 volumes:
   mssql-data:

@@ -35,7 +35,8 @@ public class DMRepository : IDMRepository
             {
                 SenderID = senderID,
                 ReceiverID = receiverID,
-                Message = message
+                Message = message,
+                DateStamp = DateTime.Now
             };
             _ = context.Add(dm);
             context.SaveChanges();
@@ -43,14 +44,12 @@ public class DMRepository : IDMRepository
         }
     }
 
-    public DM UpdateDM(int dmID, int senderID, int receiverID, string message)
+    public DM UpdateDM(int dmID, string message)
     {
         using (var context = new DbContext(options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
         {
             logger.LogInformation("Updating a DM in the database");
             DM dmToUpdate = context.DMs.Find(dmID);
-            dmToUpdate.SenderID = senderID;
-            dmToUpdate.ReceiverID = receiverID;
             dmToUpdate.Message = message;
             _ = context.DMs.Update(dmToUpdate);
             context.SaveChanges();

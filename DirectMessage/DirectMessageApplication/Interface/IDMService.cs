@@ -27,15 +27,13 @@ public interface IDMService
     DM AddDM(int senderID, int receiverID, string message, string token);
 
     /// <summary>
-    /// Updates an existing direct message.
+    /// Updates a direct message.
     /// </summary>
-    /// <param name="dmID">The ID of the direct message to update.</param>
-    /// <param name="senderID">The ID of the sender.</param>
-    /// <param name="receiverID">The ID of the receiver.</param>
-    /// <param name="message">The updated message content.</param>
+    /// <param name="dmID">The ID of the direct message.</param>
+    /// <param name="message">The new message content.</param>
     /// <param name="token">The authentication token.</param>
     /// <returns>The updated direct message.</returns>
-    DM UpdateDM(int dmID, int senderID, int receiverID, string message, string token);
+    DM UpdateDM(int dmID, string message, string token);
 
     /// <summary>
     /// Deletes a direct message.
