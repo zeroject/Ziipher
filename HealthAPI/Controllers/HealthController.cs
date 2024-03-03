@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Domain;
+using HealthApplication;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HealthAPI.Controllers
 {
@@ -6,9 +8,11 @@ namespace HealthAPI.Controllers
     public class HealthController : ControllerBase
     {
         private readonly ILogger<HealthController> _logger;
-        public HealthController(ILogger<HealthController> logger)
+        private readonly IHealthService _healthService;
+        public HealthController(ILogger<HealthController> logger, IHealthService healthService)
         {
             _logger = logger;
+            _healthService = healthService;
         }
 
         [HttpGet]
@@ -16,7 +20,24 @@ namespace HealthAPI.Controllers
         public IActionResult Get(string service)
         {
             _logger.LogInformation("Request for health check resources for " + service);
-            return Ok("Healthy");
+            return Ok(_healthService.GetHealth(service));
+        }
+
+        [HttpPost]
+        [Route("/health")]
+        public IActionResult Post(Health service)
+        {
+            _logger.LogInformation("Request for health check resources for " + service);
+            try 
+            {
+                _healthService.PostHealth(service);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error posting health check resources for " + service.ServiceName, ex);
+                return StatusCode(500, "Error posting health check resources for " + service.ServiceName);
+            }
+            return Ok();
         }
     }
 }
