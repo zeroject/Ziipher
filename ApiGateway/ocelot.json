@@ -2,16 +2,317 @@
   "Routes": [
     {
       "DownstreamPathTemplate": "/auth/loginUser",
-      "UpstreamPathTemplate": "/api/login",
-      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "authservice",
           "Port": 8080
         }
-      ]
+      ],
+      "UpstreamPathTemplate": "/api/login",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/AddUser",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/AddUser",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/DeleteUser",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/DeleteUser",
+      "UpstreamHttpMethod": [ "Delete" ]
+    },
+
+    {
+      "DownstreamPathTemplate": "/GetUser",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/GetUser",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/UpdateUser",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/UpdateUser",
+      "UpstreamHttpMethod": [ "Put" ]
+    },
+    {
+      "DownstreamPathTemplate": "/AddDM",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "dmservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/AddDM",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/DeleteDM",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "dmservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/DeleteDM",
+      "UpstreamHttpMethod": [ "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/GetDMs",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "dmservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/GetDMs",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/UpdateDM",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "dmservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/UpdateDM",
+      "UpstreamHttpMethod": [ "Put" ]
+    },
+    {
+      "DownstreamPathTemplate": "/post/CreatePost",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "postservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/CreatePost",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/post/DeletePost",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "postservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/DeletePost",
+      "UpstreamHttpMethod": [ "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/post/GetAllPosts",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "postservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/GetAllPosts",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/post/GetPost",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "postservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/GetPost",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/post/GetPostByUser",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "postservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/GetPostByUser",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/post/UpdatePost",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "postservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/UpdatePost",
+      "UpstreamHttpMethod": [ "Put" ]
+    },
+    {
+      "DownstreamPathTemplate": "/timeline/CreateTimeline",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "postservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/CreateTimeline",
+      "UpstreamHttpMethod": [ "Put" ]
+    },
+    {
+      "DownstreamPathTemplate": "/timeline/DeleteTimeline",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "postservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/DeleteTimeline",
+      "UpstreamHttpMethod": [ "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/timeline/GetAllTimelines",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "postservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/GetAllTimelines",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/timeline/GetTimeline",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "postservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/GetTimeline",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/timeline/GetTimelineByUser",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "postservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/GetTimelineByUser",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/timeline/UpdateTimeline",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "postservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/UpdateTimeline",
+      "UpstreamHttpMethod": [ "Get" ]
     }
+    //{
+    //  "DownstreamPathTemplate": "/AddComment",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "commentservice",
+    //      "Port": 8080
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/api/AddComment",
+    //  "UpstreamHttpMethod": [ "Post" ]
+    //},
+    //{
+    //  "DownstreamPathTemplate": "/GetComments",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "commentservice",
+    //      "Port": 8080
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/api/GetComments",
+    //  "UpstreamHttpMethod": [ "Get" ]
+    //},
+    //{
+    //  "DownstreamPathTemplate": "/DeleteComment",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "commentservice",
+    //      "Port": 8080
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/api/DeleteComment",
+    //  "UpstreamHttpMethod": [ "Delete" ]
+    //},
+    //{
+    //  "DownstreamPathTemplate": "/MassDeleteComments",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "commentservice",
+    //      "Port": 8080
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/api/MassDeleteComments",
+    //  "UpstreamHttpMethod": [ "Delete" ]
+    //},
+    //{
+    //  "DownstreamPathTemplate": "/UpdateComment",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "commentservice",
+    //      "Port": 8080
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/api/UpdateComment",
+    //  "UpstreamHttpMethod": [ "Put" ]
+    //}
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:8080/"
