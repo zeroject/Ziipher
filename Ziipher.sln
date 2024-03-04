@@ -40,11 +40,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostInfrastructure", "PostI
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DirectMessage", "DirectMessage", "{CAF21652-D3AE-45CF-8C51-48C62D24448D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMService", "DirectMessage\DMService\DMService.csproj", "{54106233-40BA-491D-9536-6CDF86FFA08B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectMessageAPI", "DirectMessage\DMService\DirectMessageAPI.csproj", "{54106233-40BA-491D-9536-6CDF86FFA08B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectMessageApplication", "DirectMessage\DirectMessageApplication\DirectMessageApplication.csproj", "{E38781A3-6AA7-43DC-BE14-95EA5F09AC47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMApplication", "DirectMessage\DirectMessageApplication\DMApplication.csproj", "{E38781A3-6AA7-43DC-BE14-95EA5F09AC47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectMessageInfrastructure", "DirectMessage\DirectMessageInfrastructure\DirectMessageInfrastructure.csproj", "{1052754F-CDBC-423D-9FE1-8629C9C4F535}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMInfrastructure", "DirectMessage\DirectMessageInfrastructure\DMInfrastructure.csproj", "{1052754F-CDBC-423D-9FE1-8629C9C4F535}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Like", "Like", "{FAB6D577-F8F1-4B87-8014-58066F9E38AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LikeAPI", "Like\LikeAPI\LikeAPI.csproj", "{C2C94A66-314E-4543-B787-173588DD7DA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LikeApplication", "Like\Application\LikeApplication.csproj", "{AB8E0A5E-27F1-4D2A-B16D-DE97BCCAAB69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LikeInfrastructure", "Like\Infrastructure\LikeInfrastructure.csproj", "{5D94F74F-9C9F-437F-B315-38C95B2ABDF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -112,6 +120,18 @@ Global
 		{1052754F-CDBC-423D-9FE1-8629C9C4F535}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1052754F-CDBC-423D-9FE1-8629C9C4F535}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1052754F-CDBC-423D-9FE1-8629C9C4F535}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2C94A66-314E-4543-B787-173588DD7DA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2C94A66-314E-4543-B787-173588DD7DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2C94A66-314E-4543-B787-173588DD7DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2C94A66-314E-4543-B787-173588DD7DA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB8E0A5E-27F1-4D2A-B16D-DE97BCCAAB69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB8E0A5E-27F1-4D2A-B16D-DE97BCCAAB69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB8E0A5E-27F1-4D2A-B16D-DE97BCCAAB69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB8E0A5E-27F1-4D2A-B16D-DE97BCCAAB69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D94F74F-9C9F-437F-B315-38C95B2ABDF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D94F74F-9C9F-437F-B315-38C95B2ABDF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D94F74F-9C9F-437F-B315-38C95B2ABDF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D94F74F-9C9F-437F-B315-38C95B2ABDF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,6 +149,9 @@ Global
 		{54106233-40BA-491D-9536-6CDF86FFA08B} = {CAF21652-D3AE-45CF-8C51-48C62D24448D}
 		{E38781A3-6AA7-43DC-BE14-95EA5F09AC47} = {CAF21652-D3AE-45CF-8C51-48C62D24448D}
 		{1052754F-CDBC-423D-9FE1-8629C9C4F535} = {CAF21652-D3AE-45CF-8C51-48C62D24448D}
+		{C2C94A66-314E-4543-B787-173588DD7DA1} = {FAB6D577-F8F1-4B87-8014-58066F9E38AD}
+		{AB8E0A5E-27F1-4D2A-B16D-DE97BCCAAB69} = {FAB6D577-F8F1-4B87-8014-58066F9E38AD}
+		{5D94F74F-9C9F-437F-B315-38C95B2ABDF1} = {FAB6D577-F8F1-4B87-8014-58066F9E38AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {370B73D1-5391-4DA6-BA8B-F85A98D7F690}

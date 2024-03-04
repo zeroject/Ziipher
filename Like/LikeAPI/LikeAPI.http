@@ -1,0 +1,6 @@
+@LikeAPI_HostAddress = http://localhost:5228
+
+GET {{LikeAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
