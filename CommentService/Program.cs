@@ -1,6 +1,7 @@
 using Serilog.Events;
 using Serilog;
 using System.Reflection;
+using HealthMiddelWare;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,8 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseHealthReportingMiddleware("CommentService");
 
 app.MapControllers();
 
