@@ -62,7 +62,6 @@ services:
       - "8088:8081"
     depends_on:
       - seq
-      - postservice
 
 volumes:
   mssql-data:
