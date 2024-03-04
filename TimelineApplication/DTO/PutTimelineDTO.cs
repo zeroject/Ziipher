@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PostApplication.DTO_s
+namespace TimelineApplication.DTO
 {
-    public class TimelineUpdateDTO
+    public class PutTimelineDTO
     {
         public int TimelineID { get; set; }
 
-        public int NewUserID { get; set; }
+        public int UserID { get; set; }
     }
 }

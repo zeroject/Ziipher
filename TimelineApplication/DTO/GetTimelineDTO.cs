@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PostApplication.DTO_s
+namespace TimelineApplication.DTO
 {
-    public class DeleteTimelineDTO
+    public class GetTimelineDTO
     {
-        public int UserId { get; set; }
+        public int UserID { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 using AutoMapper;
 using Domain;
-using PostApplication;
-using PostApplication.DTO_s;
-using PostInfrastructure;
+using TimelineApplication;
+using TimelineApplication.DTO;
+using TimelineInfrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +16,9 @@ builder.Services.AddSwaggerGen();
 #region AutoMapper
 var mapper = new MapperConfiguration(config =>
 {
-    config.CreateMap<PostPostDTO, Post>();
+    config.CreateMap<PostTimelineDTO, Timeline>();
+    config.CreateMap<PutTimelineDTO, Timeline>();
+    config.CreateMap<DeleteTimelineDTO, Timeline>();
 }).CreateMapper();
 builder.Services.AddSingleton(mapper);
 #endregion
@@ -29,9 +31,10 @@ builder.Services.AddLogging(logBuilder =>
 #region Depedency injection
 builder.Services.AddDbContext<RepositoryDBContext>();
 builder.Services.AddScoped<RepositoryDBContext>();
-builder.Services.AddScoped<IPostRepository, PostRepostiroy>(); ;
-builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<ITimelineRepository, TimelineRepository>();
+builder.Services.AddScoped<ITimelineService, TimelineService>();
 #endregion
+
 
 
 var app = builder.Build();
