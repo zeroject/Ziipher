@@ -63,5 +63,15 @@ services:
     depends_on:
       - seq 
 
+  healthweb:
+    build:
+      context: .
+      dockerfile: HealthWeb/Dockerfile
+    ports:
+      - "9082:8080"
+      - "9083:8081"
+    depends_on:
+      - seq 
+
 volumes:
   mssql-data:

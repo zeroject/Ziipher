@@ -33,7 +33,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseHealthReportingMiddleware();
+app.UseHealthReportingMiddleware("UserService");
 
 app.MapControllers();
 

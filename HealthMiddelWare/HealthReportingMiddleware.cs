@@ -9,16 +9,18 @@ namespace HealthMiddelWare
     public class HealthReportingMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly string _serviceName;
 
-        public HealthReportingMiddleware(RequestDelegate next)
+        public HealthReportingMiddleware(RequestDelegate next, string serviceName)
         {
             _next = next;
+            _serviceName = serviceName;
         }
 
-        public async Task InvokeAsync(HttpContext context, string serviceName)
+        public async Task InvokeAsync(HttpContext context)
         {
             // Dummy logic to determine health status
-            Health serviceHealth = await DetermineHealthAsync(serviceName);
+            Health serviceHealth = await DetermineHealthAsync(_serviceName);
 
             // Report health status to HealthService
             await PostHealthAsync(serviceHealth);
@@ -40,7 +42,9 @@ namespace HealthMiddelWare
             }
 
             double ramLeft = resourceUsage.GetRemainingRAMUsage();
+            Console.WriteLine($"RAM left: {ramLeft} MB");
             double diskSpaceLeft = resourceUsage.GetRemainingDiskSpace();
+            Console.WriteLine($"Disk space left: {diskSpaceLeft} MB");
 
             if (ramLeft > 20)
             {
@@ -93,9 +97,9 @@ namespace HealthMiddelWare
 
     public static class HealthReportingMiddlewareExtensions
     {
-        public static IApplicationBuilder UseHealthReportingMiddleware(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseHealthReportingMiddleware(this IApplicationBuilder builder, string name)
         {
-            return builder.UseMiddleware<HealthReportingMiddleware>();
+            return builder.UseMiddleware<HealthReportingMiddleware>(name);
         }
     }
 
@@ -131,7 +135,7 @@ namespace HealthMiddelWare
                 var response = await client.GetAsync("http://healthservice:8080/ping");
                 stopwatch.Stop();
                 TimeSpan responseTime = stopwatch.Elapsed;
-
+                Console.WriteLine($"Response time: {responseTime.TotalMilliseconds} ms");
                 if (responseTime.TotalMilliseconds > 1000)
                 {
                     return false;

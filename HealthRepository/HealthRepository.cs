@@ -15,11 +15,11 @@ namespace HealthRepository
         {
             _options = new DbContextOptionsBuilder<DbContext>().UseInMemoryDatabase("Health").Options;
         }
-        public List<Health> GetHealth(string service)
+        public List<Health> GetHealth()
         {
             using (var context = new DbContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
-                return context.Healths.Where(c => c.ServiceName == service).ToList();
+                return context.Healths.ToList();
             }
         }
 

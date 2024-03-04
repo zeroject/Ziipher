@@ -17,15 +17,15 @@ namespace HealthAPI.Controllers
 
         [HttpGet]
         [Route("health")]
-        public IActionResult Get(string service)
+        public IActionResult Get()
         {
-            _logger.LogInformation("Request for health check resources for " + service);
-            return Ok(_healthService.GetHealth(service));
+            _logger.LogInformation("Request for health check resources for ");
+            return Ok(_healthService.GetHealth());
         }
 
         [HttpGet]
         [Route("ping")]
-        public IActionResult Get()
+        public IActionResult ping()
         {
             _logger.LogInformation("Request for ping check");
             return Ok("pong");

@@ -16,9 +16,9 @@ namespace HealthApplication
             _healthRepository = healthRepository;
         }
 
-        public List<Health> GetHealth(string service)
+        public List<Health> GetHealth()
         {
-            return _healthRepository.GetHealth(service);
+            return _healthRepository.GetHealth();
         }
 
         public void PostHealth(Health health)

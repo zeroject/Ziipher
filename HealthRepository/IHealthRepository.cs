@@ -9,7 +9,7 @@ namespace HealthRepository
 {
     public interface IHealthRepository
     {
-        public List<Health> GetHealth(string service);
+        public List<Health> GetHealth();
         public void PostHealth(Health health);
     }
 }
