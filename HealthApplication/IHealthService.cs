@@ -9,7 +9,7 @@ namespace HealthApplication
 {
     public interface IHealthService
     {
-        public Health GetHealth(string service);
+        public List<Health> GetHealth(string service);
         public void PostHealth(Health health);
     }
 }

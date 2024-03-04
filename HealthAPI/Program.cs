@@ -12,6 +12,9 @@ builder.Services.AddLogging(logBuilder =>
     logBuilder.AddSeq("http://seq:5341");
 });
 
+HealthApplication.DependencyResolver.DependencyResolverService.RegisterServices(builder.Services);
+HealthRepository.DependencyResolver.DependencyResolverService.RegisterServices(builder.Services);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

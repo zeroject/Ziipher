@@ -16,15 +16,23 @@ namespace HealthAPI.Controllers
         }
 
         [HttpGet]
-        [Route("/health")]
+        [Route("health")]
         public IActionResult Get(string service)
         {
             _logger.LogInformation("Request for health check resources for " + service);
             return Ok(_healthService.GetHealth(service));
         }
 
+        [HttpGet]
+        [Route("ping")]
+        public IActionResult Get()
+        {
+            _logger.LogInformation("Request for ping check");
+            return Ok("pong");
+        }
+
         [HttpPost]
-        [Route("/health")]
+        [Route("health")]
         public IActionResult Post(Health service)
         {
             _logger.LogInformation("Request for health check resources for " + service);

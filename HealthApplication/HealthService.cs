@@ -16,7 +16,7 @@ namespace HealthApplication
             _healthRepository = healthRepository;
         }
 
-        public Health GetHealth(string service)
+        public List<Health> GetHealth(string service)
         {
             return _healthRepository.GetHealth(service);
         }
