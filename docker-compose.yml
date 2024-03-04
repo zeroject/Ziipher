@@ -46,12 +46,12 @@ services:
   dmservice:
     build:
       context: .
-      dockerfile: DirectMessage/DMService/Dockerfile
+      dockerfile: DirectMessage/DirectMessageAPI/Dockerfile
     ports:
       - "8085:8080"
       - "8086:8081"
     depends_on:
-      - seq 
+      - seq
 
   healthservice:
     build:
@@ -72,6 +72,38 @@ services:
       - "9083:8081"
     depends_on:
       - seq 
+
+  likeservice:
+    build:
+      context: .
+      dockerfile: Like/LikeAPI/Dockerfile
+    ports:
+      - "8087:8080"
+      - "8088:8081"
+    depends_on:
+      - seq
+
+  postservice:
+    build:
+      context: .
+      dockerfile: Post/PostService/Dockerfile
+    ports:
+      - "8089:8080"
+      - "8090:8081"
+    depends_on:
+      - seq
+      - likeservice
+  
+  timelineservice:
+    build:
+      context: .
+      dockerfile: Timeline/TimelineService/Dockerfile
+    ports:
+      - "8091:8080"
+      - "8092:8081"
+    depends_on:
+      - seq
+      - postservice
 
 volumes:
   mssql-data:

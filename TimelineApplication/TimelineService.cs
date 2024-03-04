@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using Domain;
-using PostApplication.DTO_s;
-using PostInfrastructure;
+using TimelineApplication.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TimelineInfrastructure;
 
-namespace PostApplication
+namespace TimelineApplication
 {
     public class TimelineService : ITimelineService
     {

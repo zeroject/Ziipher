@@ -4,22 +4,18 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>27808c82-fb1a-4ab4-b072-0232f176cd52</UserSecretsId>
+    <UserSecretsId>9524e798-870a-4149-91a9-227d0b3afd74</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HealthMiddelWare" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
     <PackageReference Include="Seq.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DirectMessageApplication\DirectMessageApplication.csproj" />
-    <ProjectReference Include="..\DirectMessageInfrastructure\DirectMessageInfrastructure.csproj" />
+    <ProjectReference Include="..\TimelineApplication\TimelineApplication.csproj" />
   </ItemGroup>
 
 </Project>

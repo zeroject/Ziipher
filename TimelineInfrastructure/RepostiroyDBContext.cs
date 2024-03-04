@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PostInfrastructure
+namespace TimelineInfrastructure
 {
     public class RepositoryDBContext : DbContext
     {
@@ -19,24 +19,20 @@ namespace PostInfrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-          modelBuilder.Entity<Post>()
-                .Property(p => p.PostID)
+
+
+          modelBuilder.Entity<Timeline>()
+                .Property(t => t.TimelineID)
                 .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<Post>()
-                .HasKey(p => p.PostID);
+            modelBuilder.Entity<Timeline>()
+                .HasKey(t => t.TimelineID);
 
-            modelBuilder.Entity<Post>()
-                .HasOne<Timeline>()
-                .WithMany(t => t.Posts) 
-                .HasForeignKey(p => p.TimelineID);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseInMemoryDatabase("PostDB");
+            optionsBuilder.UseInMemoryDatabase("TimelineDB");
         }
-
-        public DbSet<Post> Posts { get; set; }
 
         public DbSet<Timeline> Timelines { get; set; }
 
