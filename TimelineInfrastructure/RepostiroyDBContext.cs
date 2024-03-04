@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PostInfrastructure
+namespace TimelineInfrastructure
 {
     public class RepositoryDBContext : DbContext
     {

@@ -1,12 +1,12 @@
 ﻿using Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PostApplication;
-using PostApplication.DTO_s;
 using Microsoft.AspNetCore.Authorization;
+using TimelineApplication;
+using TimelineApplication.DTO;
 
 
-namespace PostsService.Controllers
+namespace TimelineController.Controllers
 {
     [Route("[controller]")]
     [ApiController]
@@ -27,10 +27,6 @@ namespace PostsService.Controllers
         public async Task<IActionResult> GetTimeline([FromBody] GetTimelineDTO getTimeline)
         {
             _logger.LogInformation("Get the timeline from the user with id " + getTimeline.UserID);
-            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            bool v = await ValidateTokenAsync(accessToken);
-            if (v != true)
-                return Unauthorized();
             try
             {
                 var timeline = _timelineService.GetTimeline(getTimeline.UserID);
@@ -50,10 +46,6 @@ namespace PostsService.Controllers
         public async Task<IActionResult> CreateTimeline([FromBody] PostTimelineDTO timeline)
         {
             _logger.LogInformation($"Created timeline: {timeline}");
-            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            bool v = await ValidateTokenAsync(accessToken);
-            if (v != true)
-                return Unauthorized();
             try
             {
                 _timelineService.CreateTimeline(timeline);
@@ -71,11 +63,6 @@ namespace PostsService.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteTimeline([FromBody] DeleteTimelineDTO deleteTimeline)
         {
-            _logger.LogInformation($"Delete the timeline from the user with the id: {deleteTimeline.UserId}");
-            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            bool v = await ValidateTokenAsync(accessToken);
-            if (v != true)
-                return Unauthorized();
             try
             {
                 _timelineService.DeleteTimeline(deleteTimeline.UserId);
@@ -94,10 +81,6 @@ namespace PostsService.Controllers
         public async Task<IActionResult> UpdateTimeline([FromBody] TimelineUpdateDTO timelineUpdate)
         {
             _logger.LogInformation("Update the timeline with id" + timelineUpdate.TimelineID + " for user with id" + timelineUpdate.NewUserID);
-            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            bool v = await ValidateTokenAsync(accessToken);
-            if (v != true)
-                return Unauthorized();
             try
             {
 
@@ -125,10 +108,6 @@ namespace PostsService.Controllers
         public async Task<IActionResult> GetTimelineByUser([FromBody] GetTimelineByUserDTO getTimelineByUser)
         {
             _logger.LogInformation($"Get the timeline for the user: {getTimelineByUser.UserID}");
-            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            bool v = await ValidateTokenAsync(accessToken);
-            if (v != true)
-                return Unauthorized();
             try
             {
                 var timeline = _timelineService.GetTimelineByUser(getTimelineByUser.UserID);
@@ -139,32 +118,6 @@ namespace PostsService.Controllers
             {
                 _logger.LogError(e, "Timeline couldn't be retrieved from the user");
                 return StatusCode(500, e.Message);
-            }
-        }
-
-        private async Task<bool> ValidateTokenAsync(string accessToken)
-        {
-            if (string.IsNullOrEmpty(accessToken))
-            {
-                _logger.LogError("Authorization token not found in request headers");
-                return false;
-            }
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("http://authservice:8080");
-                var response = await client.PostAsJsonAsync($"/auth/validateUser?token={accessToken}", "");
-                if (!response.IsSuccessStatusCode)
-                {
-                    _logger.LogError("Error validating user to AuthWanabe");
-                    return false;
-                }
-                var data = await response.Content.ReadFromJsonAsync<bool>();
-                if (data != true)
-                {
-                    _logger.LogInformation("User failed to auth himself");
-                    return false;
-                }
-                return true;
             }
         }
     }

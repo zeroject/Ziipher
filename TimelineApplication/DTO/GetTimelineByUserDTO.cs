@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PostApplication.DTO_s
+namespace TimelineApplication.DTO
 {
     public class GetTimelineByUserDTO
     {
