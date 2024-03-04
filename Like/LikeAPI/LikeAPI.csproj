@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>27808c82-fb1a-4ab4-b072-0232f176cd52</UserSecretsId>
+    <UserSecretsId>d8d1d667-1edd-4a0d-ac49-bad947fe0e7c</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DirectMessageApplication\DirectMessageApplication.csproj" />
-    <ProjectReference Include="..\DirectMessageInfrastructure\DirectMessageInfrastructure.csproj" />
+    <ProjectReference Include="..\Application\LikeApplication.csproj" />
+    <ProjectReference Include="..\Infrastructure\LikeInfrastructure.csproj" />
   </ItemGroup>
 
 </Project>
