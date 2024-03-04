@@ -19,19 +19,38 @@ public class LikeController : ControllerBase
     [Route("GetLikes")]
     [ProducesResponseType(typeof(Like), 200)]
     [ProducesResponseType(500)]
-    public ActionResult<Like> GetLikes(LikeDTO likeDTO)
+    public ActionResult<Like> GetLikes()
     {
 
         try
         {
-            logger.LogInformation("Getting likes for post with ID: " + likeDTO.PostID);
-            return Ok(likeService.GetLikes(likeDTO));
+            logger.LogInformation("Getting all likes");
+            return Ok(likeService.GetLikes());
         } catch (Exception e)
         {
             logger.LogError(e, "An internal error has occurred");
             return StatusCode(500, "An internal Error has occurred");
         }
     }
+
+    [HttpGet]
+    [Route("GetLike")]
+    [ProducesResponseType(typeof(Like), 200)]
+    [ProducesResponseType(500)]
+    public ActionResult<Like> GetLike(int postId)
+    {
+
+        try
+        {
+            logger.LogInformation("Getting like for post with ID: " + postId);
+            return Ok(likeService.GetLike(postId));
+        } catch (Exception e)
+        {
+            logger.LogError(e, "An internal error has occurred");
+            return StatusCode(500, "An internal Error has occurred");
+        }
+    }
+
 
     [HttpPost]
     [Route("CreateLike")]

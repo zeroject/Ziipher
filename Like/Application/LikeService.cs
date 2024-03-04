@@ -15,10 +15,16 @@ public class LikeService : ILikeService
         logger = _logger;
     }
 
-    public Like GetLikes(LikeDTO likeDTO)
+    public List<Like> GetLikes()
     {
-        logger.LogInformation("Getting likes for post with ID: " + likeDTO.PostID);
-        return likeRepository.GetLikes(likeDTO);
+        logger.LogInformation("Getting all likes");
+        return likeRepository.GetLikes();
+    }
+
+    public Like GetLike(int postId)
+    {
+        logger.LogInformation("Getting like for post with ID: " + postId);
+        return likeRepository.GetLike(postId);
     }
 
     public Like CreateLike(LikeDTO likeDTO)

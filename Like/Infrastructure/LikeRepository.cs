@@ -17,12 +17,21 @@ public class LikeRepository : ILikeRepository
         options = new DbContextOptionsBuilder<DbContext>().UseInMemoryDatabase("DMDB").Options;
     }
 
-    public Like GetLikes(LikeDTO likeDTO)
+    public List<Like> GetLikes()
     {
         using (var context = new DbContext(options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
         {
-            logger.LogInformation("Getting likes from the database");
-            return context.Likes.Where(c => c.PostID == likeDTO.PostID).FirstOrDefault();
+            logger.LogInformation("Getting all likes");
+            return context.Likes.ToList();
+        }
+    }
+
+    public Like GetLike(int postId)
+    {
+        using (var context = new DbContext(options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
+        {
+            logger.LogInformation("Getting like for post with ID: " + postId);
+            return context.Likes.Where(c => c.PostID == postId).FirstOrDefault();
         }
     }
 

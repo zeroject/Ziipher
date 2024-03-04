@@ -8,11 +8,17 @@ namespace LikeApplication;
 public interface ILikeRepository
 {
     /// <summary>
-    /// Retrieves the likes based on the provided LikeDTO.
+    /// Retrieves a list of likes.
     /// </summary>
-    /// <param name="likeDTO">The LikeDTO containing the necessary information.</param>
-    /// <returns>The Like object representing the retrieved likes.</returns>
-    Like GetLikes(LikeDTO likeDTO);
+    /// <returns>A list of <see cref="Like"/> objects.</returns>
+    List<Like> GetLikes();
+
+    /// <summary>
+    /// Retrieves the like associated with the specified post ID.
+    /// </summary>
+    /// <param name="postId">The ID of the post.</param>
+    /// <returns>The like associated with the post.</returns>
+    Like GetLike(int postId);
 
     /// <summary>
     /// Creates a new like based on the provided LikeDTO.
