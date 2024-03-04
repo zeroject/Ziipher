@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LikeAPI;
 
 [ApiController]
-public class LikeController
+public class LikeController : ControllerBase
 {
     private readonly ILikeService likeService;
     private readonly ILogger<LikeController> logger;
