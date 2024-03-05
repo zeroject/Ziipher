@@ -9,18 +9,17 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["AuthenticationService/AuthenticationService.csproj", "AuthenticationService/"]
-COPY ["Domain/Domain.csproj", "Domain/"]
-RUN dotnet restore "./AuthenticationService/AuthenticationService.csproj"
+COPY ["HealthWeb/HealthWeb.csproj", "HealthWeb/"]
+RUN dotnet restore "./HealthWeb/HealthWeb.csproj"
 COPY . .
-WORKDIR "/src/AuthenticationService"
-RUN dotnet build "./AuthenticationService.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/HealthWeb"
+RUN dotnet build "./HealthWeb.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./AuthenticationService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./HealthWeb.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AuthenticationService.dll"]
+ENTRYPOINT ["dotnet", "HealthWeb.dll"]

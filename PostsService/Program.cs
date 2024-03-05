@@ -1,5 +1,6 @@
 using AutoMapper;
 using Domain;
+using HealthMiddelWare;
 using PostApplication;
 using PostApplication.DTO_s;
 using PostInfrastructure;
@@ -46,6 +47,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseHealthReportingMiddleware("PostService");
 
 app.MapControllers();
 
