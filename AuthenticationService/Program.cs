@@ -1,3 +1,4 @@
+using AuthenticationService;
 using AuthenticationService.BE;
 using AuthenticationService.Dto;
 using AuthenticationService.helpers;
@@ -5,6 +6,9 @@ using AuthenticationService.Interfaces;
 using AuthenticationService.Models;
 using AuthenticationService.Repos;
 using AutoMapper;
+using IdentityServer4.Stores;
+using IdentityServer4.Test;
+using IdentityServer4.Validation;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +36,15 @@ builder.Services.AddScoped<IAuthValidationService, AuthValidationService>();
 
 //add appsettings secret key to the helper AppSettings
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
+//add identity server
+builder.Services.AddIdentityServer()
+    .AddDeveloperSigningCredential()
+    .AddInMemoryIdentityResources(Config.GetIdentityResources())
+    .AddInMemoryApiResources(Config.GetApiResources())
+    .AddInMemoryClients(Config.GetClients())
+    .AddResourceOwnerValidator<tokenValidator>(); // Add custom token validator
+
 
 builder.Services.AddSwaggerGen(c =>
 {
