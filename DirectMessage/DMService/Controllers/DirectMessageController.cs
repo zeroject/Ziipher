@@ -1,6 +1,5 @@
 ﻿using DirectMessageApplication;
 using Domain;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DMService;

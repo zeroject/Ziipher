@@ -5,6 +5,7 @@ using AuthenticationService.Interfaces;
 using AuthenticationService.Models;
 using AuthenticationService.Repos;
 using AutoMapper;
+using HealthMiddelWare;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,6 +58,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseHealthReportingMiddleware("AuthService");
 
 app.MapControllers();
 

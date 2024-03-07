@@ -23,13 +23,6 @@ namespace PostInfrastructure
                 .Property(p => p.PostID)
                 .ValueGeneratedOnAdd();
 
-          modelBuilder.Entity<Timeline>()
-                .Property(t => t.TimelineID)
-                .ValueGeneratedOnAdd();
-
-            modelBuilder.Entity<Timeline>()
-                .HasKey(t => t.TimelineID);
-
             modelBuilder.Entity<Post>()
                 .HasKey(p => p.PostID);
 

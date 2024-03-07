@@ -16,9 +16,9 @@ namespace PostApplication
             _mapper = mapper;
         }
 
-        public List<Post> GetAllPosts(int timelineID)
+        public Dictionary<Post, Like> GetAllPosts(int timelineID)
         {
-            return _postRepository.GetAllPosts(timelineID);
+            return _postRepository.GetAllPosts(timelineID).Result;
         }
 
         public void CreatePost(int timelineID, PostPostDTO newPost)
@@ -28,9 +28,9 @@ namespace PostApplication
             _postRepository.CreatePost(timelineID, _mapper.Map<Post>(newPost));
         }
 
-        public Post GetPost(int timelineID, int postId)
+        public Dictionary<Post, Like> GetPost(int timelineID, int postId)
         {
-            return _postRepository.GetPost(timelineID, postId);
+            return _postRepository.GetPost(timelineID, postId).Result;
         }
 
         public void UpdatePost(int timelineID, int postId, string newText, DateTime? newPostDate = null)
