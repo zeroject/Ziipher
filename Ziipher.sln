@@ -53,6 +53,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMiddelWare", "HealthMiddelWare\HealthMiddelWare.csproj", "{A0D4FCBD-538D-4FFC-960F-2C0736D82037}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectMessageAPI", "DirectMessage\DMService\DirectMessageAPI.csproj", "{23ED925D-D22F-4BEF-B2CE-BF52B887EBF9}"
+=======
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectMessageAPI", "DirectMessage\DMService\DirectMessageAPI.csproj", "{961D5A8A-07C2-46B5-A770-98AE19E6B6E0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMApplication", "DirectMessage\DirectMessageApplication\DMApplication.csproj", "{BEF9E364-8988-4720-8BDA-B298EE07A8F4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMInfrastructure", "DirectMessage\DirectMessageInfrastructure\DMInfrastructure.csproj", "{FF0A793A-F7AB-4F61-9875-25BC6D240E05}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Like", "Like", "{FAB6D577-F8F1-4B87-8014-58066F9E38AD}"
 EndProject
@@ -73,6 +79,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMApplication", "DirectMessage\DirectMessageApplication\DMApplication.csproj", "{C189D13A-1A71-4F89-B8D4-D060214C4E17}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMInfrastructure", "DirectMessage\DirectMessageInfrastructure\DMInfrastructure.csproj", "{F5095BBD-1827-4C89-A034-E1BB91D4B4F6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimelineInfrastructure", "TimelineInfrastructure\TimelineInfrastructure.csproj", "{28301971-F9C7-46A0-BCE8-D167676447E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimelineService", "TimelineService\TimelineService.csproj", "{2DDB976D-18D7-4A9A-83F8-8D4C5F47F6F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -152,6 +162,18 @@ Global
 		{23ED925D-D22F-4BEF-B2CE-BF52B887EBF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23ED925D-D22F-4BEF-B2CE-BF52B887EBF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23ED925D-D22F-4BEF-B2CE-BF52B887EBF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{961D5A8A-07C2-46B5-A770-98AE19E6B6E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{961D5A8A-07C2-46B5-A770-98AE19E6B6E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{961D5A8A-07C2-46B5-A770-98AE19E6B6E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{961D5A8A-07C2-46B5-A770-98AE19E6B6E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEF9E364-8988-4720-8BDA-B298EE07A8F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEF9E364-8988-4720-8BDA-B298EE07A8F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEF9E364-8988-4720-8BDA-B298EE07A8F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEF9E364-8988-4720-8BDA-B298EE07A8F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF0A793A-F7AB-4F61-9875-25BC6D240E05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF0A793A-F7AB-4F61-9875-25BC6D240E05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF0A793A-F7AB-4F61-9875-25BC6D240E05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF0A793A-F7AB-4F61-9875-25BC6D240E05}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C2C94A66-314E-4543-B787-173588DD7DA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C2C94A66-314E-4543-B787-173588DD7DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2C94A66-314E-4543-B787-173588DD7DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
