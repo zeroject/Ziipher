@@ -32,9 +32,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseAuthorization();
 
-app.UseHealthReportingMiddleware("DMService");
+if (app.Environment.IsProduction())
+{
+    app.UseHealthReportingMiddleware("DMService");
+}
 
 app.UseEndpoints(endpoints =>
 {
