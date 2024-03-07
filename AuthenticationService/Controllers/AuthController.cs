@@ -41,38 +41,9 @@ namespace AuthenticationService.Controllers
         }
 
         /// <summary>
-        /// method to be called to validate the user's token
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        [Route("validateUser")]
-        public IActionResult ValidateUser(string token)
-        {
-            try
-            {
-                return Ok(_auth.ValidateUserByToken(token));
-            } catch
-            {
-                return StatusCode(401, "Unauthorized");
-            }
-        }
-
-
-        /// <summary>
         /// when validation by token fails, call this method to validate by credentials
         /// </summary>
-        [HttpPost]
-        [Route("validateUserByCredentials")]
-        public IActionResult ValidateUserByCredentials(string username, string password)
-        {
-            try
-            {
-                return Ok(_auth.ValidateUserByCredentials(username, password));
-            } catch
-            {
-                return StatusCode(401, "Unauthorized");
-            }
-        }
+       
 
         [HttpPost]
         [Route("registerNewLogin")]
