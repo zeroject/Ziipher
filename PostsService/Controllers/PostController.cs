@@ -32,6 +32,7 @@ namespace PostsService.Controllers
             return Ok(posts);
         }
 
+
         [HttpGet]
         [Route("GetPost")]
         public ActionResult<Dictionary<Post, Like>> GetPost([FromBody] GetPostDTO getPost)

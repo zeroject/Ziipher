@@ -34,7 +34,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/DeleteUser",
-      "UpstreamHttpMethod": [ "Delete" ]
+      "UpstreamHttpMethod": [ "Delete" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
 
     {
@@ -47,7 +48,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/GetUser",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/UpdateUser",
@@ -59,7 +61,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/UpdateUser",
-      "UpstreamHttpMethod": [ "Put" ]
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/AddDM",
@@ -71,7 +74,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/AddDM",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/DeleteDM",
@@ -83,7 +87,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/DeleteDM",
-      "UpstreamHttpMethod": [ "Delete" ]
+      "UpstreamHttpMethod": [ "Delete" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/GetDMs",
@@ -95,7 +100,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/GetDMs",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/UpdateDM",
@@ -107,7 +113,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/UpdateDM",
-      "UpstreamHttpMethod": [ "Put" ]
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/post/CreatePost",
@@ -119,7 +126,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/CreatePost",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/post/DeletePost",
@@ -131,7 +139,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/DeletePost",
-      "UpstreamHttpMethod": [ "Delete" ]
+      "UpstreamHttpMethod": [ "Delete" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/post/GetAllPosts",
@@ -143,7 +152,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/GetAllPosts",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/post/GetPost",
@@ -155,7 +165,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/GetPost",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/post/GetPostByUser",
@@ -167,7 +178,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/GetPostByUser",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/post/UpdatePost",
@@ -179,7 +191,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/UpdatePost",
-      "UpstreamHttpMethod": [ "Put" ]
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/timeline/CreateTimeline",
@@ -191,7 +204,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/CreateTimeline",
-      "UpstreamHttpMethod": [ "Put" ]
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/timeline/DeleteTimeline",
@@ -203,7 +217,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/DeleteTimeline",
-      "UpstreamHttpMethod": [ "Delete" ]
+      "UpstreamHttpMethod": [ "Delete" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/timeline/GetAllTimelines",
@@ -215,7 +230,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/GetAllTimelines",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/timeline/GetTimeline",
@@ -227,7 +243,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/GetTimeline",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/timeline/GetTimelineByUser",
@@ -239,7 +256,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/GetTimelineByUser",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     },
     {
       "DownstreamPathTemplate": "/timeline/UpdateTimeline",
@@ -251,7 +269,8 @@
         }
       ],
       "UpstreamPathTemplate": "/api/UpdateTimeline",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
     }
     //{
     //  "DownstreamPathTemplate": "/AddComment",
