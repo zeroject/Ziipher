@@ -10,7 +10,7 @@ builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
 builder.Services.AddAuthentication()
     .AddJwtBearer("IdentityServerAuthentication", x =>
     {
-        x.Authority = "http://localhost:5000";
+        x.Authority = "http://authservice:8080";
         x.RequireHttpsMetadata = false;
     });
 
