@@ -1,9 +1,33 @@
+using AspNetCoreRateLimit;
+using HealthMiddelWare;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Configure rate limiting services
+builder.Services.AddMemoryCache();
+builder.Services.Configure<IpRateLimitOptions>((options) =>
+{
+    options.GeneralRules = new System.Collections.Generic.List<RateLimitRule>()
+    {
+        new RateLimitRule
+        {
+            Endpoint = "*",
+            Limit = 100, // Adjust the limit as needed
+            Period = "1m" // Adjust the period as needed (e.g., 1 minute)
+        }
+    };
+});
+builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+// Register the default processing strategy
+builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+// Register the rate limit configuration
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
 builder.Services.AddLogging(logBuilder =>
 {
@@ -28,6 +52,12 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseRateLimiter();
+
+if (app.Environment.IsProduction())
+{
+    app.UseHealthReportingMiddleware("LikeService");
+}
 
 app.MapControllers();
 

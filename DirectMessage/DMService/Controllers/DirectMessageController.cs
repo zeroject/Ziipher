@@ -43,32 +43,6 @@ public class DirectMessageController : ControllerBase
         }
     }
 
-    [HttpPost]
-    [Route("AddDM")]
-    [ProducesResponseType(typeof(DM), 200)]
-    [ProducesResponseType(401)]
-    [ProducesResponseType(500)]
-    public IActionResult AddDM(int senderID, int receiverID, string message)
-    {
-        string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-        if (string.IsNullOrEmpty(accessToken))
-        {
-            logger.LogError("Unauthorized access");
-            return Unauthorized();
-        }
-
-        try
-        {
-            logger.LogInformation("Adding DM between sender with ID: " + senderID + " and receiver with ID: " + receiverID);
-            return Ok(dmService.AddDM(senderID, receiverID, message, accessToken));
-        }
-        catch (Exception e)
-        {
-            logger.LogError(e, "An internal error has occurred");
-            return StatusCode(500, "An internal Error has occurred");
-        }
-    }
-
     [HttpPut]
     [Route("UpdateDM")]
     [ProducesResponseType(typeof(DM), 200)]
