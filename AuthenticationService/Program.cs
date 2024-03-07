@@ -39,7 +39,6 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSet
 
 //add identity server
 builder.Services.AddIdentityServer()
-    .AddDeveloperSigningCredential()
     .AddInMemoryIdentityResources(Config.GetIdentityResources())
     .AddInMemoryApiResources(Config.GetApiResources())
     .AddInMemoryClients(Config.GetClients())

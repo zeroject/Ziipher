@@ -43,16 +43,6 @@ services:
     depends_on:
       - seq
 
-  dmservice:
-    build:
-      context: .
-      dockerfile: DirectMessage/DirectMessageAPI/Dockerfile
-    ports:
-      - "8085:8080"
-      - "8086:8081"
-    depends_on:
-      - seq
-
   healthservice:
     build:
       context: .
@@ -72,7 +62,6 @@ services:
     depends_on:
     - authservice
     - userservice
-    - dmservice
       
   healthweb:
     build:
@@ -97,7 +86,7 @@ services:
   postservice:
     build:
       context: .
-      dockerfile: Post/PostService/Dockerfile
+      dockerfile: PostsService/Dockerfile
     ports:
       - "8089:8080"
       - "8090:8081"
@@ -108,7 +97,7 @@ services:
   timelineservice:
     build:
       context: .
-      dockerfile: Timeline/TimelineService/Dockerfile
+      dockerfile: TimelineService/Dockerfile
     ports:
       - "8091:8080"
       - "8092:8081"
