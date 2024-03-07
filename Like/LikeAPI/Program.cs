@@ -52,7 +52,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-app.UseRateLimiter();
+app.UseIpRateLimiting();
 
 if (app.Environment.IsProduction())
 {
