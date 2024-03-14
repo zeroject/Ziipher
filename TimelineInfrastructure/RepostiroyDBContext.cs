@@ -12,11 +12,9 @@ namespace TimelineInfrastructure
     public class RepositoryDBContext : DbContext
     {
 
-        public RepositoryDBContext(DbContextOptions<RepositoryDBContext> options) : base(options)
+        public RepositoryDBContext(DbContextOptions<RepositoryDBContext> options, ServiceLifetime service) : base(options)
         {
-
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -27,11 +25,6 @@ namespace TimelineInfrastructure
 
             modelBuilder.Entity<Timeline>()
                 .HasKey(t => t.TimelineID);
-
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseInMemoryDatabase("TimelineDB");
         }
 
         public DbSet<Timeline> Timelines { get; set; }

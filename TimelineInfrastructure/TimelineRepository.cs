@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,59 +11,79 @@ namespace TimelineInfrastructure
     public class TimelineRepository : ITimelineRepository
     {
 
-        private readonly RepositoryDBContext _context;
+        private DbContextOptions<RepositoryDBContext> _options;
 
         public TimelineRepository(RepositoryDBContext context)
         {
-            _context = context;
+            _options = new DbContextOptionsBuilder<RepositoryDBContext>().UseInMemoryDatabase("TimelineDB").Options;
         }
 
         public void CreateTimeline(Timeline newTimeline)
         {
-            _context.Timelines.Add(newTimeline);
-            _context.SaveChanges();
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
+            {
+                context.Timelines.Add(newTimeline);
+                context.SaveChanges();
+            }
+       
         }
 
         public void DeleteTimeline(int timelineId)
         {
-            var timeline = _context.Timelines.Find(timelineId);
-            if (timeline != null)
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
-                _context.Timelines.Remove(timeline);
-                _context.SaveChanges();
+                var timeline = context.Timelines.Find(timelineId);
+                if (timeline != null)
+                {
+                    context.Timelines.Remove(timeline);
+                    context.SaveChanges();
+                }
             }
+
         }
         public List<Timeline> GetAllTimelines()
         {
-            return _context.Timelines.ToList();
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
+            {
+                return context.Timelines.ToList();
+            }
         }
 
         public Timeline GetTimeline(int timelineId)
         {
-            var timeline = _context.Timelines.Find(timelineId);
-            if (timeline == null)
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
-                throw new ArgumentException("Timeline not found.", nameof(timelineId));
+                var timeline = context.Timelines.Find(timelineId);
+                if (timeline == null)
+                {
+                    throw new ArgumentException("Timeline not found.", nameof(timelineId));
+                }
+                return timeline;
             }
-            return timeline;
         }
         public Timeline GetTimelineByUser(int userId)
         {
-            var timeline = _context.Timelines.FirstOrDefault(t => t.UserID == userId);
-
-            if (timeline == null)
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
-                throw new ArgumentException("Timeline not found for the user.", nameof(userId));
+                var timeline = context.Timelines.FirstOrDefault(t => t.UserID == userId);
+
+                if (timeline == null)
+                {
+                    throw new ArgumentException("Timeline not found for the user.", nameof(userId));
+                }
+                return timeline;
             }
-            return timeline;
         }
         public void UpdateTimeline(int timelineId, int newUserID)
         {
-            var timeline = _context.Timelines.Find(timelineId);
-            if (timeline != null)
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
-                timeline.UserID = newUserID;
-                _context.SaveChanges();
+                var timeline = context.Timelines.Find(timelineId);
+                if (timeline != null)
+                {
+                    timeline.UserID = newUserID;
+                    context.SaveChanges();
+                }
             }
         }
     }
