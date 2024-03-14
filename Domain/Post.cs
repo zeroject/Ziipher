@@ -9,7 +9,7 @@ namespace Domain
     public class Post
     {
         public int PostID { get; set; }
-        public required string Text { get; set; }
+        public string Text { get; set; }
         public DateTime PostDate { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public int UserID { get; set; } 

@@ -1,6 +1,6 @@
-namespace UnitTests
+namespace UnitTests.TimelineTests
 {
-    public class UnitTest1
+    public class TimelineTest
     {
         [Fact]
         public void Test1()
