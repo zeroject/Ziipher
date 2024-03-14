@@ -42,6 +42,7 @@ builder.Services.AddIdentityServer()
     .AddInMemoryIdentityResources(Config.GetIdentityResources())
     .AddInMemoryApiResources(Config.GetApiResources())
     .AddInMemoryClients(Config.GetClients())
+    .AddDeveloperSigningCredential()
     .AddResourceOwnerValidator<tokenValidator>(); // Add custom token validator
 
 
@@ -66,12 +67,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
+app.UseRouting();
 
 app.MapControllers();
 
+app.UseAuthorization();
+
 app.UseIdentityServer();
+
 
 app.Run();

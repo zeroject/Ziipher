@@ -16,7 +16,8 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer("IdentityServerAuthentication", options =>
 {
-    options.Authority = "http://localhost:8000/";
+    options.Authority = "http://authservice";
+
     options.RequireHttpsMetadata = false;
     options.TokenValidationParameters = new TokenValidationParameters
     {

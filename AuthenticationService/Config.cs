@@ -29,7 +29,7 @@ namespace AuthenticationService
         {
             return new List<ApiResource>
         {
-            new ApiResource("api1", "My API")
+            new ApiResource("api", "My API")
         };
         }
 
@@ -50,7 +50,7 @@ namespace AuthenticationService
                 {
                     new Secret("secret".Sha256())
                 },
-                AllowedScopes = { "api1" }
+                AllowedScopes = { "api" }
             }
         };
         }
