@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,111 +13,132 @@ namespace PostInfrastructure
 {
     public class PostRepostiroy: IPostRepository
     {
-        private RepositoryDBContext _context;
+        private DbContextOptions<RepositoryDBContext> _options;
 
         public PostRepostiroy(RepositoryDBContext context) 
         {
-            _context = context;
+            _options = new DbContextOptionsBuilder<RepositoryDBContext>().UseInMemoryDatabase("PostDB").Options;
         }
 
         public void CreatePost(int timelineId, Post newPost)
         {
-            newPost.TimelineID = timelineId;
-            _context.Posts.Add(newPost);
-            _context.SaveChanges();
+            using(var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
+            {                
+                newPost.TimelineID = timelineId;
+                context.Posts.Add(newPost);
+                context.SaveChanges();
+            }
+
         }
 
         public void DeletePost(int timelineId, int postId)
         {
-            var post = _context.Posts.FirstOrDefault(p => p.TimelineID == timelineId && p.PostID == postId);
-            if (post != null)
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
-                _context.Posts.Remove(post);
-                _context.SaveChanges();
+
+                var post = context.Posts.FirstOrDefault(p => p.TimelineID == timelineId && p.PostID == postId);
+                if (post != null)
+                {
+                    context.Posts.Remove(post);
+                    context.SaveChanges();
+                }
             }
         }
 
         public async Task<Dictionary<Post, Like>> GetAllPosts(int timelineId)
         {
-            //Get all posts from DB
-            List<Post> posts = _context.Posts.Where(p => p.TimelineID == timelineId).ToList();
-
-            //Get all likes from Http request
-            List<Like> likes = new List<Like>();
-            using (var client = new HttpClient())
+            using(var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
-                client.BaseAddress = new Uri("http://likeservice:8080/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                List<Post> posts = context.Posts.Where(p => p.TimelineID == timelineId).ToList();
 
-                HttpResponseMessage response = await client.GetAsync("GetLikes");
-                if (response.IsSuccessStatusCode)
+                //Get all likes from Http request
+                List<Like> likes = new List<Like>();
+                using (var client = new HttpClient())
                 {
-                    likes = response.Content.ReadFromJsonAsync<List<Like>>().Result;
-                }
-            }
+                    client.BaseAddress = new Uri("http://likeservice:8080/");
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            //Combine posts and likes
-            Dictionary<Post, Like> postLikes = new Dictionary<Post, Like>();
-            foreach (var post in posts)
-            {
-                Like like = likes.FirstOrDefault(l => l.PostID == post.PostID);
-                postLikes.Add(post, like);
+                    HttpResponseMessage response = await client.GetAsync("GetLikes");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        likes = response.Content.ReadFromJsonAsync<List<Like>>().Result;
+                    }
+                }
+
+                Dictionary<Post, Like> postLikes = new Dictionary<Post, Like>();
+                foreach (var post in posts)
+                {
+                    Like like = likes.FirstOrDefault(l => l.PostID == post.PostID);
+                    postLikes.Add(post, like);
+                }
+                return postLikes;
             }
-            return postLikes;
         }
 
         public async Task<Dictionary<Post, Like>> GetPost(int timelineID, int postId)
         {
-            // Get Post from DB
-            var post = _context.Posts.FirstOrDefault(p => p.TimelineID == timelineID && p.PostID == postId);
-            if (post == null)
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
-                throw new ArgumentException("Post not found.", nameof(postId));
-            }
 
-            // Get Like from Http request
-            Like like = new Like();
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("http://likeservice:8080/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                HttpResponseMessage response = await client.GetAsync("GetLike/" + postId);
-                if (response.IsSuccessStatusCode)
+                // Get Post from DB
+                var post = context.Posts.FirstOrDefault(p => p.TimelineID == timelineID && p.PostID == postId);
+                if (post == null)
                 {
-                    like = response.Content.ReadFromJsonAsync<Like>().Result;
+                    throw new ArgumentException("Post not found.", nameof(postId));
                 }
-            }
 
-            // Combine post and like
-            Dictionary<Post, Like> postLikes = new Dictionary<Post, Like>
+                // Get Like from Http request
+                Like like = new Like();
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("http://likeservice:8080/");
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    HttpResponseMessage response = await client.GetAsync("GetLike/" + postId);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        like = response.Content.ReadFromJsonAsync<Like>().Result;
+                    }
+                }
+
+                // Combine post and like
+                Dictionary<Post, Like> postLikes = new Dictionary<Post, Like>
             {
                 { post, like }
             };
 
-            return postLikes;
+                return postLikes;
+            }
+
         }
 
         public List<Post> GetPostsByUser(int timelineId, int userId)
         {
-            return _context.Posts.Where(p => p.TimelineID == timelineId && p.UserID == userId).ToList();
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
+            {
+                return context.Posts.Where(p => p.TimelineID == timelineId && p.UserID == userId).ToList();
+            }
         }
 
         public void UpdatePost(int timelineId, int postId, string newText, DateTime? newPostDate = null)
         {
-            var post = _context.Posts.FirstOrDefault(p => p.TimelineID == timelineId && p.PostID == postId);
-            if (post != null)
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
-                post.Text = newText;
-                if (newPostDate.HasValue)
+                var post = context.Posts.FirstOrDefault(p => p.TimelineID == timelineId && p.PostID == postId);
+                if (post != null)
                 {
-                    post.PostDate = newPostDate.Value;
+                    post.Text = newText;
+                    if (newPostDate.HasValue)
+                    {
+                        post.PostDate = newPostDate.Value;
+                    }
+                    context.SaveChanges();
                 }
-                _context.SaveChanges();
             }
+           }
         }
     }
-}
+
 
