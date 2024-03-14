@@ -72,4 +72,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseIdentityServer();
+
 app.Run();
