@@ -71,6 +71,8 @@ app.UseRouting();
 
 app.MapControllers();
 
+app.UseHttpsRedirection();
+
 app.UseAuthorization();
 
 app.UseIdentityServer();

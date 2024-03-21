@@ -35,7 +35,10 @@
       ],
       "UpstreamPathTemplate": "/api/DeleteUser",
       "UpstreamHttpMethod": [ "Delete" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
 
     {
@@ -49,7 +52,7 @@
       ],
       "UpstreamPathTemplate": "/api/GetUser",
       "UpstreamHttpMethod": [ "Get" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": { "AuthenticationProviderKey": "Bearer", "AllowedScopes":  [] }
     },
     {
       "DownstreamPathTemplate": "/UpdateUser",
@@ -62,7 +65,10 @@
       ],
       "UpstreamPathTemplate": "/api/UpdateUser",
       "UpstreamHttpMethod": [ "Put" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/AddDM",
@@ -75,7 +81,7 @@
       ],
       "UpstreamPathTemplate": "/api/AddDM",
       "UpstreamHttpMethod": [ "Post" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": { "AuthenticationProviderKey": "Bearer", "AllowedScopes":  [] }
     },
     {
       "DownstreamPathTemplate": "/DeleteDM",
@@ -88,7 +94,10 @@
       ],
       "UpstreamPathTemplate": "/api/DeleteDM",
       "UpstreamHttpMethod": [ "Delete" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/GetDMs",
@@ -101,7 +110,10 @@
       ],
       "UpstreamPathTemplate": "/api/GetDMs",
       "UpstreamHttpMethod": [ "Get" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/UpdateDM",
@@ -114,7 +126,10 @@
       ],
       "UpstreamPathTemplate": "/api/UpdateDM",
       "UpstreamHttpMethod": [ "Put" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/post/CreatePost",
@@ -127,7 +142,10 @@
       ],
       "UpstreamPathTemplate": "/api/CreatePost",
       "UpstreamHttpMethod": [ "Post" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/post/DeletePost",
@@ -140,7 +158,10 @@
       ],
       "UpstreamPathTemplate": "/api/DeletePost",
       "UpstreamHttpMethod": [ "Delete" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/post/GetAllPosts",
@@ -153,7 +174,10 @@
       ],
       "UpstreamPathTemplate": "/api/GetAllPosts",
       "UpstreamHttpMethod": [ "Get" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/post/GetPost",
@@ -166,7 +190,10 @@
       ],
       "UpstreamPathTemplate": "/api/GetPost",
       "UpstreamHttpMethod": [ "Get" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/post/GetPostByUser",
@@ -179,7 +206,10 @@
       ],
       "UpstreamPathTemplate": "/api/GetPostByUser",
       "UpstreamHttpMethod": [ "Get" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/post/UpdatePost",
@@ -192,7 +222,10 @@
       ],
       "UpstreamPathTemplate": "/api/UpdatePost",
       "UpstreamHttpMethod": [ "Put" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/timeline/CreateTimeline",
@@ -205,7 +238,10 @@
       ],
       "UpstreamPathTemplate": "/api/CreateTimeline",
       "UpstreamHttpMethod": [ "Put" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/timeline/DeleteTimeline",
@@ -218,7 +254,10 @@
       ],
       "UpstreamPathTemplate": "/api/DeleteTimeline",
       "UpstreamHttpMethod": [ "Delete" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/timeline/GetAllTimelines",
@@ -231,7 +270,10 @@
       ],
       "UpstreamPathTemplate": "/api/GetAllTimelines",
       "UpstreamHttpMethod": [ "Get" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/timeline/GetTimeline",
@@ -244,7 +286,10 @@
       ],
       "UpstreamPathTemplate": "/api/GetTimeline",
       "UpstreamHttpMethod": [ "Get" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/timeline/GetTimelineByUser",
@@ -257,7 +302,10 @@
       ],
       "UpstreamPathTemplate": "/api/GetTimelineByUser",
       "UpstreamHttpMethod": [ "Get" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/timeline/UpdateTimeline",
@@ -270,7 +318,10 @@
       ],
       "UpstreamPathTemplate": "/api/UpdateTimeline",
       "UpstreamHttpMethod": [ "Get" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "IdentityServerAuthentication" }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     }
     //{
     //  "DownstreamPathTemplate": "/AddComment",

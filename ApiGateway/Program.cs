@@ -9,11 +9,17 @@ builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
     .AddJsonFile("ocelot.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
 
-var authenticationProviderKey = "IdentityServerAuthentication";
+var authenticationProviderKey = "Bearer";
 
 builder.Services.AddAuthentication().AddJwtBearer(authenticationProviderKey, options =>
 {
-    options.Authority = "http://authservice";
+    options.Authority = "https://authservice";
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateAudience = true,
+        ValidateIssuer = true,
+        
+    };
 });
 
 builder.Services.AddOcelot(builder.Configuration);
