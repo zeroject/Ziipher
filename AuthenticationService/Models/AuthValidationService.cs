@@ -88,9 +88,6 @@ namespace AuthenticationService.Models
                 Subject = new ClaimsIdentity(new[]
                 {
             new Claim(JwtRegisteredClaimNames.Sub, userInfo.Username),
-            new Claim(JwtRegisteredClaimNames.Iss, "http://authservice"), // "iss" claim
-            new Claim(JwtRegisteredClaimNames.Aud, "api")
-            // Add "aud" claim if applicable
         }),
                 Expires = DateTime.UtcNow.AddHours(expiriationTime),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
