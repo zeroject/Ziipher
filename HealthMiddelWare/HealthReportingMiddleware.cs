@@ -29,7 +29,7 @@ namespace HealthMiddelWare
             await _next(context);
         }
 
-        private async Task<Health> DetermineHealthAsync(string serviceName)
+        public virtual async Task<Health> DetermineHealthAsync(string serviceName)
         {
             int score = 0;
 
@@ -85,7 +85,7 @@ namespace HealthMiddelWare
             return health;
         }
 
-        private async Task PostHealthAsync(Health serviceHealth)
+        public async Task PostHealthAsync(Health serviceHealth)
         {
             using (var client = new HttpClient())
             {
