@@ -47,7 +47,7 @@ namespace AuthenticationService.Models
             //get user from db
             Login login = _authRepo.GetUsersByUsername(loginDto.Username);
             //compare passwords from db and dto
-            bool isValid = login.Password == login.Password;
+            bool isValid = login.Password == loginDto.Password;
 
             //if valid generate token
             if (isValid)
