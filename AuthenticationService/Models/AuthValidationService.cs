@@ -44,11 +44,15 @@ namespace AuthenticationService.Models
         /// <exception cref="Exception"></exception>
         public string LoginUser(LoginDto loginDto)
         {
-            bool isValid = Validate(loginDto.Username, loginDto.Password);
+            //get user from db
+            Login login = _authRepo.GetUsersByUsername(loginDto.Username);
+            //compare passwords from db and dto
+            bool isValid = login.Password == login.Password;
+
+            //if valid generate token
             if (isValid)
             {
                 var token = GenerateJSONWebToken(loginDto);
-                Login login = _authRepo.GetUsersByUsername(loginDto.Username);
                 _authRepo.AddTokenToLogin(new Token 
                 { 
                     JwtToken = token,
