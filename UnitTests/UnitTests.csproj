@@ -21,6 +21,7 @@
     <ProjectReference Include="..\AuthenticationService\AuthenticationService.csproj" />
     <ProjectReference Include="..\PostApplication\PostApplication.csproj" />
     <ProjectReference Include="..\TimelineApplication\TimelineApplication.csproj" />
+    <ProjectReference Include="..\CommentApplication\CommentApplication.csproj" />
   </ItemGroup>
 
   <ItemGroup>

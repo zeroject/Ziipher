@@ -52,19 +52,7 @@ namespace PostInfrastructure
                 List<Post> posts = context.Posts.Where(p => p.TimelineID == timelineId).ToList();
 
                 //Get all likes from Http request
-                List<Like> likes = new List<Like>();
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri("http://likeservice:8080/");
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    HttpResponseMessage response = await client.GetAsync("GetLikes");
-                    if (response.IsSuccessStatusCode)
-                    {
-                        likes = response.Content.ReadFromJsonAsync<List<Like>>().Result;
-                    }
-                }
+                List<Like> likes = GetLikes().Result;
 
                 Dictionary<Post, Like> postLikes = new Dictionary<Post, Like>();
                 foreach (var post in posts)
@@ -89,19 +77,7 @@ namespace PostInfrastructure
                 }
 
                 // Get Like from Http request
-                Like like = new Like();
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri("http://likeservice:8080/");
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    HttpResponseMessage response = await client.GetAsync("GetLike/" + postId);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        like = response.Content.ReadFromJsonAsync<Like>().Result;
-                    }
-                }
+                Like like = GetLike(postId).Result;
 
                 // Combine post and like
                 Dictionary<Post, Like> postLikes = new Dictionary<Post, Like>
@@ -137,8 +113,42 @@ namespace PostInfrastructure
                     context.SaveChanges();
                 }
             }
-           }
         }
-    }
+
+        public async Task<List<Like>> GetLikes()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://likeservice:8080/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync("GetLikes");
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadFromJsonAsync<List<Like>>().Result;
+                }
+            }
+            return null;
+        }
+
+        public async Task<Like> GetLike(int postId)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://likeservice:8080/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync($"GetLike/{postId}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadFromJsonAsync<Like>().Result;
+                }
+            }
+            return null;
+        }
+    }    
+}
 
 

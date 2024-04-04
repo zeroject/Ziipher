@@ -30,9 +30,6 @@ namespace UnitTests.PostTests
             return _postService;
         }
 
-
-
-
         [Fact]
         public void CreatePostWTest()
         {
@@ -47,15 +44,6 @@ namespace UnitTests.PostTests
             Assert.True((DateTime.Now - newPostDTO.PostDate).TotalSeconds < 1, "PostDate was not set to the current time.");
             _mapper.Received(1).Map<Post>(newPostDTO);
             _postRepo.Received(1).CreatePost(timelineID, mappedPost);
-        }
-
-        [Fact]
-        public void UppatePostTest() 
-        {
-            GetInstance();
-
-
-        
         }
     }
 }
