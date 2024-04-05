@@ -12,9 +12,8 @@ namespace PostInfrastructure
     public class RepositoryDBContext : DbContext
     {
 
-        public RepositoryDBContext(DbContextOptions<RepositoryDBContext> options) : base(options)
+        public RepositoryDBContext(DbContextOptions<RepositoryDBContext> options, ServiceLifetime service) : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,10 +30,7 @@ namespace PostInfrastructure
                 .WithMany(t => t.Posts) 
                 .HasForeignKey(p => p.TimelineID);
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseInMemoryDatabase("PostDB");
-        }
+
 
         public DbSet<Post> Posts { get; set; }
 

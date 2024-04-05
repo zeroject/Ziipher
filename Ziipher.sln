@@ -190,6 +190,7 @@ Global
 		{10174D3F-A399-4EF2-B584-E2CFAB4FC181}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10174D3F-A399-4EF2-B584-E2CFAB4FC181}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10174D3F-A399-4EF2-B584-E2CFAB4FC181}.Release|Any CPU.Build.0 = Release|Any CPU
+
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
