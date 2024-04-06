@@ -15,7 +15,7 @@ namespace PostInfrastructure
     {
         private DbContextOptions<RepositoryDBContext> _options;
 
-        public PostRepostiroy(RepositoryDBContext context) 
+        public PostRepostiroy() 
         {
             _options = new DbContextOptionsBuilder<RepositoryDBContext>().UseInMemoryDatabase("PostDB").Options;
         }

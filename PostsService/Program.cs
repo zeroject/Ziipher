@@ -57,7 +57,6 @@ builder.Services.AddLogging(logBuilder =>
 
 #region Depedency injection
 builder.Services.AddDbContext<RepositoryDBContext>();
-builder.Services.AddScoped<RepositoryDBContext>();
 builder.Services.AddScoped<IPostRepository, PostRepostiroy>(); ;
 builder.Services.AddScoped<IPostService, PostService>();
 #endregion
