@@ -35,7 +35,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseHealthReportingMiddleware("CommentService");
+//app.UseHealthReportingMiddleware("CommentService");
 
 app.MapControllers();
 

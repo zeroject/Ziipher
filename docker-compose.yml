@@ -99,5 +99,14 @@ services:
       - seq
       - postservice
 
+  commentservice:
+    build:
+      context: .
+      dockerfile: "AuthenticationService/Dockerfile" 
+    ports:
+      - "8093:8080"
+    depends_on:
+      - seq         
+
 volumes:
   mssql-data:

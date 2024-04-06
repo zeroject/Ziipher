@@ -402,7 +402,87 @@
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
       }
-    }
+    },
+    {
+      "DownstreamPathTemplate": "/addComment",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "commentservice",
+          "port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/addComment",
+      "UpstreamHttpMethod": ["Post"],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/DeleteComment",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "commentservice",
+          "port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/DeleteComment",
+      "UpstreamHttpMethod": ["Delete"],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/GetComments",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "commentservice",
+          "port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/GetComments",
+      "UpstreamHttpMethod": ["Get"],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/MassDeleteComments",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "commentservice",
+          "port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/MassDeleteComments",
+      "UpstreamHttpMethod": ["Delete"],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/UpdateComment",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "commentservice",
+          "port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/UpdateComment",
+      "UpstreamHttpMethod": ["Put"],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:8080/"
