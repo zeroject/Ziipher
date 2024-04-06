@@ -86,7 +86,7 @@ namespace TimelineInfrastructure
                 }
             }
         }
-        public void AddPostToTimeline(Post newPost)
+        public async Task AddPostToTimeline(Post newPost)
         {
             using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
@@ -95,9 +95,8 @@ namespace TimelineInfrastructure
                 {
                     throw new ArgumentException("Timeline not found.", nameof(newPost.TimelineID));
                 }
-
                 timeline.PostIDs.Add(newPost.PostID);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
     }

@@ -22,7 +22,7 @@ namespace TimelineInfrastructure
 
         public Timeline GetTimelineByUser(int userId);
 
-        public void AddPostToTimeline(Post newPost);
+        public Task AddPostToTimeline(Post newPost);
 
     }
 }

@@ -123,7 +123,7 @@ namespace TimelineController.Controllers
             _logger.LogInformation($"Add post to the timeline with id: {post.TimelineID}");
             try
             {
-                _timelineService.AddPostToTimeline(post);
+                await _timelineService.AddPostToTimeline(post);
                 return Ok();
             }
             catch (Exception e)

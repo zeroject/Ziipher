@@ -23,21 +23,28 @@ namespace TimelineApplication.Helper
             _logger = logger;
         }
 
-        public  void HandleAddPostToTimeline(AddPostIfCreated message)
+        public  async void HandleAddPostToTimeline(AddPostIfCreated message)
         {
             _logger.LogInformation(message.Message);
 
-            using (var scope = _serviceProvider.CreateScope())
+            try
             {
-                var timelineService = scope.ServiceProvider.GetRequiredService<ITimelineService>();
-
-                var post = new PostAddTimeline()
+                using (var scope = _serviceProvider.CreateScope())
                 {
-                    PostId = message.PostID,
-                    TimelineID = message.TimelineId
-                };
+                    var timelineService = scope.ServiceProvider.GetRequiredService<ITimelineService>();
 
-                timelineService.AddPostToTimeline(post);
+                    var post = new PostAddTimeline()
+                    {
+                        PostId = message.PostID,
+                        TimelineID = message.TimelineId
+                    };
+                   await timelineService.AddPostToTimeline(post);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new ArgumentException("Error in adding post to timeline");
             }
         }
 

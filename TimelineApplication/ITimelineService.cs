@@ -55,7 +55,7 @@ namespace TimelineApplication
 
         public Timeline GetTimelineByUser(int userId);
 
-        public void AddPostToTimeline(PostAddTimeline newPost);
+        public Task AddPostToTimeline(PostAddTimeline newPost);
 
 
     }
