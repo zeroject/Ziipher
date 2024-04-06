@@ -76,7 +76,7 @@ services:
   likeservice:
     build:
       context: .
-      dockerfile: LikeAPI/Dockerfile
+      dockerfile: Like/LikeAPI/Dockerfile
     ports:
       - "8087:8080"
       - "8088:8081"

@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\..\MessagingClient\MessagingService.csproj" />
     <ProjectReference Include="..\Application\LikeApplication.csproj" />
   </ItemGroup>
 

@@ -1,5 +1,8 @@
 ﻿using Domain;
+using EasyNetQ;
 using LikeApplication;
+using MessagingClient;
+using MessagingService.Messages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -9,12 +12,25 @@ public class LikeRepository : ILikeRepository
 {
     private DbContextOptions<DbContext> options;
     private readonly ILogger<LikeRepository> logger;
+    private MessageClient _messageClient;
 
     
-    public LikeRepository(ILogger<LikeRepository> _logger)
+    public LikeRepository(ILogger<LikeRepository> _logger, MessageClient messageClient)
     {
         logger = _logger;
         options = new DbContextOptionsBuilder<DbContext>().UseInMemoryDatabase("DMDB").Options;
+        _messageClient = messageClient;
+        _messageClient.Listen<GetLikeRequest>(HandleGetLikesRequest, "GetLikesRequest").Wait();
+    }
+    private void HandleGetLikesRequest(GetLikeRequest request)
+    {
+        logger.LogInformation($"Received GetLikesRequest for TimelineId: {request.TimelineId}");
+
+        var likes = GetLikes();
+
+        string responseTopic = $"GetLikesResponse.{request.TimelineId}";
+
+        _messageClient.Send(likes, responseTopic).Wait();
     }
 
     public List<Like> GetLikes()

@@ -18,6 +18,8 @@ namespace PostApplication
 
         public Dictionary<Post, Like> GetAllPosts(int timelineID)
         {
+
+
             return _postRepository.GetAllPosts(timelineID).Result;
         }
 
@@ -47,6 +49,7 @@ namespace PostApplication
         {
             return _postRepository.GetPostsByUser(timelineID, userId);
         }
+
 
     }
 }

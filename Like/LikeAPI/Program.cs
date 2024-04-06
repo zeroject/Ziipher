@@ -1,5 +1,7 @@
 using AspNetCoreRateLimit;
+using EasyNetQ;
 using HealthMiddelWare;
+using MessagingClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +30,9 @@ builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounte
 builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
 // Register the rate limit configuration
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
+builder.Services.AddSingleton(new MessageClient(RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")));
+
 
 builder.Services.AddLogging(logBuilder =>
 {

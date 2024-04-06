@@ -20,9 +20,5 @@ namespace MessagingClient
         {
             await Task.Run(() => { _bus.PubSub.SubscribeAsync(topic, handler); });
         }
-        public async Task<R> RequestAsync<T, R>(T request)
-        {
-            return await _bus.Rpc.RequestAsync<T, R>(request);
-        }
     }
 }

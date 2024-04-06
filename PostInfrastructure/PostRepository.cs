@@ -78,7 +78,6 @@ namespace PostInfrastructure
                 {
                     throw new ArgumentException("Post not found.", nameof(postId));
                 }
-
                 // Get Like from Http request
                 Like like = GetLike(postId).Result;
 
@@ -120,11 +119,27 @@ namespace PostInfrastructure
 
         public async Task<List<Like>> GetLikes(int? timelineId = null)
         {
-
             var request = new GetLikeRequest { TimelineId = timelineId };
-            var likes = await _messageClient.RequestAsync<GetLikeRequest, List<Like>>(request);
+
+            string responseTopic = $"GetLikesResponse.{Guid.NewGuid()}";
+
+            var likes = new List<Like>();
+            var taskCompletionSource = new TaskCompletionSource<List<Like>>();
+
+            await _messageClient.Listen<List<Like>>(likesResponse =>
+            {
+                taskCompletionSource.SetResult(likesResponse);
+            }, responseTopic);
+
+            // Send the request
+            await _messageClient.Send(request, "GetLikesRequest");
+
+            // Wait for the response or a timeout
+            likes = await taskCompletionSource.Task; // Consider adding a timeout for resilience
+
             return likes;
         }
+
 
         public async Task<Like> GetLike(int postId)
         {
