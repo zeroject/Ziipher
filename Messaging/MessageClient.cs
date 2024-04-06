@@ -20,5 +20,17 @@ namespace Messaging
         {
             await Task.Run(() => { _bus.PubSub.SubscribeAsync(topic, handler); });
         }
+
+
+        public void RespondToRequest<TRequest, TResponse>(Func<TRequest, TResponse> responder)
+            where TResponse : class
+        {
+            _bus.Rpc.Respond(responder);
+        }
+        public async Task<TResponse> RequestAsync<TRequest, TResponse>(TRequest request)
+        {
+            // This will correctly await the response from the RPC call
+            return await _bus.Rpc.RequestAsync<TRequest, TResponse>(request);
+        }
     }
 }

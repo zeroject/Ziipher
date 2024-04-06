@@ -21,5 +21,8 @@ namespace TimelineInfrastructure
         public Timeline GetTimeline(int timelineId);
 
         public Timeline GetTimelineByUser(int userId);
+
+        public void AddPostToTimeline(Post newPost);
+
     }
 }

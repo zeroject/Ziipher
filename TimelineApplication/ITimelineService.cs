@@ -53,7 +53,10 @@ namespace TimelineApplication
         /// <param name="userId"></param>
         /// <returns></returns>
 
-        public Timeline GetTimelineByUser(int userId); 
+        public Timeline GetTimelineByUser(int userId);
+
+        public void AddPostToTimeline(PostAddTimeline newPost);
+
 
     }
 }

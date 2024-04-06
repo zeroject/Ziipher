@@ -86,5 +86,19 @@ namespace TimelineInfrastructure
                 }
             }
         }
+        public void AddPostToTimeline(Post newPost)
+        {
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
+            {
+                var timeline = context.Timelines.Find(newPost.TimelineID);
+                if (timeline == null)
+                {
+                    throw new ArgumentException("Timeline not found.", nameof(newPost.TimelineID));
+                }
+
+                timeline.Posts.Add(newPost);
+                context.SaveChanges();
+            }
+        }
     }
 }

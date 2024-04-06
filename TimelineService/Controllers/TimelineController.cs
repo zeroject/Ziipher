@@ -120,5 +120,23 @@ namespace TimelineController.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
+        [HttpGet]
+        [Route("AddPostToTimeline")]
+        [Authorize]
+        public async Task<IActionResult> AddPostToTimeline([FromBody] PostAddTimeline post)
+        {
+            _logger.LogInformation($"Add post to the timeline with id: {post.TimelineID}");
+            try
+            {
+                _timelineService.AddPostToTimeline(post);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Post couldn't be added to the timeline");
+                return StatusCode(500, e.Message);
+            }
+        }
     }
 }
