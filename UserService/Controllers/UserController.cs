@@ -113,7 +113,6 @@ namespace UserService.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("UpdateUser")]
-        [Authorize]
         public async Task<IActionResult> UpdateUserAsync(User user)
         {
 

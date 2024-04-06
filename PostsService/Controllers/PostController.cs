@@ -52,7 +52,6 @@ namespace PostsService.Controllers
 
         [HttpDelete]
         [Route("DeletePost")]
-        [Authorize]
         public IActionResult DeletePost([FromBody] DeletePostDTO deletePost)
         {
             try
@@ -70,7 +69,6 @@ namespace PostsService.Controllers
 
         [HttpPut]
         [Route("UpdatePost")]
-        [Authorize]
         public IActionResult UpdatePost(PostUpdateDTO postUpdate)
         {
             try
@@ -88,7 +86,6 @@ namespace PostsService.Controllers
 
         [HttpGet]
         [Route("GetPostsByUser/{timelineId}/{userId}")]
-        [Authorize]
         public IActionResult GetPostsByUser([FromBody] GetPostByUserDTO getPostByUser)
         {
             _logger.LogInformation("Get the posts from timeline with the id " + getPostByUser.TimelineID + "from the user with id" + getPostByUser.UserID);
@@ -106,7 +103,6 @@ namespace PostsService.Controllers
 
         [HttpPost]
         [Route("CreatePost/{timelineId}")]
-        [Authorize]
         public IActionResult CreatePost([FromBody] PostPostDTO newPost, [FromRoute] int timelineId)
         {
             _logger.LogInformation("Create the post with the values " + newPost + "in the timeline with id" + timelineId);

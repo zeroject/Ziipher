@@ -23,7 +23,6 @@ namespace TimelineController.Controllers
 
         [HttpGet]
         [Route("GetTimeline")]
-        [Authorize]
         public async Task<IActionResult> GetTimeline([FromBody] GetTimelineDTO getTimeline)
         {
             _logger.LogInformation("Get the timeline from the user with id " + getTimeline.UserID);
@@ -42,7 +41,6 @@ namespace TimelineController.Controllers
 
         [HttpPost]
         [Route("CreateTimeline")]
-        [Authorize]
         public async Task<IActionResult> CreateTimeline([FromBody] PostTimelineDTO timeline)
         {
             _logger.LogInformation($"Created timeline: {timeline}");
@@ -60,7 +58,6 @@ namespace TimelineController.Controllers
 
         [HttpDelete]
         [Route("DeleteTimeline")]
-        [Authorize]
         public async Task<IActionResult> DeleteTimeline([FromBody] DeleteTimelineDTO deleteTimeline)
         {
             try
@@ -77,7 +74,6 @@ namespace TimelineController.Controllers
 
         [HttpPut]
         [Route("UpdateTimeline/{timelineId}/{newUserID}")]
-        [Authorize]
         public async Task<IActionResult> UpdateTimeline([FromBody] TimelineUpdateDTO timelineUpdate)
         {
             _logger.LogInformation("Update the timeline with id" + timelineUpdate.TimelineID + " for user with id" + timelineUpdate.NewUserID);
@@ -104,7 +100,6 @@ namespace TimelineController.Controllers
 
         [HttpGet]
         [Route("GetTimelineByUser")]
-        [Authorize]
         public async Task<IActionResult> GetTimelineByUser([FromBody] GetTimelineByUserDTO getTimelineByUser)
         {
             _logger.LogInformation($"Get the timeline for the user: {getTimelineByUser.UserID}");
@@ -123,7 +118,6 @@ namespace TimelineController.Controllers
 
         [HttpPost]
         [Route("AddPostToTimeline")]
-        [Authorize]
         public async Task<IActionResult> AddPostToTimeline([FromBody] PostAddTimeline post)
         {
             _logger.LogInformation($"Add post to the timeline with id: {post.TimelineID}");
