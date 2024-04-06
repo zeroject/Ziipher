@@ -25,7 +25,7 @@ namespace PostsService.Controllers
 
         [HttpGet]
         [Route("GetAllPosts")]
-        public ActionResult<Dictionary<Post, Like>> GetAllPosts( int timelineId)
+        public ActionResult GetAllPosts( int timelineId)
         {
             _logger.LogInformation("Getting posts for " + timelineId);
             var posts = _postService.GetAllPosts(timelineId);
@@ -35,7 +35,7 @@ namespace PostsService.Controllers
 
         [HttpGet]
         [Route("GetPost")]
-        public ActionResult<Dictionary<Post, Like>> GetPost([FromBody] GetPostDTO getPost)
+        public ActionResult GetPost([FromBody] GetPostDTO getPost)
         {
             try
             {

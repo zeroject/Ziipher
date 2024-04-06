@@ -96,7 +96,7 @@ namespace TimelineInfrastructure
                     throw new ArgumentException("Timeline not found.", nameof(newPost.TimelineID));
                 }
 
-                timeline.Posts.Add(newPost);
+                timeline.PostIDs.Add(newPost.PostID);
                 context.SaveChanges();
             }
         }

@@ -20,9 +20,9 @@ namespace PostApplication
             _messageClient = messageClient;
         }
 
-        public Dictionary<Post, Like> GetAllPosts(int timelineID)
+        public List<Post> GetAllPosts(int timelineID)
         {
-            return _postRepository.GetAllPosts(timelineID).Result;
+            return _postRepository.GetAllPosts(timelineID);
         }
 
         public async Task<Post> CreatePost(PostPostDTO newPost)
@@ -33,9 +33,9 @@ namespace PostApplication
             return post;
         }
 
-        public Dictionary<Post, Like> GetPost(int timelineID, int postId)
+        public Post GetPost(int timelineID, int postId)
         {
-            return _postRepository.GetPost(timelineID, postId).Result;
+            return _postRepository.GetPost(timelineID, postId);
         }
 
         public void UpdatePost(int timelineID, int postId, string newText, DateTime? newPostDate = null)

@@ -14,7 +14,7 @@ namespace PostInfrastructure
         /// </summary>
         /// <param name="timelineID">The ID of the timeline.</param>
         /// <returns>A dictionary containing posts as keys and their corresponding likes as values.</returns>
-        public Task<Dictionary<Post, Like>> GetAllPosts(int timelineID);
+        public List<Post> GetAllPosts(int timelineID);
 
         /// <summary>
         /// Creates a new post in the specified timeline.
@@ -29,7 +29,7 @@ namespace PostInfrastructure
         /// <param name="timelineID">The ID of the timeline.</param>
         /// <param name="postId">The ID of the post.</param>
         /// <returns>A dictionary containing the post as key and its corresponding likes as value.</returns>
-        public Task<Dictionary<Post, Like>> GetPost(int timelineID, int postId);
+        public Post GetPost(int timelineID, int postId);
 
         /// <summary>
         /// Updates the text and/or post date of a specific post in the given timeline.

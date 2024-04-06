@@ -11,7 +11,7 @@ namespace PostApplication
         /// </summary>
         /// <param name="timelineID">The ID of the timeline to retrieve posts from.</param>
         /// <returns>A dictionary containing the posts as keys and their corresponding likes as values.</returns>
-        public Dictionary<Post, Like> GetAllPosts(int timelineID);
+        public List<Post> GetAllPosts(int timelineID);
 
         /// <summary>
         /// Create a post in the timeline
@@ -27,7 +27,7 @@ namespace PostApplication
         /// <param name="timelineID">The ID of the timeline.</param>
         /// <param name="postId">The ID of the post.</param>
         /// <returns>A dictionary containing the post and its associated like.</returns>
-        public Dictionary<Post, Like> GetPost(int timelineID, int postId);
+        public Post GetPost(int timelineID, int postId);
 
         /// <summary>
         /// Updates a post from a timeline

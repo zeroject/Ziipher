@@ -24,17 +24,8 @@ namespace PostInfrastructure
 
             modelBuilder.Entity<Post>()
                 .HasKey(p => p.PostID);
-
-            modelBuilder.Entity<Post>()
-                .HasOne<Timeline>()
-                .WithMany(t => t.Posts) 
-                .HasForeignKey(p => p.TimelineID);
         }
-
-
         public DbSet<Post> Posts { get; set; }
-
-        public DbSet<Timeline> Timelines { get; set; }
 
     }
 }

@@ -23,7 +23,7 @@ namespace TimelineApplication.Helper
             _logger = logger;
         }
 
-        public void HandleAddPostToTimeline(AddPostIfCreated message)
+        public  void HandleAddPostToTimeline(AddPostIfCreated message)
         {
             _logger.LogInformation(message.Message);
 

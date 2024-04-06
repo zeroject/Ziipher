@@ -45,73 +45,28 @@ namespace PostInfrastructure
             }
         }
 
-        public async Task<Dictionary<Post, Like>> GetAllPosts(int timelineId)
+        public List<Post> GetAllPosts(int timelineId)
         {
             using(var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
                 List<Post> posts = context.Posts.Where(p => p.TimelineID == timelineId).ToList();
 
-                //Get all likes from Http request
-                List<Like> likes = new List<Like>();
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri("http://likeservice:8080/");
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    HttpResponseMessage response = await client.GetAsync("GetLikes");
-                    if (response.IsSuccessStatusCode)
-                    {
-                        likes = response.Content.ReadFromJsonAsync<List<Like>>().Result;
-                    }
-                }
-
-                Dictionary<Post, Like> postLikes = new Dictionary<Post, Like>();
-                foreach (var post in posts)
-                {
-                    Like like = likes.FirstOrDefault(l => l.PostID == post.PostID);
-                    postLikes.Add(post, like);
-                }
-                return postLikes;
+                return posts;
             }
         }
 
-        public async Task<Dictionary<Post, Like>> GetPost(int timelineID, int postId)
+        public Post GetPost(int timelineID, int postId)
         {
             using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
-
                 // Get Post from DB
                 var post = context.Posts.FirstOrDefault(p => p.TimelineID == timelineID && p.PostID == postId);
                 if (post == null)
                 {
                     throw new ArgumentException("Post not found.", nameof(postId));
                 }
-
-                // Get Like from Http request
-                Like like = new Like();
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri("http://likeservice:8080/");
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    HttpResponseMessage response = await client.GetAsync("GetLike/" + postId);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        like = response.Content.ReadFromJsonAsync<Like>().Result;
-                    }
-                }
-
-                // Combine post and like
-                Dictionary<Post, Like> postLikes = new Dictionary<Post, Like>
-            {
-                { post, like }
-            };
-
-                return postLikes;
+                return post;
             }
-
         }
 
         public List<Post> GetPostsByUser(int timelineId, int userId)
