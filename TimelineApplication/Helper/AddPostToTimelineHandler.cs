@@ -28,19 +28,17 @@ namespace TimelineApplication.Helper
             _logger.LogInformation(message.Message);
 
             try
-            {
-                using (var scope = _serviceProvider.CreateScope())
-                {
-                    var timelineService = scope.ServiceProvider.GetRequiredService<ITimelineService>();
-
-                    var post = new PostAddTimeline()
-                    {
-                        PostId = message.PostID,
-                        TimelineID = message.TimelineId
-                    };
-                   await timelineService.AddPostToTimeline(post);
+            { 
+               using var scope = _serviceProvider.CreateScope();
+               var timelineService = scope.ServiceProvider.GetRequiredService<ITimelineService>();
+               var post = new PostAddTimeline()
+                 {
+                     PostId = message.PostID,
+                     TimelineID = message.TimelineId
+                  };
+                  await timelineService.AddPostToTimeline(post);
                 }
-            }
+            
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);

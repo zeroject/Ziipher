@@ -32,13 +32,14 @@ builder.Services.AddLogging(logBuilder =>
     logBuilder.AddSeq("http://seq:5341");
 });
 
+builder.Services.AddSingleton(new MessageClient(RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")));
+builder.Services.AddHostedService<AddPostToTimelineHandler>();
+
 #region Depedency injection
 builder.Services.AddDbContext<RepositoryDBContext>();
 builder.Services.AddScoped<ITimelineRepository, TimelineRepository>();
 builder.Services.AddScoped<ITimelineService, TimelineService>();
 #endregion
-builder.Services.AddSingleton(new MessageClient(RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")));
-builder.Services.AddHostedService<AddPostToTimelineHandler>();
 
 var app = builder.Build();
 
