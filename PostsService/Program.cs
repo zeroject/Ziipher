@@ -46,6 +46,7 @@ builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>()
 var mapper = new MapperConfiguration(config =>
 {
     config.CreateMap<PostPostDTO, Post>();
+    config.CreateMap<PostAddComment, Comment>();
 }).CreateMapper();
 builder.Services.AddSingleton(mapper);
 #endregion
