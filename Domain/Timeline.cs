@@ -9,7 +9,7 @@ namespace Domain
     public class Timeline
     {
         public int TimelineID { get; set; }
-        public List<int>? PostIDs { get; set; }
+        public List<int> PostIDs { get; set; } = new List<int>();
         public int UserID { get; set; }
     }
 }
