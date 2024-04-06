@@ -1,7 +1,9 @@
 using AspNetCoreRateLimit;
 using AutoMapper;
 using Domain;
+using EasyNetQ;
 using HealthMiddelWare;
+using Messaging;
 using Microsoft.Extensions.Configuration;
 using PostApplication;
 using PostApplication.DTO_s;
@@ -46,6 +48,7 @@ var mapper = new MapperConfiguration(config =>
 }).CreateMapper();
 builder.Services.AddSingleton(mapper);
 #endregion
+builder.Services.AddSingleton(new MessageClient(RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")));
 
 builder.Services.AddLogging(logBuilder =>
 {

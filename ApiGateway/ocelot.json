@@ -52,7 +52,10 @@
       ],
       "UpstreamPathTemplate": "/api/GetUser",
       "UpstreamHttpMethod": [ "Get" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "Bearer", "AllowedScopes":  [] }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/UpdateUser",
@@ -81,7 +84,10 @@
       ],
       "UpstreamPathTemplate": "/api/AddDM",
       "UpstreamHttpMethod": [ "Post" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "Bearer", "AllowedScopes":  [] }
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/DeleteDM",
@@ -232,7 +238,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "postservice",
+          "Host": "timelineservice",
           "Port": 8080
         }
       ],
@@ -248,7 +254,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "postservice",
+          "Host": "timelineservice",
           "Port": 8080
         }
       ],
@@ -264,7 +270,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "postservice",
+          "Host": "timelineservice",
           "Port": 8080
         }
       ],
@@ -280,7 +286,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "postservice",
+          "Host": "timelineservice",
           "Port": 8080
         }
       ],
@@ -296,7 +302,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "postservice",
+          "Host": "timelineservice",
           "Port": 8080
         }
       ],
@@ -312,12 +318,28 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "postservice",
+          "Host": "timelineservice",
           "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/api/UpdateTimeline",
       "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/timeline/AddPostToTimeline",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "timelineservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/AddPostToTimeline",
+      "UpstreamHttpMethod": [ "Post" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
@@ -333,7 +355,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/AddLike",
-      "UpstreamHttpMethod": ["Put"],
+      "UpstreamHttpMethod": [ "Put" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
@@ -349,7 +371,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/CreateLike",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
@@ -365,7 +387,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/GetLike",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
@@ -381,7 +403,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/GetLikes",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
@@ -397,7 +419,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/RemoveLike",
-      "UpstreamHttpMethod": ["Delete"],
+      "UpstreamHttpMethod": [ "Delete" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
@@ -413,7 +435,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/addComment",
-      "UpstreamHttpMethod": ["Post"],
+      "UpstreamHttpMethod": [ "Post" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
@@ -429,7 +451,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/DeleteComment",
-      "UpstreamHttpMethod": ["Delete"],
+      "UpstreamHttpMethod": [ "Delete" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
@@ -445,7 +467,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/GetComments",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": [ "Get" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
@@ -461,7 +483,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/MassDeleteComments",
-      "UpstreamHttpMethod": ["Delete"],
+      "UpstreamHttpMethod": [ "Delete" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
@@ -477,12 +499,12 @@
         }
       ],
       "UpstreamPathTemplate": "/api/UpdateComment",
-      "UpstreamHttpMethod": ["Put"],
+      "UpstreamHttpMethod": [ "Put" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
       }
-    },
+    }
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:8080/"

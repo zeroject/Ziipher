@@ -121,7 +121,7 @@ namespace TimelineController.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("AddPostToTimeline")]
         [Authorize]
         public async Task<IActionResult> AddPostToTimeline([FromBody] PostAddTimeline post)
