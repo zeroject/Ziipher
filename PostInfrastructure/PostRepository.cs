@@ -1,4 +1,6 @@
 ﻿using Domain;
+using MessagingClient;
+using MessagingService.Messages;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,10 +16,12 @@ namespace PostInfrastructure
     public class PostRepostiroy: IPostRepository
     {
         private DbContextOptions<RepositoryDBContext> _options;
+        private readonly MessageClient _messageClient;
 
-        public PostRepostiroy(RepositoryDBContext context) 
+        public PostRepostiroy(RepositoryDBContext context, MessageClient messageClient) 
         {
             _options = new DbContextOptionsBuilder<RepositoryDBContext>().UseInMemoryDatabase("PostDB").Options;
+            _messageClient = messageClient;
         }
 
         public void CreatePost(int timelineId, Post newPost)
@@ -47,12 +51,11 @@ namespace PostInfrastructure
 
         public async Task<Dictionary<Post, Like>> GetAllPosts(int timelineId)
         {
-            using(var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
                 List<Post> posts = context.Posts.Where(p => p.TimelineID == timelineId).ToList();
 
-                //Get all likes from Http request
-                List<Like> likes = GetLikes().Result;
+                List<Like> likes = await GetLikes(timelineId);
 
                 Dictionary<Post, Like> postLikes = new Dictionary<Post, Like>();
                 foreach (var post in posts)
@@ -115,21 +118,12 @@ namespace PostInfrastructure
             }
         }
 
-        public async Task<List<Like>> GetLikes()
+        public async Task<List<Like>> GetLikes(int? timelineId = null)
         {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("http://likeservice:8080/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage response = await client.GetAsync("GetLikes");
-                if (response.IsSuccessStatusCode)
-                {
-                    return response.Content.ReadFromJsonAsync<List<Like>>().Result;
-                }
-            }
-            return null;
+            var request = new GetLikeRequest { TimelineId = timelineId };
+            var likes = await _messageClient.RequestAsync<GetLikeRequest, List<Like>>(request);
+            return likes;
         }
 
         public async Task<Like> GetLike(int postId)

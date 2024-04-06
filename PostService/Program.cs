@@ -1,7 +1,9 @@
 using AspNetCoreRateLimit;
 using AutoMapper;
 using Domain;
+using EasyNetQ;
 using HealthMiddelWare;
+using MessagingClient;
 using Microsoft.Extensions.Configuration;
 using PostApplication;
 using PostApplication.DTO_s;
@@ -36,6 +38,8 @@ builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
 builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
 // Register the default processing strategy
 builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+builder.Services.AddSingleton(new MessageClient(RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")));
+
 // Register the rate limit configuration
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
