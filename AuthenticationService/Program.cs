@@ -1,3 +1,4 @@
+using AuthenticationService;
 using AuthenticationService.BE;
 using AuthenticationService.Dto;
 using AuthenticationService.helpers;
@@ -5,7 +6,6 @@ using AuthenticationService.Interfaces;
 using AuthenticationService.Models;
 using AuthenticationService.Repos;
 using AutoMapper;
-using HealthMiddelWare;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +34,7 @@ builder.Services.AddScoped<IAuthValidationService, AuthValidationService>();
 //add appsettings secret key to the helper AppSettings
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
+
 builder.Services.AddSwaggerGen(c =>
 {
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -55,12 +56,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRouting();
+
+app.MapControllers();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
-app.UseHealthReportingMiddleware("AuthService");
-
-app.MapControllers();
 
 app.Run();

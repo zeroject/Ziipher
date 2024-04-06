@@ -89,10 +89,18 @@ namespace AuthenticationService.Models
             var key = Encoding.UTF8.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("username", userInfo.Username) }),
+                Subject = new ClaimsIdentity(new[]
+                {
+            new Claim(JwtRegisteredClaimNames.Sub, userInfo.Username),
+        }),
                 Expires = DateTime.UtcNow.AddHours(expiriationTime),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
+
+            // Optionally, add the "aud" (audience) claim based on your application's requirements
+            // This could be a static value, or you might pull it from configuration depending on your setup
+            // tokenDescriptor.Audience = "YourAudience";
+
             var tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
         }

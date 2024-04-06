@@ -71,14 +71,8 @@ namespace UserService.Controllers
         /// <returns></returns>
         [HttpDelete]
         [Route("DeleteUser")]
-        [Authorize]
         public async Task<IActionResult> DeleteUserAsync(int userID)
         {
-            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            bool v = await ValidateTokenAsync(accessToken);
-            if (v != true)
-                return Unauthorized();
-
             try
             {
                 _userCrud.DeleteUser(userID);
@@ -122,10 +116,6 @@ namespace UserService.Controllers
         [Authorize]
         public async Task<IActionResult> UpdateUserAsync(User user)
         {
-            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            bool v = await ValidateTokenAsync(accessToken);
-            if (v != true)
-                return Unauthorized();
 
             try
             {
@@ -136,32 +126,6 @@ namespace UserService.Controllers
             {
                 _logger.LogError(e, "An internal error has occurred");
                 return StatusCode(500, "An internal Error has occurred");
-            }
-        }
-
-        private async Task<bool> ValidateTokenAsync(string accessToken)
-        {
-            if (string.IsNullOrEmpty(accessToken))
-            {
-                _logger.LogError("Authorization token not found in request headers");
-                return false;
-            }
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("http://authservice:8080");
-                var response = await client.PostAsJsonAsync($"/auth/validateUser?token={accessToken}", "");
-                if (!response.IsSuccessStatusCode)
-                {
-                    _logger.LogError("Error validating user to AuthWanabe");
-                    return false;
-                }
-                var data = await response.Content.ReadFromJsonAsync<bool>();
-                if (data != true)
-                {
-                    _logger.LogInformation("User failed to auth himself");
-                    return false;
-                }
-                return true;
             }
         }
     }
