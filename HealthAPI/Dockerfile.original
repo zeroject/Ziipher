@@ -10,9 +10,6 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["HealthAPI/HealthAPI.csproj", "HealthAPI/"]
-COPY ["HealthApplication/HealthApplication.csproj", "HealthApplication/"]
-COPY ["HealthRepository/HealthRepository.csproj", "HealthRepository/"]
-COPY ["Domain/Domain.csproj", "Domain/"]
 RUN dotnet restore "./HealthAPI/HealthAPI.csproj"
 COPY . .
 WORKDIR "/src/HealthAPI"

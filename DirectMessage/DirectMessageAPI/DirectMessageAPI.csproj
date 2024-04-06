@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\MessagingClient\MessagingService.csproj" />
     <ProjectReference Include="..\DirectMessageApplication\DMApplication.csproj" />
     <ProjectReference Include="..\DirectMessageInfrastructure\DMInfrastructure.csproj" />
   </ItemGroup>
