@@ -76,7 +76,7 @@ services:
   likeservice:
     build:
       context: .
-      dockerfile: Like/LikeAPI/Dockerfile
+      dockerfile: LikeAPI/Dockerfile
     ports:
       - "8087:8080"
       - "8088:8081"
@@ -86,7 +86,7 @@ services:
   postservice:
     build:
       context: .
-      dockerfile: Post/PostService/Dockerfile
+      dockerfile: PostService/Dockerfile
     ports:
       - "8089:8080"
       - "8090:8081"
@@ -97,7 +97,7 @@ services:
   timelineservice:
     build:
       context: .
-      dockerfile: Timeline/TimelineService/Dockerfile
+      dockerfile: TimelineService/Dockerfile
     ports:
       - "8091:8080"
       - "8092:8081"
