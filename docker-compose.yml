@@ -46,7 +46,7 @@ services:
   dmservice:
     build:
       context: .
-      dockerfile: DirectMessage/DirectMessageAPI/Dockerfile
+      dockerfile: DirectMessage/DMService/Dockerfile
     ports:
       - "8085:8080"
       - "8086:8081"
