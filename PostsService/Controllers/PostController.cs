@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PostApplication;
 using PostApplication.DTO_s;
+using PostApplication.Helper;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -115,6 +116,23 @@ namespace PostsService.Controllers
             {
                 _logger.LogError(ex, "Post couldn't be created");
                 return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("AddCommentTopost")]
+        public IActionResult AddCommentToPost([FromBody] PostAddComment addComment)
+        {
+            _logger.LogInformation("Add comment to post with id " + addComment.CommentID );
+            try
+            {
+                _postService.AddCommentToPost(addComment);
+                return Ok();
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, "Comment couldn't be added to the post");
+                return StatusCode(500, e.Message);
             }
         }
     }

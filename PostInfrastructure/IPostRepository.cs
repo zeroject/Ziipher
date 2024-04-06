@@ -54,5 +54,8 @@ namespace PostInfrastructure
         /// <param name="userId">The ID of the user.</param>
         /// <returns>A list of posts created by the user.</returns>
         public List<Post> GetPostsByUser(int timelineID, int userId);
+
+        public Task AddCommentToPost(Comment comment);
+
     }
 }

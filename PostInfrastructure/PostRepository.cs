@@ -93,6 +93,20 @@ namespace PostInfrastructure
                 }
             }
            }
+
+        public async Task AddCommentToPost(Comment comment)
+        {
+                using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
+                {
+                    var post = context.Posts.Find(comment.PostID);
+                    if (post == null)
+                    {
+                        throw new ArgumentException("Post not found.", nameof(comment.PostID));
+                    }
+                    post.Comments.Add(comment.CommentID);
+                    await context.SaveChangesAsync();
+            }
+        }
         }
     }
 

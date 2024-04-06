@@ -3,6 +3,7 @@ using Domain;
 using Messaging;
 using Messaging.Messages;
 using PostApplication.DTO_s;
+using PostApplication.Helper;
 using PostInfrastructure;
 
 namespace PostApplication
@@ -51,6 +52,11 @@ namespace PostApplication
         public List<Post> GetPostsByUser(int timelineID, int userId)
         {
             return _postRepository.GetPostsByUser(timelineID, userId);
+        }
+
+        public async Task AddCommentToPost(PostAddComment comment)
+        {
+            await _postRepository.AddCommentToPost(_mapper.Map<Comment>(comment));
         }
 
     }

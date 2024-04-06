@@ -1,5 +1,6 @@
 ﻿using Domain;
 using PostApplication.DTO_s;
+using PostApplication.Helper;
 
 namespace PostApplication
 {
@@ -55,5 +56,7 @@ namespace PostApplication
         /// <returns></returns>
 
         public List<Post> GetPostsByUser(int timelineID, int userId);
+
+        public Task AddCommentToPost(PostAddComment comment);
     }
 }

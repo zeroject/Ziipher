@@ -7,6 +7,7 @@ using Messaging;
 using Microsoft.Extensions.Configuration;
 using PostApplication;
 using PostApplication.DTO_s;
+using PostApplication.Helper;
 using PostInfrastructure;
 using RateLimit;
 using RateLimit.Configs;
@@ -61,6 +62,7 @@ builder.Services.AddScoped<IPostRepository, PostRepostiroy>(); ;
 builder.Services.AddScoped<IPostService, PostService>();
 #endregion
 
+builder.Services.AddHostedService<AddCommentToPostHandler>();
 
 var app = builder.Build();
 

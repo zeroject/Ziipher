@@ -11,7 +11,7 @@ namespace Domain
         public int PostID { get; set; }
         public required string Text { get; set; }
         public DateTime PostDate { get; set; }
-        public List<Comment> Comments { get; set; } = new List<Comment>();
+        public List<int> Comments { get; set; } = new List<int>();
         public int UserID { get; set; } 
         public int TimelineID { get; set; }
     }
