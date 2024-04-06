@@ -22,6 +22,7 @@ var mapper = new MapperConfiguration(config =>
     config.CreateMap<PostTimelineDTO, Timeline>();
     config.CreateMap<PutTimelineDTO, Timeline>();
     config.CreateMap<DeleteTimelineDTO, Timeline>();
+    config.CreateMap<PostAddTimeline, Post>();
 }).CreateMapper();
 builder.Services.AddSingleton(mapper);
 #endregion
