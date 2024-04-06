@@ -3,6 +3,7 @@ using Messaging;
 using Messaging.Messages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +16,16 @@ namespace TimelineApplication.Helper
    public class AddPostToTimelineHandler: BackgroundService
     {
         private IServiceProvider _serviceProvider; 
-        public AddPostToTimelineHandler(IServiceProvider serviceProvider)
+        private readonly ILogger<AddPostToTimelineHandler> _logger;
+        public AddPostToTimelineHandler(IServiceProvider serviceProvider, ILogger<AddPostToTimelineHandler> logger)
         {
             _serviceProvider = serviceProvider;
+            _logger = logger;
         }
 
         public void HandleAddPostToTimeline(AddPostIfCreated message)
         {
-            Console.WriteLine(message.Message);
+            _logger.LogInformation(message.Message);
 
             using (var scope = _serviceProvider.CreateScope())
             {
@@ -40,8 +43,8 @@ namespace TimelineApplication.Helper
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            Console.WriteLine("Message received");
 
+            _logger.LogInformation("MESSAGE RECIEVED FROM NASA");
             var messageClient = new MessageClient(
         RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")
     );

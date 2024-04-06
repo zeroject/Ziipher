@@ -13,7 +13,7 @@ namespace TimelineInfrastructure
 
         private DbContextOptions<RepositoryDBContext> _options;
 
-        public TimelineRepository(RepositoryDBContext context)
+        public TimelineRepository()
         {
             _options = new DbContextOptionsBuilder<RepositoryDBContext>().UseInMemoryDatabase("TimelineDB").Options;
         }

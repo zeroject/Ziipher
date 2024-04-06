@@ -1,7 +1,10 @@
 using AutoMapper;
 using Domain;
+using EasyNetQ;
+using Messaging;
 using TimelineApplication;
 using TimelineApplication.DTO;
+using TimelineApplication.Helper;
 using TimelineInfrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,12 +33,11 @@ builder.Services.AddLogging(logBuilder =>
 
 #region Depedency injection
 builder.Services.AddDbContext<RepositoryDBContext>();
-builder.Services.AddScoped<RepositoryDBContext>();
 builder.Services.AddScoped<ITimelineRepository, TimelineRepository>();
 builder.Services.AddScoped<ITimelineService, TimelineService>();
 #endregion
-
-
+builder.Services.AddSingleton(new MessageClient(RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")));
+builder.Services.AddHostedService<AddPostToTimelineHandler>();
 
 var app = builder.Build();
 
