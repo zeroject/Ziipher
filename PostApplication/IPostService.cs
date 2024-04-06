@@ -18,7 +18,7 @@ namespace PostApplication
         /// </summary>
         /// <param name="timelineID">The timeline where the post is being created</param>
         /// <param name="newPost">The new post object</param>
-        public Task<Post> CreatePost(int timelineID, PostPostDTO newPost);
+        public Task<Post> CreatePost(PostPostDTO newPost);
 
 
         /// <summary>

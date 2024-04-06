@@ -21,7 +21,7 @@ namespace PostInfrastructure
         /// </summary>
         /// <param name="timelineID">The ID of the timeline.</param>
         /// <param name="newPost">The new post to be created.</param>
-        public Task<Post> CreatePost(int timelineID, Post newPost);
+        public Task<Post> CreatePost(Post newPost);
 
         /// <summary>
         /// Retrieves a specific post with its corresponding likes from the given timeline.

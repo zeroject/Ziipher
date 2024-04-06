@@ -20,11 +20,10 @@ namespace PostInfrastructure
             _options = new DbContextOptionsBuilder<RepositoryDBContext>().UseInMemoryDatabase("PostDB").Options;
         }
 
-        public async Task<Post> CreatePost(int timelineId, Post newPost)
+        public async Task<Post> CreatePost( Post newPost)
         {
             using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
-                newPost.TimelineID = timelineId;
                 context.Posts.Add(newPost);
                 context.SaveChanges();
                 return newPost;

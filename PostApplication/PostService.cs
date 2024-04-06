@@ -25,12 +25,11 @@ namespace PostApplication
             return _postRepository.GetAllPosts(timelineID).Result;
         }
 
-        public async Task<Post> CreatePost(int timelineID, PostPostDTO newPost)
+        public async Task<Post> CreatePost(PostPostDTO newPost)
         {
             newPost.PostDate = DateTime.Now;
-            newPost.TimelineID = timelineID;
-            var post = await _postRepository.CreatePost(timelineID, _mapper.Map<Post>(newPost));
-            await _messageClient.Send(new AddPostIfCreated("Adding post to timeline", post.PostID, timelineID), "AddPostToTimeline");
+            var post = await _postRepository.CreatePost(_mapper.Map<Post>(newPost));
+            await _messageClient.Send(new AddPostIfCreated("Adding post to timeline", post.PostID, newPost.TimelineID), "AddPostToTimeline");
             return post;
         }
 

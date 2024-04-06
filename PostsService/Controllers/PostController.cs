@@ -103,12 +103,12 @@ namespace PostsService.Controllers
 
         [HttpPost]
         [Route("CreatePost/{timelineId}")]
-        public IActionResult CreatePost([FromBody] PostPostDTO newPost, [FromRoute] int timelineId)
+        public IActionResult CreatePost([FromBody] PostPostDTO newPost)
         {
-            _logger.LogInformation("Create the post with the values " + newPost + "in the timeline with id" + timelineId);
+            _logger.LogInformation("Create the post with the values " + newPost + "in the timeline with id" + newPost.TimelineID);
             try
             {
-                _postService.CreatePost(timelineId, newPost);
+                _postService.CreatePost(newPost);
                 return Ok();
             }
             catch(Exception ex)
