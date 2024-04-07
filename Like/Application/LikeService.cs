@@ -11,11 +11,11 @@ public class LikeService : ILikeService
     ILikeRepository likeRepository;
     ILogger<LikeService> logger;
     MessageClient _messageClient;
-    private Mapper _mapper;
+    private IMapper _mapper;
     
 
 
-    public LikeService(ILikeRepository _likeRepository, ILogger<LikeService> _logger, MessageClient messageClient, Mapper mapper)
+    public LikeService(ILikeRepository _likeRepository, ILogger<LikeService> _logger, MessageClient messageClient, IMapper mapper)
     {
         likeRepository = _likeRepository;
         logger = _logger;
