@@ -25,6 +25,7 @@ public class PostTest
     public PostTest()
     {
         _postRepo = Substitute.For<IPostRepository>();
+        _timelineRepo = Substitute.For<ITimelineRepository>();
         _mapper = Substitute.For<IMapper>();
     }
 
@@ -32,7 +33,6 @@ public class PostTest
     public void UnitTest_GetPost()
     {
         // Arrange
-        _postRepo = Substitute.For<IPostRepository>();
         _postService = new PostService(_postRepo, _mapper, null);
 
         int postID = 1;
@@ -52,7 +52,6 @@ public class PostTest
     public void UnitTest_GetAllPosts()
     {
         // Arrange
-        _postRepo = Substitute.For<IPostRepository>();
         _postService = new PostService(_postRepo, _mapper, null);
 
         int timelineID = 1;
@@ -71,7 +70,6 @@ public class PostTest
     public void UnitTest_UpdatePost()
     {
         // Arrange
-        _postRepo = Substitute.For<IPostRepository>();
         _postService = new PostService(_postRepo, _mapper, null);
 
         int postID = 1;
@@ -88,7 +86,6 @@ public class PostTest
     public void UnitTest_DeletePost()
     {
         // Arrange
-        _postRepo = Substitute.For<IPostRepository>();
         _postService = new PostService(_postRepo, _mapper, null);
 
         int postID = 1;
@@ -105,7 +102,6 @@ public class PostTest
     public void UnitTest_GetPostsByUser()
     {
         // Arrange
-        _postRepo = Substitute.For<IPostRepository>();
         _postService = new PostService(_postRepo, _mapper, null);
 
         int timelineID = 1;
@@ -125,7 +121,6 @@ public class PostTest
     public async void UnitTest_AddCommentToPost()
     {
         // Arrange
-        _postRepo = Substitute.For<IPostRepository>();
         _postService = new PostService(_postRepo, _mapper, null);
 
         //Act
@@ -139,7 +134,6 @@ public class PostTest
     public async void UnitTest_AddLikeToPost()
     {
         // Arrange
-        _postRepo = Substitute.For<IPostRepository>();
         _postService = new PostService(_postRepo, _mapper, null);
 
         //Act
@@ -157,9 +151,6 @@ public class PostTest
         // Arrange
         var _bus = Substitute.For<IBus>();
         var MC = Substitute.For<MessageClient>(_bus);
-
-        _postRepo = Substitute.For<IPostRepository>();
-        _timelineRepo = Substitute.For<ITimelineRepository>();
 
         _postService = new PostService(_postRepo, _mapper, MC);
         _timelineService = new TimelineService(_timelineRepo, _mapper);
