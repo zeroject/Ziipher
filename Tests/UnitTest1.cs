@@ -135,6 +135,20 @@ public class PostTest
         await _postRepo.Received(1).AddCommentToPost(Arg.Any<Comment>());
     }
 
+    [Fact]
+    public async void UnitTest_AddLikeToPost()
+    {
+        // Arrange
+        _postRepo = Substitute.For<IPostRepository>();
+        _postService = new PostService(_postRepo, _mapper, null);
+
+        //Act
+        await _postService.AddLikeToPost(new PostAddLike { PostId = 1, LikeID = 1 });
+
+        //Assert
+        await _postRepo.Received(1).AddLikeToPost(Arg.Any<Like>());
+    }
+
 // Service Test for CreatePost
 
     [Fact]
