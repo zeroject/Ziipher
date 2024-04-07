@@ -56,6 +56,6 @@ namespace PostInfrastructure
         public List<Post> GetPostsByUser(int timelineID, int userId);
 
         public Task AddCommentToPost(Comment comment);
-
+        public Task AddLikeToPost(Like like);
     }
 }

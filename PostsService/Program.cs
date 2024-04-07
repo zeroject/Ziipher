@@ -64,6 +64,7 @@ builder.Services.AddScoped<IPostService, PostService>();
 #endregion
 
 builder.Services.AddHostedService<AddCommentToPostHandler>();
+builder.Services.AddHostedService<AddLikeToPostHandler>();
 
 var app = builder.Build();
 

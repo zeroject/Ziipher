@@ -14,8 +14,6 @@ public class DbContext : Microsoft.EntityFrameworkCore.DbContext
             .Property(dm => dm.ID)
             .ValueGeneratedOnAdd();
     }
-
-
     public DbSet<Like> Likes { get; set; }
 
     

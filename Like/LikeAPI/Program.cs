@@ -1,5 +1,7 @@
 using AspNetCoreRateLimit;
+using EasyNetQ;
 using HealthMiddelWare;
+using Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +38,7 @@ builder.Services.AddLogging(logBuilder =>
 
 LikeApplication.DependencyResolverService.RegisterApplicationLayer(builder.Services);
 LikeInfrastructure.DependencyResolverService.RegisterInfrastructureLayer(builder.Services);
+builder.Services.AddSingleton(new MessageClient(RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -14,5 +14,7 @@ namespace Domain
         public List<int> Comments { get; set; } = new List<int>();
         public int UserID { get; set; } 
         public int TimelineID { get; set; }
+
+        public List<int> Likes { get; set; } = new List<int>();
     }
 }

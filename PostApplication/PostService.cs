@@ -59,5 +59,9 @@ namespace PostApplication
             await _postRepository.AddCommentToPost(_mapper.Map<Comment>(comment));
         }
 
+        public async Task AddLikeToPost(PostAddLike like)
+        {
+            await _postRepository.AddLikeToPost(_mapper.Map<Like>(like));
+        }
     }
 }
