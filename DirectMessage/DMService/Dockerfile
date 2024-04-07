@@ -9,20 +9,20 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["DirectMessage/DMService/DMService.csproj", "DirectMessage/DMService/"]
-COPY ["DirectMessage/DirectMessageApplication/DirectMessageApplication.csproj", "DirectMessage/DirectMessageApplication/"]
+COPY ["DirectMessage/DMService/DirectMessageAPI.csproj", "DirectMessage/DMService/"]
+COPY ["DirectMessage/DirectMessageApplication/DMApplication.csproj", "DirectMessage/DirectMessageApplication/"]
 COPY ["Domain/Domain.csproj", "Domain/"]
-COPY ["DirectMessage/DirectMessageInfrastructure/DirectMessageInfrastructure.csproj", "DirectMessage/DirectMessageInfrastructure/"]
-RUN dotnet restore "./DirectMessage/DMService/DMService.csproj"
+COPY ["DirectMessage/DirectMessageInfrastructure/DMInfrastructure.csproj", "DirectMessage/DirectMessageInfrastructure/"]
+RUN dotnet restore "./DirectMessage/DMService/DirectMessageAPI.csproj"
 COPY . .
 WORKDIR "/src/DirectMessage/DMService"
-RUN dotnet build "./DMService.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./DirectMessageAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./DMService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./DirectMessageAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "DMService.dll"]
+ENTRYPOINT ["dotnet", "DirectMessageAPI.dll"]

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PostApplication;
 using PostApplication.DTO_s;
+using PostApplication.Helper;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,21 +26,18 @@ namespace PostsService.Controllers
 
         [HttpGet]
         [Route("GetAllPosts")]
-        public IActionResult GetAllPosts( int timelineId)
+        public ActionResult GetAllPosts( int timelineId)
         {
             _logger.LogInformation("Getting posts for " + timelineId);
             var posts = _postService.GetAllPosts(timelineId);
             return Ok(posts);
         }
 
+
         [HttpGet]
         [Route("GetPost")]
-        public async Task<IActionResult> GetPost([FromBody] GetPostDTO getPost)
+        public ActionResult GetPost([FromBody] GetPostDTO getPost)
         {
-            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            bool v = await ValidateTokenAsync(accessToken);
-            if (v != true)
-                return Unauthorized();
             try
             {
                 _logger.LogInformation("Get the post with ID " + getPost.PostID + "from timeline with id " + getPost.TimelineID);
@@ -55,13 +53,8 @@ namespace PostsService.Controllers
 
         [HttpDelete]
         [Route("DeletePost")]
-        [Authorize]
-        public async Task<IActionResult> DeletePost([FromBody] DeletePostDTO deletePost)
+        public IActionResult DeletePost([FromBody] DeletePostDTO deletePost)
         {
-            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            bool v = await ValidateTokenAsync(accessToken);
-            if (v != true)
-                return Unauthorized();
             try
             {
                 _logger.LogInformation("Delete post with id " + deletePost.PostID + "from timeline with id " + deletePost.TimelineID);
@@ -77,13 +70,8 @@ namespace PostsService.Controllers
 
         [HttpPut]
         [Route("UpdatePost")]
-        [Authorize]
-        public async Task<IActionResult> UpdatePost(PostUpdateDTO postUpdate)
+        public IActionResult UpdatePost(PostUpdateDTO postUpdate)
         {
-            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            bool v = await ValidateTokenAsync(accessToken);
-            if (v != true)
-                return Unauthorized();
             try
             {
                 _logger.LogInformation("Update post with id " + postUpdate.PostID + "from timeline with id" + postUpdate.TimelineID + "with the updated post " + postUpdate);
@@ -99,14 +87,9 @@ namespace PostsService.Controllers
 
         [HttpGet]
         [Route("GetPostsByUser/{timelineId}/{userId}")]
-        [Authorize]
-        public async Task<IActionResult> GetPostsByUser([FromBody] GetPostByUserDTO getPostByUser)
+        public IActionResult GetPostsByUser([FromBody] GetPostByUserDTO getPostByUser)
         {
             _logger.LogInformation("Get the posts from timeline with the id " + getPostByUser.TimelineID + "from the user with id" + getPostByUser.UserID);
-            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            bool v = await ValidateTokenAsync(accessToken);
-            if (v != true)
-                return Unauthorized();
             try
             {
                 var posts = _postService.GetPostsByUser(getPostByUser.TimelineID, getPostByUser.UserID);
@@ -120,18 +103,13 @@ namespace PostsService.Controllers
         }
 
         [HttpPost]
-        [Route("CreatePost/{timelineId}")]
-        [Authorize]
-        public async Task<IActionResult> CreatePost([FromBody] PostPostDTO newPost, [FromRoute] int timelineId)
+        [Route("CreatePost")]
+        public IActionResult CreatePost([FromBody] PostPostDTO newPost)
         {
-            _logger.LogInformation("Create the post with the values " + newPost + "in the timeline with id" + timelineId);
-            string accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            bool v = await ValidateTokenAsync(accessToken);
-            if (v != true)
-                return Unauthorized();
+            _logger.LogInformation("Create the post with the values " + newPost + "in the timeline with id" + newPost.TimelineID);
             try
             {
-                _postService.CreatePost(timelineId, newPost);
+                _postService.CreatePost(newPost);
                 return Ok();
             }
             catch(Exception ex)
@@ -141,29 +119,36 @@ namespace PostsService.Controllers
             }
         }
 
-        private async Task<bool> ValidateTokenAsync(string accessToken)
+        [HttpPost]
+        [Route("AddCommentTopost")]
+        public IActionResult AddCommentToPost([FromBody] PostAddComment addComment)
         {
-            if (string.IsNullOrEmpty(accessToken))
+            _logger.LogInformation("Add comment to post with id " + addComment.CommentID );
+            try
             {
-                _logger.LogError("Authorization token not found in request headers");
-                return false;
+                _postService.AddCommentToPost(addComment);
+                return Ok();
             }
-            using (var client = new HttpClient())
+            catch(Exception e)
             {
-                client.BaseAddress = new Uri("http://authservice:8080");
-                var response = await client.PostAsJsonAsync($"/auth/validateUser?token={accessToken}", "");
-                if (!response.IsSuccessStatusCode)
-                {
-                    _logger.LogError("Error validating user to AuthWanabe");
-                    return false;
-                }
-                var data = await response.Content.ReadFromJsonAsync<bool>();
-                if (data != true)
-                {
-                    _logger.LogInformation("User failed to auth himself");
-                    return false;
-                }
-                return true;
+                _logger.LogError(e, "Comment couldn't be added to the post");
+                return StatusCode(500, e.Message);
+            }
+        }
+        [HttpPost]
+        [Route("AddLikeToPost")]
+        public IActionResult AddLikeToPost([FromBody] PostAddLike addLike)
+        {
+            _logger.LogInformation("Add like to post with id " + addLike.LikeID);
+            try
+            {
+                _postService.AddLikeToPost(addLike);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Like couldn't be added to the post");
+                return StatusCode(500, e.Message);
             }
         }
     }

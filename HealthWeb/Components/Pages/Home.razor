@@ -1,0 +1,86 @@
+﻿@page "/"
+@attribute [StreamRendering]
+
+<PageTitle>Home</PageTitle>
+
+<h1>Health Service</h1>
+<h2>Underneath is all logged statuses of services</h2>
+@if (data == null){
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Service Name</th>
+                <th>Status</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in data)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.ServiceName</td>
+                    <td>@item.Status.ToString()</td>
+                    <td>@item.Timestamp</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <style>
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .table th, .table td {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            .table th {
+                background-color: #f2f2f2;
+            }
+    </style>
+}
+
+@code{
+    private List<Health> data { get; set; }
+    private string errorMessage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                data = await httpClient.GetFromJsonAsync<List<Health>>("http://healthservice:8080/health");
+            }
+        } catch(Exception e)
+        {
+            errorMessage = e.Message;
+        }
+    }
+
+    public class Health
+    {
+        public Guid? Id { get; set; }
+        public required string ServiceName { get; set; }
+        public required HealthStatus Status { get; set; }
+        public required DateTime Timestamp { get; set; }
+    }
+
+    public enum HealthStatus
+    {
+        Healthy,
+        Sick,
+        Dying,
+        Unknown
+    }
+}

@@ -1,6 +1,15 @@
 version: '3.8'
 
 services:
+  rabbitmq:
+    image: "rabbitmq:3-management-alpine"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+
   Auth-db:
     image: mcr.microsoft.com/azure-sql-edge:latest
     environment:
@@ -28,7 +37,6 @@ services:
       dockerfile: AuthenticationService/Dockerfile
     ports:
       - "8081:8080"
-      - "8082:8081"
     depends_on:
       - seq
       - Auth-db
@@ -39,19 +47,75 @@ services:
       dockerfile: UserService/Dockerfile
     ports:
       - "8083:8080"
-      - "8084:8081"
     depends_on:
       - seq
 
-  dmservice:
+  healthservice:
     build:
       context: .
-      dockerfile: DirectMessage/DMService/Dockerfile
+      dockerfile: HealthAPI/Dockerfile
     ports:
-      - "8085:8080"
-      - "8086:8081"
+      - "9080:8080"
     depends_on:
       - seq 
+
+  gatewayservice:
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    ports: 
+      - "8087:8080"
+    depends_on:
+    - authservice
+    - userservice
+      
+  healthweb:
+    build:
+      context: .
+      dockerfile: HealthWeb/Dockerfile
+    ports:
+      - "9082:8080"
+      - "9083:8081"
+    depends_on:
+      - seq 
+
+  likeservice:
+    build:
+      context: .
+      dockerfile: Like/LikeAPI/Dockerfile
+    ports:
+      - "8092:8080"
+    depends_on:
+      - seq
+
+  postservice:
+    build:
+      context: .
+      dockerfile: PostsService/Dockerfile
+    ports:
+      - "8089:8080"
+    depends_on:
+      - seq
+      - likeservice
+  
+  timelineservice:
+    build:
+      context: .
+      dockerfile: TimelineService/Dockerfile
+    ports:
+      - "8091:8080"
+    depends_on:
+      - seq
+      - postservice
+
+  commentservice:
+    build:
+      context: .
+      dockerfile: "AuthenticationService/Dockerfile" 
+    ports:
+      - "8093:8080"
+    depends_on:
+      - seq         
 
 volumes:
   mssql-data:

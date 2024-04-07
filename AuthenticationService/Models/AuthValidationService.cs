@@ -44,11 +44,15 @@ namespace AuthenticationService.Models
         /// <exception cref="Exception"></exception>
         public string LoginUser(LoginDto loginDto)
         {
-            bool isValid = Validate(loginDto.Username, loginDto.Password);
+            //get user from db
+            Login login = _authRepo.GetUsersByUsername(loginDto.Username);
+            //compare passwords from db and dto
+            bool isValid = login.Password == loginDto.Password;
+
+            //if valid generate token
             if (isValid)
             {
                 var token = GenerateJSONWebToken(loginDto);
-                Login login = _authRepo.GetUsersByUsername(loginDto.Username);
                 _authRepo.AddTokenToLogin(new Token 
                 { 
                     JwtToken = token,
@@ -85,10 +89,18 @@ namespace AuthenticationService.Models
             var key = Encoding.UTF8.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("username", userInfo.Username) }),
+                Subject = new ClaimsIdentity(new[]
+                {
+            new Claim(JwtRegisteredClaimNames.Sub, userInfo.Username),
+        }),
                 Expires = DateTime.UtcNow.AddHours(expiriationTime),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
+
+            // Optionally, add the "aud" (audience) claim based on your application's requirements
+            // This could be a static value, or you might pull it from configuration depending on your setup
+            // tokenDescriptor.Audience = "YourAudience";
+
             var tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
         }

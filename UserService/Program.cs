@@ -1,3 +1,4 @@
+using HealthMiddelWare;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,8 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseHealthReportingMiddleware("UserService");
 
 app.MapControllers();
 

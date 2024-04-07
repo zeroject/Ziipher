@@ -1,19 +1,23 @@
 ﻿using CommentInfrastructure;
 using Domain;
 using Domain.DTO_s;
+using Messaging;
+using Messaging.Messages;
 
 namespace CommentApplication
 {
     public class CommentCrud : ICommentCrud
     {
         private readonly ICommentRepository _commentRepository;
+        private readonly MessageClient _messageClient;
 
-        public CommentCrud(ICommentRepository commentRepository)
+        public CommentCrud(ICommentRepository commentRepository, MessageClient messageClient)
         {
             _commentRepository = commentRepository;
+            _messageClient = messageClient;
         }
 
-        public void AddComment(CommentDTO commentDTO)
+        public async void AddComment(CommentDTO commentDTO)
         {
             Comment comment = new Comment
             {
@@ -23,6 +27,8 @@ namespace CommentApplication
                 PostID = commentDTO.PostID,
                 CommentDate = DateTime.Now
             };
+            await _messageClient.Send(new AddIfCommentCreated("Adding comment to post", comment.CommentID, comment.PostID), "AddCommentToPost");
+
             _commentRepository.AddComment(comment);
         }
 

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>HealthReportingMiddleware</id>
+    <version>1.1.0</version>
+    <authors>Casper K. Fink</authors>
+    <description>This middelware will report to the health service, with how healthy your service is</description>
+    <dependencies>
+      <dependency id="Microsoft.AspNetCore.Http.Abstractions" version="[2.2.0,)" />
+      <!-- Add any other dependencies your middleware requires -->
+    </dependencies>
+  </metadata>
+</package>

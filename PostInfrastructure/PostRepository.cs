@@ -1,7 +1,11 @@
 ﻿using Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,65 +13,115 @@ namespace PostInfrastructure
 {
     public class PostRepostiroy: IPostRepository
     {
-        private RepositoryDBContext _context;
+        private DbContextOptions<RepositoryDBContext> _options;
 
-        public PostRepostiroy(RepositoryDBContext context) 
+        public PostRepostiroy() 
         {
-            _context = context;
+            _options = new DbContextOptionsBuilder<RepositoryDBContext>().UseInMemoryDatabase("PostDB").Options;
         }
 
-        public void CreatePost(int timelineId, Post newPost)
+        public async Task<Post> CreatePost( Post newPost)
         {
-            newPost.TimelineID = timelineId;
-            _context.Posts.Add(newPost);
-            _context.SaveChanges();
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
+            {
+                context.Posts.Add(newPost);
+                context.SaveChanges();
+                return newPost;
+            }
+
         }
 
         public void DeletePost(int timelineId, int postId)
         {
-            var post = _context.Posts.FirstOrDefault(p => p.TimelineID == timelineId && p.PostID == postId);
-            if (post != null)
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
-                _context.Posts.Remove(post);
-                _context.SaveChanges();
+
+                var post = context.Posts.FirstOrDefault(p => p.TimelineID == timelineId && p.PostID == postId);
+                if (post != null)
+                {
+                    context.Posts.Remove(post);
+                    context.SaveChanges();
+                }
             }
         }
 
         public List<Post> GetAllPosts(int timelineId)
         {
-            return _context.Posts.Where(p => p.TimelineID == timelineId).ToList();
+            using(var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
+            {
+                List<Post> posts = context.Posts.Where(p => p.TimelineID == timelineId).ToList();
+
+                return posts;
+            }
         }
 
         public Post GetPost(int timelineID, int postId)
         {
-
-
-            var post = _context.Posts.FirstOrDefault(p => p.TimelineID == timelineID && p.PostID == postId);
-            if (post == null)
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
-                throw new ArgumentException("Post not found.", nameof(postId));
+                // Get Post from DB
+                var post = context.Posts.FirstOrDefault(p => p.TimelineID == timelineID && p.PostID == postId);
+                if (post == null)
+                {
+                    throw new ArgumentException("Post not found.", nameof(postId));
+                }
+                return post;
             }
-            return post;
         }
 
         public List<Post> GetPostsByUser(int timelineId, int userId)
         {
-            return _context.Posts.Where(p => p.TimelineID == timelineId && p.UserID == userId).ToList();
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
+            {
+                return context.Posts.Where(p => p.TimelineID == timelineId && p.UserID == userId).ToList();
+            }
         }
 
         public void UpdatePost(int timelineId, int postId, string newText, DateTime? newPostDate = null)
         {
-            var post = _context.Posts.FirstOrDefault(p => p.TimelineID == timelineId && p.PostID == postId);
-            if (post != null)
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
-                post.Text = newText;
-                if (newPostDate.HasValue)
+                var post = context.Posts.FirstOrDefault(p => p.TimelineID == timelineId && p.PostID == postId);
+                if (post != null)
                 {
-                    post.PostDate = newPostDate.Value;
+                    post.Text = newText;
+                    if (newPostDate.HasValue)
+                    {
+                        post.PostDate = newPostDate.Value;
+                    }
+                    context.SaveChanges();
                 }
-                _context.SaveChanges();
+            }
+           }
+
+        public async Task AddCommentToPost(Comment comment)
+        {
+                using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
+                {
+                    var post = context.Posts.Find(comment.PostID);
+                    if (post == null)
+                    {
+                        throw new ArgumentException("Post not found.", nameof(comment.PostID));
+                    }
+                    post.Comments.Add(comment.CommentID);
+                    await context.SaveChangesAsync();
+            }
+        }
+
+        public Task AddLikeToPost(Like like)
+        {
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
+            {
+                var post = context.Posts.Find(like.PostID);
+                if (post == null)
+                {
+                    throw new ArgumentException("Post not found.", nameof(like.PostID));
+                }
+                post.Likes.Add(like.ID);
+                return context.SaveChangesAsync();
             }
         }
     }
-}
+ }
+
 
