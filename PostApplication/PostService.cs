@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using Domain;
+using Messaging;
+using Messaging.Messages;
 using PostApplication.DTO_s;
+using PostApplication.Helper;
 using PostInfrastructure;
 
 namespace PostApplication
@@ -9,11 +12,13 @@ namespace PostApplication
     {
         private IPostRepository _postRepository;
         private IMapper _mapper;
+        private MessageClient _messageClient;
 
-        public PostService(IPostRepository postRepository, IMapper mapper)
+        public PostService(IPostRepository postRepository, IMapper mapper, MessageClient messageClient)
         {
             _postRepository = postRepository;
             _mapper = mapper;
+            _messageClient = messageClient;
         }
 
         public List<Post> GetAllPosts(int timelineID)
@@ -21,11 +26,12 @@ namespace PostApplication
             return _postRepository.GetAllPosts(timelineID);
         }
 
-        public void CreatePost(int timelineID, PostPostDTO newPost)
+        public async Task<Post> CreatePost(PostPostDTO newPost)
         {
             newPost.PostDate = DateTime.Now;
-            newPost.TimelineID = timelineID;
-            _postRepository.CreatePost(timelineID, _mapper.Map<Post>(newPost));
+            var post = await _postRepository.CreatePost(_mapper.Map<Post>(newPost));
+            await _messageClient.Send(new AddPostIfCreated("Adding post to timeline", post.PostID, newPost.TimelineID), "AddPostToTimeline");
+            return post;
         }
 
         public Post GetPost(int timelineID, int postId)
@@ -48,5 +54,14 @@ namespace PostApplication
             return _postRepository.GetPostsByUser(timelineID, userId);
         }
 
+        public async Task AddCommentToPost(PostAddComment comment)
+        {
+            await _postRepository.AddCommentToPost(_mapper.Map<Comment>(comment));
+        }
+
+        public async Task AddLikeToPost(PostAddLike like)
+        {
+            await _postRepository.AddLikeToPost(_mapper.Map<Like>(like));
+        }
     }
 }

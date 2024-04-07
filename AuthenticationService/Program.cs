@@ -1,3 +1,4 @@
+using AuthenticationService;
 using AuthenticationService.BE;
 using AuthenticationService.Dto;
 using AuthenticationService.helpers;
@@ -33,6 +34,7 @@ builder.Services.AddScoped<IAuthValidationService, AuthValidationService>();
 //add appsettings secret key to the helper AppSettings
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
+
 builder.Services.AddSwaggerGen(c =>
 {
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -54,10 +56,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRouting();
+
+app.MapControllers();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
-app.MapControllers();
 
 app.Run();

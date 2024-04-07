@@ -1,6 +1,9 @@
 using Serilog.Events;
 using Serilog;
 using System.Reflection;
+using HealthMiddelWare;
+using EasyNetQ;
+using Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,7 @@ builder.Services.AddLogging(logBuilder =>
 {
     logBuilder.AddSeq("http://localhost:5341");
 });
+builder.Services.AddSingleton(new MessageClient(RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")));
 
 CommentApplication.DependencyResolver.DependencyResolverService.RegisterServices(builder.Services);
 CommentInfrastructure.DependencyResolver.DependencyResolverService.RegisterServices(builder.Services);
@@ -33,6 +37,8 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseHealthReportingMiddleware("CommentService");
 
 app.MapControllers();
 
