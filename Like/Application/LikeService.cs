@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using AutoMapper;
+using Domain;
 using Messaging;
 using Messaging.Messages;
 using Microsoft.Extensions.Logging;
@@ -10,14 +11,16 @@ public class LikeService : ILikeService
     ILikeRepository likeRepository;
     ILogger<LikeService> logger;
     MessageClient _messageClient;
+    private Mapper _mapper;
     
 
 
-    public LikeService(ILikeRepository _likeRepository, ILogger<LikeService> _logger, MessageClient messageClient)
+    public LikeService(ILikeRepository _likeRepository, ILogger<LikeService> _logger, MessageClient messageClient, Mapper mapper)
     {
         likeRepository = _likeRepository;
         logger = _logger;
         _messageClient = messageClient;
+        _mapper = mapper;
     }
 
     public List<Like> GetLikes()
@@ -33,16 +36,14 @@ public class LikeService : ILikeService
         return likeRepository.GetLike(postId);
     }
 
-    public async void CreateLike(LikeDTO likeDTO)
+    public async Task<Like> CreateLike(LikeDTO likeDTO)
     {
         logger.LogInformation("Adding like for post with ID: " + likeDTO.PostID);
-        Like like = new Like()
-        {
-            PostID = likeDTO.PostID,
-            UserIDs = new List<int> { likeDTO.UserID.Value }
-        };
-        await _messageClient.Send(new AddLikeIfCreated("Adding like to post", like.ID ,  likeDTO.PostID), "AddLikeToPost");
-        likeRepository.CreateLike(like);
+        var like = await likeRepository.CreateLike(_mapper.Map<Like>(likeDTO));
+        
+        await _messageClient.Send(new AddLikeIfCreated("Adding like to post", like.ID , likeDTO.PostID), "AddLikeToPost");
+
+        return like;
     }
 
     public Like AddLike(LikeDTO likeDTO)

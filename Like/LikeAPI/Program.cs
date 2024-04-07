@@ -1,4 +1,6 @@
 using AspNetCoreRateLimit;
+using AutoMapper;
+using Domain;
 using EasyNetQ;
 using HealthMiddelWare;
 using Messaging;
@@ -35,7 +37,11 @@ builder.Services.AddLogging(logBuilder =>
 {
     logBuilder.AddSeq("http://seq:5341");
 });
-
+var mapper = new MapperConfiguration(config =>
+{
+    config.CreateMap<LikeDTO, Like>();
+}).CreateMapper();
+builder.Services.AddSingleton(mapper);
 LikeApplication.DependencyResolverService.RegisterApplicationLayer(builder.Services);
 LikeInfrastructure.DependencyResolverService.RegisterInfrastructureLayer(builder.Services);
 builder.Services.AddSingleton(new MessageClient(RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")));
