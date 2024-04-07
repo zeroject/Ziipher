@@ -62,7 +62,7 @@ public class LikeController : ControllerBase
         try
         {
             logger.LogInformation("Adding like for post with ID: " + likeDTO.PostID);
-            return Ok(likeService.AddLike(likeDTO));
+            return Ok(likeService.CreateLike(likeDTO));
         }
         catch (Exception e)
         {
