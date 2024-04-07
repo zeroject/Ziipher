@@ -107,7 +107,21 @@ namespace PostInfrastructure
                     await context.SaveChangesAsync();
             }
         }
+
+        public Task AddLikeToPost(Like like)
+        {
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
+            {
+                var post = context.Posts.Find(like.PostID);
+                if (post == null)
+                {
+                    throw new ArgumentException("Post not found.", nameof(like.PostID));
+                }
+                post.Likes.Add(like.ID);
+                return context.SaveChangesAsync();
+            }
         }
     }
+ }
 
 

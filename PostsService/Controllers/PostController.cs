@@ -135,5 +135,21 @@ namespace PostsService.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+        [HttpPost]
+        [Route("AddLikeToPost")]
+        public IActionResult AddLikeToPost([FromBody] PostAddLike addLike)
+        {
+            _logger.LogInformation("Add like to post with id " + addLike.LikeID);
+            try
+            {
+                _postService.AddLikeToPost(addLike);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Like couldn't be added to the post");
+                return StatusCode(500, e.Message);
+            }
+        }
     }
 }

@@ -58,5 +58,6 @@ namespace PostApplication
         public List<Post> GetPostsByUser(int timelineID, int userId);
 
         public Task AddCommentToPost(PostAddComment comment);
+        public Task AddLikeToPost(PostAddLike post);
     }
 }

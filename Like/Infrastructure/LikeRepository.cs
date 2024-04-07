@@ -35,16 +35,11 @@ public class LikeRepository : ILikeRepository
         }
     }
 
-    public Like CreateLike(LikeDTO likeDTO)
+    public async Task<Like> CreateLike(Like like)
     {
         using (var context = new DbContext(options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
         {
-            logger.LogInformation("Adding a new like to the database");
-            Like like = new Like()
-            {
-                PostID = likeDTO.PostID,
-                UserIDs = new List<int> { likeDTO.UserID.Value }
-            };
+            logger.LogInformation("Adding a new like to the database");  
             _ = context.Add(like);
             context.SaveChanges();
             return like;

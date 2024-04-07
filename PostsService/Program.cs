@@ -47,6 +47,7 @@ var mapper = new MapperConfiguration(config =>
 {
     config.CreateMap<PostPostDTO, Post>();
     config.CreateMap<PostAddComment, Comment>();
+    config.CreateMap<PostAddLike, Like>();
 }).CreateMapper();
 builder.Services.AddSingleton(mapper);
 #endregion
@@ -64,6 +65,7 @@ builder.Services.AddScoped<IPostService, PostService>();
 #endregion
 
 builder.Services.AddHostedService<AddCommentToPostHandler>();
+builder.Services.AddHostedService<AddLikeToPostHandler>();
 
 var app = builder.Build();
 
