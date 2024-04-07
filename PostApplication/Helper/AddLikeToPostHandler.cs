@@ -32,8 +32,8 @@ namespace PostApplication.Helper
                 var postService = scope.ServiceProvider.GetRequiredService<IPostService>();
                 var post = new PostAddLike()
                 {
+                    LikeID = message.LikeID,
                     PostId = message.PostId,
-                    LikeID = message.LikeID
                 };
                 await postService.AddLikeToPost(post);
             }
