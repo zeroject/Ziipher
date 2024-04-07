@@ -1,10 +1,13 @@
 using AspNetCoreRateLimit;
 using AutoMapper;
 using Domain;
+using EasyNetQ;
 using HealthMiddelWare;
+using Messaging;
 using Microsoft.Extensions.Configuration;
 using PostApplication;
 using PostApplication.DTO_s;
+using PostApplication.Helper;
 using PostInfrastructure;
 using RateLimit;
 using RateLimit.Configs;
@@ -43,9 +46,12 @@ builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>()
 var mapper = new MapperConfiguration(config =>
 {
     config.CreateMap<PostPostDTO, Post>();
+    config.CreateMap<PostAddComment, Comment>();
+    config.CreateMap<PostAddLike, Like>();
 }).CreateMapper();
 builder.Services.AddSingleton(mapper);
 #endregion
+builder.Services.AddSingleton(new MessageClient(RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")));
 
 builder.Services.AddLogging(logBuilder =>
 {
@@ -54,11 +60,12 @@ builder.Services.AddLogging(logBuilder =>
 
 #region Depedency injection
 builder.Services.AddDbContext<RepositoryDBContext>();
-builder.Services.AddScoped<RepositoryDBContext>();
 builder.Services.AddScoped<IPostRepository, PostRepostiroy>(); ;
 builder.Services.AddScoped<IPostService, PostService>();
 #endregion
 
+builder.Services.AddHostedService<AddCommentToPostHandler>();
+builder.Services.AddHostedService<AddLikeToPostHandler>();
 
 var app = builder.Build();
 

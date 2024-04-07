@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CommentInfrastructure\CommentInfrastructure.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Messaging\Messaging.csproj" />
   </ItemGroup>
 
   <ItemGroup>

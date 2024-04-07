@@ -10,7 +10,7 @@ namespace TimelineInfrastructure
     public interface ITimelineRepository
     {
 
-        public void CreateTimeline(Timeline newTimeline);
+        public Timeline CreateTimeline(Timeline newTimeline);
 
         public List<Timeline> GetAllTimelines();
 
@@ -21,5 +21,8 @@ namespace TimelineInfrastructure
         public Timeline GetTimeline(int timelineId);
 
         public Timeline GetTimelineByUser(int userId);
+
+        public Task AddPostToTimeline(Post newPost);
+
     }
 }

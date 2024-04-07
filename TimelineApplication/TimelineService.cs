@@ -52,5 +52,10 @@ namespace TimelineApplication
         {
             _timelineRepository.UpdateTimeline(timelineId, newUserID);
         }
+
+        public async Task AddPostToTimeline(PostAddTimeline newPost)
+        {
+            await _timelineRepository.AddPostToTimeline(_mapper.Map<Post>(newPost));
+        }
     }
 }

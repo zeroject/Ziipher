@@ -13,19 +13,19 @@ namespace TimelineInfrastructure
 
         private DbContextOptions<RepositoryDBContext> _options;
 
-        public TimelineRepository(RepositoryDBContext context)
+        public TimelineRepository()
         {
             _options = new DbContextOptionsBuilder<RepositoryDBContext>().UseInMemoryDatabase("TimelineDB").Options;
         }
 
-        public void CreateTimeline(Timeline newTimeline)
+        public Timeline CreateTimeline(Timeline newTimeline)
         {
             using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
                 context.Timelines.Add(newTimeline);
                 context.SaveChanges();
             }
-       
+            return newTimeline;
         }
 
         public void DeleteTimeline(int timelineId)
@@ -84,6 +84,19 @@ namespace TimelineInfrastructure
                     timeline.UserID = newUserID;
                     context.SaveChanges();
                 }
+            }
+        }
+        public async Task AddPostToTimeline(Post newPost)
+        {
+            using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
+            {
+                var timeline = context.Timelines.Find(newPost.TimelineID);
+                if (timeline == null)
+                {
+                    throw new ArgumentException("Timeline not found.", nameof(newPost.TimelineID));
+                }
+                timeline.PostIDs.Add(newPost.PostID);
+                await context.SaveChangesAsync();
             }
         }
     }

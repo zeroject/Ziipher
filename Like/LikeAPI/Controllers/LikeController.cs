@@ -54,15 +54,13 @@ public class LikeController : ControllerBase
 
     [HttpPost]
     [Route("CreateLike")]
-    [ProducesResponseType(typeof(Like), 200)]
-    [ProducesResponseType(500)]
-    public ActionResult<Like> CreateLike(LikeDTO likeDTO)
+    public ActionResult CreateLike(LikeDTO likeDTO)
     {
-
         try
         {
             logger.LogInformation("Adding like for post with ID: " + likeDTO.PostID);
-            return Ok(likeService.AddLike(likeDTO));
+            likeService.CreateLike(likeDTO);
+            return Ok();
         }
         catch (Exception e)
         {
@@ -73,8 +71,6 @@ public class LikeController : ControllerBase
 
     [HttpPut]
     [Route("AddLike")]
-    [ProducesResponseType(typeof(Like), 200)]
-    [ProducesResponseType(500)]
     public ActionResult<Like> AddLike(LikeDTO likeDTO)
     {
 
