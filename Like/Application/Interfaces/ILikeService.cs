@@ -25,7 +25,7 @@ public interface ILikeService
     /// </summary>
     /// <param name="likeDTO">The LikeDTO containing the necessary information.</param>
     /// <returns>The Like object representing the created like.</returns>
-    public Task<Like> CreateLike(LikeDTO likeDTO);
+    public void CreateLike(LikeDTO likeDTO);
 
     /// <summary>
     /// Adds a like based on the provided LikeDTO.

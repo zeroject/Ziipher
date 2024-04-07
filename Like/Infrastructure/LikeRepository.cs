@@ -35,14 +35,13 @@ public class LikeRepository : ILikeRepository
         }
     }
 
-    public Like CreateLike(Like like)
+    public void CreateLike(Like like)
     {
         using (var context = new DbContext(options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
         {
             logger.LogInformation("Adding a new like to the database");  
             _ = context.Add(like);
             context.SaveChanges();
-            return like;
         }
     }
 

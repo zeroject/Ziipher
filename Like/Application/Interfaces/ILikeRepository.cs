@@ -25,7 +25,7 @@ public interface ILikeRepository
     /// </summary>
     /// <param name="likeDTO">The LikeDTO containing the necessary information.</param>
     /// <returns>The Like object representing the created like.</returns>
-    Like CreateLike(Like likeDTO);
+    void CreateLike(Like likeDTO);
 
     /// <summary>
     /// Adds a like based on the provided LikeDTO.

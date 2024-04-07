@@ -33,7 +33,7 @@ public class LikeService : ILikeService
         return likeRepository.GetLike(postId);
     }
 
-    public async Task<Like> CreateLike(LikeDTO likeDTO)
+    public async void CreateLike(LikeDTO likeDTO)
     {
         logger.LogInformation("Adding like for post with ID: " + likeDTO.PostID);
         Like like = new Like()
@@ -42,7 +42,7 @@ public class LikeService : ILikeService
             UserIDs = new List<int> { likeDTO.UserID.Value }
         };
         await _messageClient.Send(new AddLikeIfCreated("Adding like to post", like.ID ,  likeDTO.PostID), "AddLikeToPost");
-        return likeRepository.CreateLike(like);
+        likeRepository.CreateLike(like);
     }
 
     public Like AddLike(LikeDTO likeDTO)
