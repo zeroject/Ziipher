@@ -19,9 +19,4 @@ public class Like
     /// Gets or sets the ID of the post that was liked.
     /// </summary>
     public int PostID { get; set; }
-
-    /// <summary>
-    /// Gets the count of users who liked the post.
-    /// </summary>
-    public int Count => UserIDs.Count;
 }
