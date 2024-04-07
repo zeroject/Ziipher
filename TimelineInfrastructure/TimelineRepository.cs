@@ -18,14 +18,14 @@ namespace TimelineInfrastructure
             _options = new DbContextOptionsBuilder<RepositoryDBContext>().UseInMemoryDatabase("TimelineDB").Options;
         }
 
-        public void CreateTimeline(Timeline newTimeline)
+        public Timeline CreateTimeline(Timeline newTimeline)
         {
             using (var context = new RepositoryDBContext(_options, Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped))
             {
                 context.Timelines.Add(newTimeline);
                 context.SaveChanges();
             }
-       
+            return newTimeline;
         }
 
         public void DeleteTimeline(int timelineId)
