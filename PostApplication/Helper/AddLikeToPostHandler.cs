@@ -1,5 +1,6 @@
 ﻿using EasyNetQ;
 using Messaging;
+using Messaging.Messages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -22,7 +23,7 @@ namespace PostApplication.Helper
             this.logger = logger;
         }
 
-    public async void HandleAddLikeToPost(PostAddLike message)
+    public async void HandleAddLikeToPost(AddLikeIfCreated message)
         {
             logger.LogInformation(message.Message);
 
@@ -33,7 +34,7 @@ namespace PostApplication.Helper
                 var post = new PostAddLike()
                 {
                     LikeID = message.LikeID,
-                    PostId = message.PostId,
+                    PostId = message.PostID,
                 };
                 await postService.AddLikeToPost(post);
             }
@@ -53,7 +54,7 @@ namespace PostApplication.Helper
                                           );
             string topic = "AddLikeToPost";
 
-            return messageClient.Listen<PostAddLike>(HandleAddLikeToPost, topic);
+            return messageClient.Listen<AddLikeIfCreated>(HandleAddLikeToPost, topic);
         }
     }
 }

@@ -11,6 +11,5 @@ namespace PostApplication.Helper
         public int PostId { get; set; }
         public int LikeID { get; set; }
 
-        public string Message { get; set; }
     }
 }

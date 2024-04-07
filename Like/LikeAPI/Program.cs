@@ -37,6 +37,8 @@ builder.Services.AddLogging(logBuilder =>
 {
     logBuilder.AddSeq("http://seq:5341");
 });
+builder.Services.AddSingleton(new MessageClient(RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")));
+
 var mapper = new MapperConfiguration(config =>
 {
     config.CreateMap<LikeDTO, Like>();
@@ -44,7 +46,6 @@ var mapper = new MapperConfiguration(config =>
 builder.Services.AddSingleton(mapper);
 LikeApplication.DependencyResolverService.RegisterApplicationLayer(builder.Services);
 LikeInfrastructure.DependencyResolverService.RegisterInfrastructureLayer(builder.Services);
-builder.Services.AddSingleton(new MessageClient(RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -40,9 +40,7 @@ public class LikeService : ILikeService
     {
         logger.LogInformation("Adding like for post with ID: " + likeDTO.PostID);
         var like = await likeRepository.CreateLike(_mapper.Map<Like>(likeDTO));
-        
         await _messageClient.Send(new AddLikeIfCreated("Adding like to post", like.ID , likeDTO.PostID), "AddLikeToPost");
-
         return like;
     }
 
